@@ -1,0 +1,15 @@
+INSERT INTO public.exercises (name, muscle_group, equipment) VALUES
+('Press de Banca Plano', 'Pecho', 'Barra'),
+('Press Inclinado con Mancuernas', 'Pecho', 'Mancuerna'),
+('Cruces de Polea', 'Pecho', 'Máquina'),
+('Sentadilla con Barra', 'Piernas', 'Barra'),
+('Prensa de Piernas', 'Piernas', 'Máquina'),
+('Extensión de Cuádriceps', 'Piernas', 'Máquina'),
+('Peso Muerto Rumano', 'Isquios', 'Barra'),
+('Dominadas', 'Espalda', 'Corporal'),
+('Remo con Barra', 'Espalda', 'Barra'),
+('Jalón al Pecho', 'Espalda', 'Máquina'),
+('Press Militar', 'Hombros', 'Barra'),
+('Elevaciones Laterales', 'Hombros', 'Mancuerna'),
+('Curl de Bíceps con Barra', 'Bíceps', 'Barra'),
+('Extensiones de Tríceps en Polea', 'Tríceps', 'Máquina');

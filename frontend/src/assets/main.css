@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* Contenedores Principales */
+  .view-container {
+    @apply min-h-screen bg-gym-bg p-4 pb-24;
+  }
+
+  .card-container {
+    @apply bg-gym-card rounded-xl shadow-sm p-4 mb-4 border border-gray-100;
+  }
+
+  /* Títulos y Textos */
+  .heading-1 {
+    @apply text-2xl font-bold text-gym-dark mb-4;
+  }
+
+  .heading-2 {
+    @apply text-lg font-semibold text-gym-dark mb-3;
+  }
+
+  .text-label {
+    @apply text-sm font-medium text-gym-muted;
+  }
+
+  /* Botones Reutilizables */
+  .btn-primary {
+    @apply bg-gym-primary text-white px-4 py-2 rounded-lg font-semibold transition-all active:scale-95 flex items-center justify-center gap-2;
+  }
+
+  .btn-secondary {
+    @apply bg-white border-2 border-gym-primary text-gym-primary px-4 py-2 rounded-lg font-semibold transition-all active:scale-95;
+  }
+
+  .btn-accent {
+    @apply bg-gym-accent text-white px-4 py-2 rounded-lg font-semibold transition-all;
+  }
+
+  /* Elementos de Lista y Rutinas */
+  .routine-card {
+    @apply flex items-center p-3 bg-gray-50 rounded-lg mb-2 border border-gray-200 active:bg-gray-100;
+  }
+
+  .muscle-tag {
+    @apply text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded bg-gym-primary/10 text-gym-primary;
+  }
+
+  /* Inputs */
+  .input-field {
+    @apply w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gym-primary focus:border-transparent outline-none;
+  }
+
+  /* Heatmap (GitHub style) */
+  .heatmap-cell {
+    @apply w-3 h-3 rounded-[2px] bg-gray-200;
+  }
+  .heatmap-cell-active {
+    @apply bg-gym-secondary;
+  }
+}
+
+/* Global Styles */
+body {
+  @apply text-gym-text antialiased;
+  font-family: 'Inter', sans-serif;
+}
