@@ -29,8 +29,8 @@
           class="card-container !p-4 flex flex-col gap-3 active:scale-95 transition-transform cursor-pointer hover:border-gym-primary"
         >
           <!-- Icono basado en el músculo -->
-          <div class="w-8 h-8 bg-gym-primary text-white rounded-lg flex items-center justify-center font-bold">
-            {{ routine.name[0] }}
+          <div class="w-8 h-8 bg-gym-primary text-white rounded-lg flex items-center justify-center font-bold p-1">
+            <MuscleIcon :muscle="routine.muscle_focus?.[0]" />
           </div>
           
           <div class="flex items-start justify-between gap-1">
@@ -49,17 +49,19 @@
           </div>
         </div>
           
-                  <!-- Botón Crear Nueva Rutina -->
-                  <button 
-                    @click="createNewRoutine"
-                    class="card-container !p-4 flex flex-col gap-3 items-center justify-center bg-gray-50 border-dashed border-2 border-gray-300 active:bg-gray-100 min-h-[100px]"
-                  >
-                    <div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-gray-500">
-                      <span class="text-2xl font-bold">+</span>
-                    </div>
-                    <span class="text-sm font-bold text-gray-500">Nueva Rutina</span>
-                  </button>
-                </div>
+                          <!-- Botón Crear Nueva Rutina -->
+                          <button 
+                            @click="routines.length < 10 ? createNewRoutine() : null"
+                            class="card-container !p-4 flex flex-col gap-3 items-center justify-center bg-gray-50 border-dashed border-2 border-gray-300 active:bg-gray-100 min-h-[100px]"
+                            :class="{ 'opacity-50 cursor-not-allowed grayscale': routines.length >= 10 }"
+                          >
+                            <div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-gray-500">
+                              <span class="text-2xl font-bold">{{ routines.length >= 10 ? '🔒' : '+' }}</span>
+                            </div>
+                            <span class="text-sm font-bold text-gray-500">
+                              {{ routines.length >= 10 ? 'Límite (10) alcanzado' : 'Nueva Rutina' }}
+                            </span>
+                          </button>                </div>
               </section>
           
               <!-- Action Sheet (Menú de Opciones) -->
@@ -118,6 +120,7 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { supabase } from '../supabase'
 import { useAuthStore } from '../stores/auth'
+import MuscleIcon from '../components/MuscleIcon.vue'
 
 const router = useRouter()
 const auth = useAuthStore()

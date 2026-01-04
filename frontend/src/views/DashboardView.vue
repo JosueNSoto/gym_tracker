@@ -110,8 +110,8 @@
           @click="$router.push(`/routines/${routine.id}`)"
           class="card-container !p-3 flex flex-col gap-2 active:scale-95 transition-transform cursor-pointer"
         >
-          <div class="w-8 h-8 bg-gym-primary text-white rounded-lg flex items-center justify-center font-bold">
-            {{ routine.name[0] }}
+          <div class="w-8 h-8 bg-gym-primary text-white rounded-lg flex items-center justify-center font-bold p-1">
+            <MuscleIcon :muscle="routine.muscle_focus?.[0]" />
           </div>
           <p class="font-bold text-sm truncate">{{ routine.name }}</p>
           <span class="muscle-tag w-fit" v-if="routine.muscle_focus?.[0]">
@@ -124,9 +124,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { supabase } from '../supabase'
 import { useAuthStore } from '../stores/auth'
+import MuscleIcon from '../components/MuscleIcon.vue'
 
 const auth = useAuthStore()
 const loading = ref(true)
@@ -210,7 +211,6 @@ onMounted(async () => {
 })
 
 // Heatmap Logic (Fixed Current Year)
-import { computed } from 'vue'
 
 // Helper para fecha local YYYY-MM-DD
 const getLocalKey = (date) => {

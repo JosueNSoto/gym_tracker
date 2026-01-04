@@ -14,21 +14,6 @@
         <label class="text-label block mb-1">Nombre de la Rutina</label>
         <input v-model="routine.name" type="text" class="input-field font-bold text-lg" placeholder="Ej: Pecho Destructor">
       </div>
-      
-      <div>
-        <label class="text-label block mb-1">Enfoque Muscular</label>
-        <div class="flex flex-wrap gap-2">
-          <button 
-            v-for="muscle in muscleGroups" 
-            :key="muscle"
-            @click="toggleMuscle(muscle)"
-            class="px-3 py-1 rounded-full text-xs font-bold border transition-colors"
-            :class="routine.muscle_focus.includes(muscle) ? 'bg-gym-primary text-white border-gym-primary' : 'bg-white text-gym-muted border-gray-200'"
-          >
-            {{ muscle }}
-          </button>
-        </div>
-      </div>
     </section>
 
     <!-- Lista de Ejercicios -->
@@ -254,11 +239,76 @@ const saveRoutine = async () => {
   try {
     let routineId = route.params.id
 
+    // Calcular Enfoque Muscular automáticamente
+    const allMuscles = routine.value.exercises.map(ex => ex.muscle_group).filter(Boolean)
+    
+    // Contadores
+    let upperCount = 0
+    let lowerCount = 0
+    const counts = {}
+
+    const upperMuscles = ['Pecho', 'Espalda', 'Hombros', 'Brazos', 'Bíceps', 'Tríceps', 'Abs']
+    const lowerMuscles = ['Piernas', 'Cuádriceps', 'Isquios', 'Glúteos', 'Pantorrilla']
+
+    allMuscles.forEach(m => {
+      counts[m] = (counts[m] || 0) + 1
+      if (upperMuscles.some(u => m.includes(u))) upperCount++
+      if (lowerMuscles.some(l => m.includes(l))) lowerCount++
+    })
+
+    let dominantFocus = []
+    
+    // Lógica de decisión
+    if (upperCount > 0 && lowerCount > 0) {
+      // Si hay mezcla significativa, es Full Body
+      if (upperCount >= 2 && lowerCount >= 2) {
+        dominantFocus = ['Full Body']
+      } else {
+        // Si no es tan balanceado, tomamos el mayoritario + el minoritario
+        dominantFocus = upperCount > lowerCount ? ['Upper Body'] : ['Lower Body']
+      }
+    } else if (upperCount > 0) {
+       // Solo Upper: Ver si hay un músculo específico dominante (>50%)
+       const maxMuscle = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b)
+       if (counts[maxMuscle] / allMuscles.length >= 0.5) {
+         dominantFocus = [maxMuscle]
+       } else {
+         dominantFocus = ['Upper Body']
+       }
+    } else if (lowerCount > 0) {
+       // Solo Lower
+       const maxMuscle = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b)
+       if (counts[maxMuscle] / allMuscles.length >= 0.5) {
+         dominantFocus = [maxMuscle]
+       } else {
+         dominantFocus = ['Lower Body']
+       }
+    }
+
+    // Validaciones de Negocio
+    if (isNew.value) {
+      // 1. Validar Max 10 Rutinas (Exacto)
+      const { count, error: countError } = await supabase
+        .from('routines')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', auth.user.id)
+      
+      if (countError) throw countError
+      if (count >= 10) {
+        throw new Error('Límite de 10 rutinas alcanzado. Debes eliminar una rutina existente antes de crear una nueva.')
+      }
+    }
+
+    // 2. Validar Min 3 Ejercicios
+    if (routine.value.exercises.length < 3) {
+      throw new Error('La rutina debe tener al menos 3 ejercicios para ser efectiva.')
+    }
+
     // 1. Upsert Rutina
     const routinePayload = {
       user_id: auth.user.id,
       name: routine.value.name,
-      muscle_focus: routine.value.muscle_focus
+      muscle_focus: dominantFocus.length > 0 ? dominantFocus : ['General']
     }
 
     if (isNew.value) {
