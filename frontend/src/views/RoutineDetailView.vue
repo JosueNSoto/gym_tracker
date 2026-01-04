@@ -52,11 +52,32 @@
           <div class="grid grid-cols-3 gap-3">
             <div>
               <label class="text-[10px] text-gym-muted uppercase font-bold">Series</label>
-              <input v-model="exercise.target_sets" type="number" class="input-field py-1 text-center font-semibold">
+              <input 
+                v-model="exercise.target_sets" 
+                @input="validateInput($event, 2)"
+                type="number" 
+                class="input-field py-1 text-center font-semibold"
+              >
             </div>
-            <div class="col-span-2">
-              <label class="text-[10px] text-gym-muted uppercase font-bold">Reps Objetivo</label>
-              <input v-model="exercise.target_reps" type="text" class="input-field py-1 text-center font-semibold" placeholder="Ej: 8-12">
+            <div>
+              <label class="text-[10px] text-gym-muted uppercase font-bold">Reps Obj.</label>
+              <input 
+                v-model="exercise.target_reps" 
+                @input="validateRepsStr($event)"
+                type="text" 
+                class="input-field py-1 text-center font-semibold" 
+                placeholder="8-12"
+              >
+            </div>
+            <div>
+              <label class="text-[10px] text-gym-muted uppercase font-bold">Peso (kg)</label>
+              <input 
+                v-model="exercise.target_weight" 
+                @input="validateInput($event, 3)"
+                type="number" 
+                class="input-field py-1 text-center font-semibold" 
+                placeholder="0"
+              >
             </div>
           </div>
         </div>
@@ -69,7 +90,7 @@
     </section>
 
     <!-- Floating Save/Start Buttons -->
-    <div class="fixed bottom-4 left-4 right-4 z-40 flex flex-col gap-2">
+    <div class="fixed bottom-24 left-4 right-4 z-40 flex flex-col gap-2">
       <button v-if="!isNew" @click="router.push(`/workout/${route.params.id}`)" class="btn-primary w-full py-4 shadow-xl text-lg bg-gym-secondary border-none">
         ▶ Iniciar Entrenamiento
       </button>
@@ -78,29 +99,13 @@
       </button>
     </div>
 
-    <!-- Modal Simplificado de Selección de Ejercicios -->
-    <div v-if="showExerciseSelector" class="fixed inset-0 bg-black/50 z-50 flex items-end sm:items-center justify-center p-4">
-      <div class="bg-white w-full max-w-md h-[80vh] rounded-t-2xl sm:rounded-2xl flex flex-col">
-        <div class="p-4 border-b flex justify-between items-center">
-          <h3 class="font-bold text-lg">Seleccionar Ejercicio</h3>
-          <button @click="showExerciseSelector = false" class="text-gray-500">Cerrar</button>
-        </div>
-        <div class="p-4 overflow-y-auto flex-1">
-          <input type="text" placeholder="Buscar..." class="input-field mb-4">
-          <div class="space-y-2">
-            <div 
-              v-for="ex in availableExercises" 
-              :key="ex.id"
-              @click="addExercise(ex)"
-              class="p-3 border rounded-lg active:bg-gray-50 flex justify-between items-center"
-            >
-              <span>{{ ex.name }}</span>
-              <span class="text-xs text-gym-muted">{{ ex.muscle_group }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- Modal Selector Reutilizable -->
+    <ExerciseSelector 
+      :is-open="showExerciseSelector"
+      :exercises="availableExercises"
+      @close="showExerciseSelector = false"
+      @select="addExercise"
+    />
 
   </div>
 </template>
@@ -110,6 +115,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { supabase } from '../supabase'
 import { useAuthStore } from '../stores/auth'
+import ExerciseSelector from '../components/ExerciseSelector.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -200,13 +206,45 @@ const addExercise = (exercise) => {
     name: exercise.name,
     muscle_group: exercise.muscle_group,
     target_sets: 4,
-    target_reps: '10'
+    target_reps: '10',
+    target_weight: 0
   })
   showExerciseSelector.value = false
 }
 
 const removeExercise = (index) => {
   routine.value.exercises.splice(index, 1)
+}
+
+const validateInput = (e, maxDigits) => {
+  let val = e.target.value.toString()
+  // 1. Eliminar caracteres no numéricos
+  val = val.replace(/[^0-9]/g, '')
+  // 2. Eliminar ceros a la izquierda (evita "0", "05")
+  val = val.replace(/^0+/, '')
+  // 3. Limitar longitud
+  if (val.length > maxDigits) val = val.slice(0, maxDigits)
+  
+  // Actualizar valor (Vue v-model needs manual trigger sometimes on input manipulation)
+  e.target.value = val
+  // Nota: Para v-model number, si el string es vacío, Vue puede ponerlo null o dejarlo.
+}
+
+const validateRepsStr = (e) => {
+  let val = e.target.value
+  // Permitir números y guión, max 5 chars (99-99)
+  val = val.replace(/[^0-9-]/g, '')
+  if (val.length > 5) val = val.slice(0, 5)
+  e.target.value = val
+}
+
+const normalizeReps = (reps) => {
+  if (!reps) return '10'
+  // Reemplazar / por -, eliminar espacios y todo lo que no sea numero o -
+  return String(reps)
+    .replace(/\//g, '-')
+    .replace(/\s+/g, '')
+    .replace(/[^0-9-]/g, '')
 }
 
 const saveRoutine = async () => {
@@ -232,18 +270,29 @@ const saveRoutine = async () => {
       if (error) throw error
     }
 
-    // 2. Manejar Ejercicios (Borrar todos los anteriores y recrear para simplificar orden)
+    // 2. Manejar Ejercicios
     if (!isNew.value) {
       await supabase.from('routine_exercises').delete().eq('routine_id', routineId)
     }
 
     if (routine.value.exercises.length > 0) {
+      // Validar ejercicios antes de guardar
+      for (const ex of routine.value.exercises) {
+        if (!ex.target_sets || ex.target_sets < 1) {
+          throw new Error(`El ejercicio "${ex.name}" debe tener al menos 1 serie.`)
+        }
+        if (!ex.target_reps || ex.target_reps === '0' || ex.target_reps === '0-0') {
+          throw new Error(`El ejercicio "${ex.name}" debe tener repeticiones válidas.`)
+        }
+      }
+
       const exercisesPayload = routine.value.exercises.map((ex, idx) => ({
         routine_id: routineId,
         exercise_id: ex.id,
         order: idx,
         target_sets: ex.target_sets,
-        target_reps: ex.target_reps
+        target_reps: normalizeReps(ex.target_reps),
+        notes: ex.target_weight ? `${ex.target_weight}kg` : null 
       }))
       
       const { error: exError } = await supabase.from('routine_exercises').insert(exercisesPayload)

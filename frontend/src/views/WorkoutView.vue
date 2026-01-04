@@ -61,12 +61,24 @@
 
               <!-- Input Peso -->
               <div class="col-span-2">
-                <input type="number" v-model="set.weight" class="input-field text-center py-1 px-0 font-bold text-gym-dark" placeholder="-">
+                <input 
+                  type="number" 
+                  v-model="set.weight" 
+                  @input="validateInput($event, 3)"
+                  class="input-field text-center py-1 px-0 font-bold text-gym-dark" 
+                  placeholder="-"
+                >
               </div>
 
               <!-- Input Reps -->
               <div class="col-span-2">
-                <input type="number" v-model="set.reps" class="input-field text-center py-1 px-0 font-bold text-gym-dark" placeholder="-">
+                <input 
+                  type="number" 
+                  v-model="set.reps" 
+                  @input="validateInput($event, 2)"
+                  class="input-field text-center py-1 px-0 font-bold text-gym-dark" 
+                  placeholder="-"
+                >
               </div>
 
               <!-- Checkbox Completado -->
@@ -94,29 +106,13 @@
         + Agregar Ejercicio
       </button>
 
-      <!-- Modal Selector (Reutilizable - Idealmente debería ser un componente) -->
-      <div v-if="showExerciseSelector" class="fixed inset-0 bg-black/50 z-50 flex items-end sm:items-center justify-center p-4">
-        <div class="bg-white w-full max-w-md h-[80vh] rounded-t-2xl sm:rounded-2xl flex flex-col">
-          <div class="p-4 border-b flex justify-between items-center">
-            <h3 class="font-bold text-lg">Seleccionar Ejercicio</h3>
-            <button @click="showExerciseSelector = false" class="text-gray-500">Cerrar</button>
-          </div>
-          <div class="p-4 overflow-y-auto flex-1">
-            <input type="text" placeholder="Buscar..." class="input-field mb-4">
-            <div class="space-y-2">
-              <div 
-                v-for="ex in availableExercises" 
-                :key="ex.id"
-                @click="addExerciseToWorkout(ex)"
-                class="p-3 border rounded-lg active:bg-gray-50 flex justify-between items-center"
-              >
-                <span>{{ ex.name }}</span>
-                <span class="text-xs text-gym-muted">{{ ex.muscle_group }}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <!-- Modal Selector Reutilizable -->
+      <ExerciseSelector 
+        :is-open="showExerciseSelector"
+        :exercises="availableExercises"
+        @close="showExerciseSelector = false"
+        @select="addExerciseToWorkout"
+      />
 
     </div>
   </div>
@@ -127,6 +123,7 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { supabase } from '../supabase'
 import { useAuthStore } from '../stores/auth'
+import ExerciseSelector from '../components/ExerciseSelector.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -148,6 +145,16 @@ const formattedTime = computed(() => {
   const s = (seconds.value % 60).toString().padStart(2, '0')
   return `${h}:${m}:${s}`
 })
+
+const validateInput = (e, maxDigits) => {
+  let val = e.target.value.toString()
+  val = val.replace(/[^0-9]/g, '').replace(/^0+/, '')
+  if (val.length > maxDigits) val = val.slice(0, maxDigits)
+  e.target.value = val
+  // Actualizar el modelo reactivo manualmente si es necesario, 
+  // aunque v-model suele captarlo, al manipular e.target.value a veces vue necesita ayuda
+  // En este caso, al ser v-model dentro de un v-for, Vue actualizará el objeto set.weight correctamente al siguiente ciclo
+}
 
 onMounted(async () => {
   timerInterval = setInterval(() => { seconds.value++ }, 1000)
