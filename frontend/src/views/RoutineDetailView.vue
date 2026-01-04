@@ -11,8 +11,22 @@
     <!-- Formulario Principal -->
     <section class="mb-6 space-y-4">
       <div>
-        <label class="text-label block mb-1">Nombre de la Rutina</label>
-        <input v-model="routine.name" type="text" class="input-field font-bold text-lg" placeholder="Ej: Pecho Destructor">
+        <label class="text-label block mb-1">Nombre e Icono</label>
+        <div class="flex gap-3 items-center">
+          <!-- Icon Trigger -->
+          <button 
+            @click="showEmojiPicker = true"
+            class="w-14 h-14 flex-shrink-0 bg-gym-primary text-white rounded-xl flex items-center justify-center text-2xl font-bold shadow-sm active:scale-95 transition-transform"
+          >
+             <!-- Si hay custom_icon lo mostramos, si no, mostramos la inicial o el icono smart (aquí usaremos inicial como placeholder hasta guardar) -->
+             <span v-if="routine.custom_icon">{{ routine.custom_icon }}</span>
+             <span v-else>{{ routine.name ? routine.name[0] : '?' }}</span>
+          </button>
+          
+          <div class="flex-1">
+            <input v-model="routine.name" type="text" class="input-field font-bold text-lg" placeholder="Ej: Pecho Destructor">
+          </div>
+        </div>
       </div>
     </section>
 
@@ -92,6 +106,12 @@
       @select="addExercise"
     />
 
+    <EmojiPicker 
+      :is-open="showEmojiPicker"
+      @close="showEmojiPicker = false"
+      @select="selectEmoji"
+    />
+
   </div>
 </template>
 
@@ -101,6 +121,8 @@ import { useRoute, useRouter } from 'vue-router'
 import { supabase } from '../supabase'
 import { useAuthStore } from '../stores/auth'
 import ExerciseSelector from '../components/ExerciseSelector.vue'
+import EmojiPicker from '../components/EmojiPicker.vue'
+import MuscleIcon from '../components/MuscleIcon.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -116,7 +138,8 @@ const muscleGroups = ['Pecho', 'Espalda', 'Piernas', 'Hombros', 'Brazos', 'Abs',
 const routine = ref({
   name: '',
   muscle_focus: [],
-  exercises: []
+  exercises: [],
+  custom_icon: null
 })
 
 const availableExercises = ref([])
@@ -308,7 +331,8 @@ const saveRoutine = async () => {
     const routinePayload = {
       user_id: auth.user.id,
       name: routine.value.name,
-      muscle_focus: dominantFocus.length > 0 ? dominantFocus : ['General']
+      muscle_focus: dominantFocus.length > 0 ? dominantFocus : ['General'],
+      custom_icon: routine.value.custom_icon
     }
 
     if (isNew.value) {

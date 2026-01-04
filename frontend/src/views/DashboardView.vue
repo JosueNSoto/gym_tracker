@@ -61,8 +61,8 @@
       <div v-if="recentActivity.length === 0" class="text-sm text-gym-muted">No hay actividad reciente.</div>
       <div class="flex gap-3 overflow-x-auto pb-2">
         <div v-for="(act, i) in recentActivity" :key="i" class="min-w-[80px] h-20 bg-white rounded-xl border border-gray-100 flex flex-col items-center justify-center shadow-sm">
-          <div class="w-10 h-10 bg-gym-primary/10 rounded-full flex items-center justify-center mb-1 font-bold text-gym-primary">
-            {{ getMuscleIcon(act.muscle) }}
+          <div class="w-10 h-10 bg-gym-primary/10 rounded-full flex items-center justify-center mb-1 font-bold text-gym-primary p-1">
+            <MuscleIcon :muscle="act.muscle" />
           </div>
           <span class="text-[10px] font-bold text-gym-muted uppercase truncate max-w-full px-1">{{ act.muscle }}</span>
         </div>
@@ -110,8 +110,9 @@
           @click="$router.push(`/routines/${routine.id}`)"
           class="card-container !p-3 flex flex-col gap-2 active:scale-95 transition-transform cursor-pointer"
         >
-          <div class="w-8 h-8 bg-gym-primary text-white rounded-lg flex items-center justify-center font-bold p-1">
-            <MuscleIcon :muscle="routine.muscle_focus?.[0]" />
+          <div class="w-8 h-8 bg-gym-primary text-white rounded-lg flex items-center justify-center font-bold p-1 text-xl">
+             <span v-if="routine.custom_icon">{{ routine.custom_icon }}</span>
+             <MuscleIcon v-else :muscle="routine.muscle_focus?.[0]" />
           </div>
           <p class="font-bold text-sm truncate">{{ routine.name }}</p>
           <span class="muscle-tag w-fit" v-if="routine.muscle_focus?.[0]">
@@ -300,9 +301,4 @@ const monthLabels = computed(() => {
   })
   return labels
 })
-
-const getMuscleIcon = (muscle) => {
-  if (!muscle) return '💪'
-  return muscle[0].toUpperCase()
-}
 </script>

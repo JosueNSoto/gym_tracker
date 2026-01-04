@@ -32,7 +32,7 @@
             <div class="grid grid-cols-10 gap-2 mb-2 text-[10px] text-gym-muted font-bold text-center uppercase tracking-wider">
               <div class="col-span-1">Set</div>
               <div class="col-span-3">Previo</div>
-              <div class="col-span-2">Lbs</div>
+              <div class="col-span-2">Kg</div>
               <div class="col-span-2">Reps</div>
               <div class="col-span-2">Listo</div>
             </div>
@@ -247,7 +247,21 @@ const addExerciseToWorkout = async (exercise) => {
 const toggleSet = (exId, setIndex) => {
   const exercise = activeExercises.value.find(e => e.id === exId)
   if (exercise) {
-    exercise.sets[setIndex].completed = !exercise.sets[setIndex].completed
+    const set = exercise.sets[setIndex]
+    
+    // Si vamos a marcar como completado (true), validar primero
+    if (!set.completed) {
+      if (!set.weight || parseFloat(set.weight) <= 0) {
+        alert('El peso debe ser mayor a 0 kg')
+        return
+      }
+      if (!set.reps || parseInt(set.reps) <= 0) {
+        alert('Las repeticiones deben ser mayor a 0')
+        return
+      }
+    }
+    
+    set.completed = !set.completed
   }
 }
 

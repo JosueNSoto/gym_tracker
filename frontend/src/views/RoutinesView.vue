@@ -29,8 +29,9 @@
           class="card-container !p-4 flex flex-col gap-3 active:scale-95 transition-transform cursor-pointer hover:border-gym-primary"
         >
           <!-- Icono basado en el músculo -->
-          <div class="w-8 h-8 bg-gym-primary text-white rounded-lg flex items-center justify-center font-bold p-1">
-            <MuscleIcon :muscle="routine.muscle_focus?.[0]" />
+          <div class="w-8 h-8 bg-gym-primary text-white rounded-lg flex items-center justify-center font-bold p-1 text-xl">
+            <span v-if="routine.custom_icon">{{ routine.custom_icon }}</span>
+            <MuscleIcon v-else :muscle="routine.muscle_focus?.[0]" />
           </div>
           
           <div class="flex items-start justify-between gap-1">
@@ -67,44 +68,54 @@
               <!-- Action Sheet (Menú de Opciones) -->
               <div v-if="showActionSheet" class="fixed inset-0 z-50 flex items-end justify-center bg-black/50 backdrop-blur-sm" @click="closeOptions">
                 <div class="bg-white w-full max-w-md rounded-t-2xl p-4 animate-slide-up flex flex-col gap-2" @click.stop>
-                  <div class="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-4"></div>
-                  <h3 class="text-center font-bold text-gray-900 mb-2">Opciones: {{ selectedRoutine?.name }}</h3>
+                          <div class="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-4"></div>
+                          <h3 class="text-center font-bold text-gray-900 mb-2">Opciones: {{ selectedRoutine?.name }}</h3>
+                          
+                          <button @click="startChangeIcon" class="w-full py-3 bg-gray-50 rounded-xl font-semibold text-gym-dark active:bg-gray-200">
+                            🎨 Cambiar Icono
+                          </button>
                   
-                  <button @click="startRename" class="w-full py-3 bg-gray-50 rounded-xl font-semibold text-gym-dark active:bg-gray-200">
-                    ✏️ Renombrar
-                  </button>
+                          <button @click="startRename" class="w-full py-3 bg-gray-50 rounded-xl font-semibold text-gym-dark active:bg-gray-200">
+                            ✏️ Renombrar
+                          </button>
+                          
+                          <button @click="deleteRoutine" class="w-full py-3 bg-red-50 text-red-600 rounded-xl font-semibold active:bg-red-100">
+                            🗑️ Eliminar Rutina
+                          </button>
+                          
+                          <button @click="closeOptions" class="w-full py-3 mt-2 text-gray-500 font-bold">
+                            Cancelar
+                          </button>
+                        </div>
+                      </div>
                   
-                  <button @click="deleteRoutine" class="w-full py-3 bg-red-50 text-red-600 rounded-xl font-semibold active:bg-red-100">
-                    🗑️ Eliminar Rutina
-                  </button>
+                      <!-- Modal Renombrar -->
+                      <div v-if="showRenameModal" class="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 p-4" @click="showRenameModal = false">
+                        <div class="bg-white w-full max-w-sm rounded-2xl p-6 shadow-2xl" @click.stop>
+                          <h3 class="font-bold text-lg mb-4">Renombrar Rutina</h3>
+                          <input 
+                            v-model="newName" 
+                            type="text" 
+                            class="input-field mb-4 font-bold" 
+                            placeholder="Nuevo nombre..."
+                            @keyup.enter="confirmRename"
+                          >
+                          <div class="flex gap-2">
+                            <button @click="showRenameModal = false" class="flex-1 py-2 text-gray-500 font-bold">Cancelar</button>
+                            <button @click="confirmRename" class="flex-1 btn-primary py-2 justify-center">Guardar</button>
+                          </div>
+                        </div>
+                      </div>
                   
-                  <button @click="closeOptions" class="w-full py-3 mt-2 text-gray-500 font-bold">
-                    Cancelar
-                  </button>
-                </div>
-              </div>
-          
-              <!-- Modal Renombrar -->
-              <div v-if="showRenameModal" class="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 p-4" @click="showRenameModal = false">
-                <div class="bg-white w-full max-w-sm rounded-2xl p-6 shadow-2xl" @click.stop>
-                  <h3 class="font-bold text-lg mb-4">Renombrar Rutina</h3>
-                  <input 
-                    v-model="newName" 
-                    type="text" 
-                    class="input-field mb-4 font-bold" 
-                    placeholder="Nuevo nombre..."
-                    @keyup.enter="confirmRename"
-                  >
-                  <div class="flex gap-2">
-                    <button @click="showRenameModal = false" class="flex-1 py-2 text-gray-500 font-bold">Cancelar</button>
-                    <button @click="confirmRename" class="flex-1 btn-primary py-2 justify-center">Guardar</button>
-                  </div>
-                </div>
-              </div>
-          
-            </div>
-          </template>
-          
+                      <!-- Emoji Picker (Global para esta vista) -->
+                      <EmojiPicker 
+                        :is-open="showEmojiPicker"
+                        @close="showEmojiPicker = false"
+                        @select="saveNewIcon"
+                      />
+                  
+                    </div>
+                  </template>          
           <style scoped>
           .animate-slide-up {
             animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -121,6 +132,7 @@ import { useRouter } from 'vue-router'
 import { supabase } from '../supabase'
 import { useAuthStore } from '../stores/auth'
 import MuscleIcon from '../components/MuscleIcon.vue'
+import EmojiPicker from '../components/EmojiPicker.vue'
 
 const router = useRouter()
 const auth = useAuthStore()
@@ -130,12 +142,37 @@ const loading = ref(true)
 // Action Sheet State
 const showActionSheet = ref(false)
 const showRenameModal = ref(false)
+const showEmojiPicker = ref(false)
 const selectedRoutine = ref(null)
 const newName = ref('')
 
 const openOptions = (routine) => {
   selectedRoutine.value = routine
   showActionSheet.value = true
+}
+
+const startChangeIcon = () => {
+  showActionSheet.value = false
+  showEmojiPicker.value = true
+}
+
+const saveNewIcon = async (emoji) => {
+  try {
+    const { error } = await supabase
+      .from('routines')
+      .update({ custom_icon: emoji })
+      .eq('id', selectedRoutine.value.id)
+
+    if (error) throw error
+
+    // Update local state
+    const index = routines.value.findIndex(r => r.id === selectedRoutine.value.id)
+    if (index !== -1) routines.value[index].custom_icon = emoji
+    
+    showEmojiPicker.value = false
+  } catch (e) {
+    alert('Error al guardar icono: ' + e.message)
+  }
 }
 
 const closeOptions = () => {
