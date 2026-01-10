@@ -2,10 +2,12 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { supabase } from '../supabase'
 import router from '../router'
+import { useNotifications } from './notifications'
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref(null)
   const loading = ref(true)
+  const { success } = useNotifications()
 
   // Inicializar sesión
   const initialize = async () => {
@@ -31,7 +33,7 @@ export const useAuthStore = defineStore('auth', () => {
   const signUp = async (email, password) => {
     const { error } = await supabase.auth.signUp({ email, password })
     if (error) throw error
-    alert('¡Registro exitoso! Revisa tu correo para confirmar.')
+    success('Revisa tu correo para confirmar tu cuenta', '¡Registro exitoso!')
   }
 
   const signOut = async () => {
