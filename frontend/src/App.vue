@@ -20,12 +20,16 @@
         <span class="text-xs mt-1">Récords</span>
       </router-link>
     </nav>
+
+    <!-- Sistema de Notificaciones Global -->
+    <NotificationToast />
   </div>
 </template>
 
 <script setup>
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import NotificationToast from './components/NotificationToast.vue'
 
 const route = useRoute()
 const isAuthRoute = computed(() => route.path === '/auth')
