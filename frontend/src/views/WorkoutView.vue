@@ -1,10 +1,19 @@
 <template>
   <div class="pb-32">
-    <!-- Header Fijo: Cronómetro y Finalizar -->
+    <!-- Header Fijo: Botón Regresar, Cronómetro y Finalizar -->
     <header class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 p-4 z-40 flex justify-between items-center shadow-sm">
-      <div class="flex flex-col">
-        <span class="text-xs text-gym-muted font-bold uppercase">Tiempo</span>
-        <span class="font-mono text-xl font-bold text-gym-dark">{{ formattedTime }}</span>
+      <div class="flex items-center gap-4">
+        <!-- Botón Regresar -->
+        <button @click="goBack" class="text-gym-primary hover:text-gym-secondary transition-colors active:scale-95">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+          </svg>
+        </button>
+        <!-- Cronómetro -->
+        <div class="flex flex-col">
+          <span class="text-xs text-gym-muted font-bold uppercase">Tiempo</span>
+          <span class="font-mono text-xl font-bold text-gym-dark">{{ formattedTime }}</span>
+        </div>
       </div>
       <button @click="finishWorkout" class="btn-success bg-gym-secondary text-white px-6 py-2 rounded-lg font-bold shadow-md active:scale-95">
         Finalizar
@@ -114,6 +123,33 @@
         @select="addExerciseToWorkout"
       />
 
+      <!-- Modal de Confirmación para Salir -->
+      <ConfirmDialog
+        :is-open="showExitConfirm"
+        title="¿Salir del entrenamiento?"
+        message="Los cambios no guardados se perderán."
+        icon="🚪"
+        confirm-text="Salir"
+        cancel-text="Quedarme"
+        :danger="true"
+        @confirm="confirmExit"
+        @cancel="showExitConfirm = false"
+        @close="showExitConfirm = false"
+      />
+
+      <!-- Modal de Confirmación para Finalizar -->
+      <ConfirmDialog
+        :is-open="showFinishConfirm"
+        title="¿Terminar entrenamiento?"
+        message="Se guardará tu progreso y finalizará el entrenamiento."
+        icon="✅"
+        confirm-text="Finalizar"
+        cancel-text="Cancelar"
+        @confirm="confirmFinish"
+        @cancel="showFinishConfirm = false"
+        @close="showFinishConfirm = false"
+      />
+
     </div>
   </div>
 </template>
@@ -123,17 +159,22 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { supabase } from '../supabase'
 import { useAuthStore } from '../stores/auth'
+import { useNotifications } from '../stores/notifications'
 import ExerciseSelector from '../components/ExerciseSelector.vue'
+import ConfirmDialog from '../components/ConfirmDialog.vue'
 
 const route = useRoute()
 const router = useRouter()
 const auth = useAuthStore()
+const { success, error, warning } = useNotifications()
 
 const workoutTitle = ref('Entrenamiento Libre')
 const loading = ref(true)
 const activeExercises = ref([])
 const showExerciseSelector = ref(false)
 const availableExercises = ref([])
+const showExitConfirm = ref(false)
+const showFinishConfirm = ref(false)
 
 // Timer Logic
 const seconds = ref(0)
@@ -252,11 +293,11 @@ const toggleSet = (exId, setIndex) => {
     // Si vamos a marcar como completado (true), validar primero
     if (!set.completed) {
       if (!set.weight || parseFloat(set.weight) <= 0) {
-        alert('El peso debe ser mayor a 0 kg')
+        warning('El peso debe ser mayor a 0 kg', 'Validación')
         return
       }
       if (!set.reps || parseInt(set.reps) <= 0) {
-        alert('Las repeticiones deben ser mayor a 0')
+        warning('Las repeticiones deben ser mayor a 0', 'Validación')
         return
       }
     }
@@ -276,9 +317,26 @@ const addSet = (exIndex) => {
   })
 }
 
-const finishWorkout = async () => {
-  if (!confirm('¿Terminar y guardar entrenamiento?')) return
+const goBack = () => {
+  // Si no hay ejercicios agregados, salir directamente sin confirmación
+  if (activeExercises.value.length === 0) {
+    router.push('/')
+    return
+  }
+  
+  // Si hay ejercicios, mostrar confirmación
+  showExitConfirm.value = true
+}
 
+const confirmExit = () => {
+  router.push('/')
+}
+
+const finishWorkout = () => {
+  showFinishConfirm.value = true
+}
+
+const confirmFinish = async () => {
   try {
     // 1. Preparar Sets (Validación primero)
     const setsToInsert = []
@@ -298,7 +356,8 @@ const finishWorkout = async () => {
     })
 
     if (setsToInsert.length === 0) {
-      alert('No has registrado ninguna serie completa. El entrenamiento no se guardará.')
+      warning('No has registrado ninguna serie completa. El entrenamiento no se guardará.', 'Sin series completadas')
+      router.push('/')
       return
     }
 
@@ -318,9 +377,10 @@ const finishWorkout = async () => {
     const { error: sError } = await supabase.from('workout_sets').insert(setsWithId)
     if (sError) throw sError
 
+    success('¡Entrenamiento guardado correctamente!', 'Completado')
     router.push('/')
   } catch (e) {
-    alert('Error guardando: ' + e.message)
+    error('No se pudo guardar el entrenamiento: ' + e.message, 'Error')
   }
 }
 </script>

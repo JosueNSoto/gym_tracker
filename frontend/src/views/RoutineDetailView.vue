@@ -120,6 +120,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { supabase } from '../supabase'
 import { useAuthStore } from '../stores/auth'
+import { useNotifications } from '../stores/notifications'
 import ExerciseSelector from '../components/ExerciseSelector.vue'
 import EmojiPicker from '../components/EmojiPicker.vue'
 import MuscleIcon from '../components/MuscleIcon.vue'
@@ -127,6 +128,7 @@ import MuscleIcon from '../components/MuscleIcon.vue'
 const route = useRoute()
 const router = useRouter()
 const auth = useAuthStore()
+const { success, error, warning } = useNotifications()
 
 const isNew = computed(() => route.params.id === 'new')
 const showExerciseSelector = ref(false)
@@ -256,7 +258,10 @@ const normalizeReps = (reps) => {
 }
 
 const saveRoutine = async () => {
-  if (!routine.value.name) return alert('Ponle nombre a la rutina')
+  if (!routine.value.name) {
+    warning('Ponle un nombre a la rutina', 'Falta el nombre')
+    return
+  }
   loading.value = true
 
   try {
@@ -336,12 +341,12 @@ const saveRoutine = async () => {
     }
 
     if (isNew.value) {
-      const { data, error } = await supabase.from('routines').insert(routinePayload).select().single()
-      if (error) throw error
+      const { data, error: err } = await supabase.from('routines').insert(routinePayload).select().single()
+      if (err) throw err
       routineId = data.id
     } else {
-      const { error } = await supabase.from('routines').update(routinePayload).eq('id', routineId)
-      if (error) throw error
+      const { error: err } = await supabase.from('routines').update(routinePayload).eq('id', routineId)
+      if (err) throw err
     }
 
     // 2. Manejar Ejercicios
@@ -373,9 +378,10 @@ const saveRoutine = async () => {
       if (exError) throw exError
     }
 
+    success(isNew.value ? 'Rutina creada correctamente' : 'Cambios guardados correctamente')
     router.back()
   } catch (e) {
-    alert('Error al guardar: ' + e.message)
+    error(e.message, 'Error al guardar')
   } finally {
     loading.value = false
   }

@@ -131,11 +131,13 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { supabase } from '../supabase'
 import { useAuthStore } from '../stores/auth'
+import { useNotifications } from '../stores/notifications'
 import MuscleIcon from '../components/MuscleIcon.vue'
 import EmojiPicker from '../components/EmojiPicker.vue'
 
 const router = useRouter()
 const auth = useAuthStore()
+const { success, error } = useNotifications()
 const routines = ref([])
 const loading = ref(true)
 
@@ -158,20 +160,21 @@ const startChangeIcon = () => {
 
 const saveNewIcon = async (emoji) => {
   try {
-    const { error } = await supabase
+    const { error: err } = await supabase
       .from('routines')
       .update({ custom_icon: emoji })
       .eq('id', selectedRoutine.value.id)
 
-    if (error) throw error
+    if (err) throw err
 
     // Update local state
     const index = routines.value.findIndex(r => r.id === selectedRoutine.value.id)
     if (index !== -1) routines.value[index].custom_icon = emoji
     
+    success('Icono actualizado correctamente')
     showEmojiPicker.value = false
   } catch (e) {
-    alert('Error al guardar icono: ' + e.message)
+    error('No se pudo guardar el icono: ' + e.message)
   }
 }
 
@@ -190,20 +193,21 @@ const confirmRename = async () => {
   if (!newName.value.trim()) return
   
   try {
-    const { error } = await supabase
+    const { error: err } = await supabase
       .from('routines')
       .update({ name: newName.value })
       .eq('id', selectedRoutine.value.id)
       
-    if (error) throw error
+    if (err) throw err
     
     // Actualizar localmente
     const index = routines.value.findIndex(r => r.id === selectedRoutine.value.id)
     if (index !== -1) routines.value[index].name = newName.value
     
+    success('Rutina renombrada correctamente')
     showRenameModal.value = false
   } catch (e) {
-    alert('Error al renombrar: ' + e.message)
+    error('No se pudo renombrar: ' + e.message)
   }
 }
 
@@ -211,18 +215,19 @@ const deleteRoutine = async () => {
   if (!confirm(`¿Seguro que quieres borrar "${selectedRoutine.value.name}"? Esta acción no se puede deshacer.`)) return
 
   try {
-    const { error } = await supabase
+    const { error: err } = await supabase
       .from('routines')
       .delete()
       .eq('id', selectedRoutine.value.id)
 
-    if (error) throw error
+    if (err) throw err
 
     // Eliminar localmente
     routines.value = routines.value.filter(r => r.id !== selectedRoutine.value.id)
+    success('Rutina eliminada correctamente')
     showActionSheet.value = false
   } catch (e) {
-    alert('Error al eliminar: ' + e.message)
+    error('No se pudo eliminar: ' + e.message)
   }
 }
 
