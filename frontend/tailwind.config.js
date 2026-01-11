@@ -4,23 +4,21 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Paleta principal HSL
-        platinum: 'hsl(210, 13%, 94%)',
-        silver: 'hsl(210, 3%, 77%)',
-        steel: 'hsl(210, 5%, 62%)',
-        slate: 'hsl(210, 11%, 47%)',
-        gunmetal: 'hsl(210, 7%, 22%)',
-        
-        // Estructura para alias semánticos (nested object para compatibilidad)
-        app: {
-          bg: 'hsl(210, 7%, 22%)',           // gunmetal - fondo principal
-          surface: 'hsl(210, 11%, 47%)',     // slate - superficies/cards
-          border: 'hsl(210, 5%, 62%)',       // steel - bordes
-          text: 'hsl(210, 13%, 94%)',        // platinum - texto principal
-          'text-muted': 'hsl(210, 3%, 77%)', // silver - texto secundario
+        // Paleta Mulled Wine - Tonos morados/violetas
+        'mulled-wine': {
+          '50': 'hsl(0, 0%, 100%)',           // Blanco puro - texto principal
+          '100': 'hsl(252, 83%, 98%)',        // Violeta muy claro
+          '200': 'hsl(246, 33%, 83%)',        // Violeta claro
+          '300': 'hsl(246, 34%, 79%)',        // Texto secundario/muted
+          '400': 'hsl(246, 21%, 61%)',        // Elementos medios, hover
+          '500': 'hsl(247, 15%, 52%)',        // Bordes, divisores
+          '600': 'hsl(246, 14%, 28%)',        // Superficies/cards
+          '700': 'hsl(244, 17%, 16%)',        // Fondo principal (más oscuro)
+          '800': 'hsl(244, 20%, 12%)',        // Fondo aún más oscuro (variante)
+          '900': 'hsl(244, 25%, 8%)',         // Fondo profundo (variante)
         },
         
-        // Notificaciones (mantener colores vibrantes)
+        // Notificaciones (colores vibrantes para contraste)
         notify: {
           success: '#10b981',
           error: '#ef4444',

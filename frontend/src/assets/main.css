@@ -5,33 +5,33 @@
 @layer components {
   /* Contenedores Principales */
   .view-container {
-    @apply min-h-screen bg-gunmetal p-4 pb-24;
+    @apply min-h-screen bg-mulled-wine-700 p-4 pb-24;
   }
 
   .card-container {
-    @apply bg-slate rounded-xl shadow-lg p-4 mb-4 border border-steel;
+    @apply bg-mulled-wine-600 rounded-xl shadow-lg p-4 mb-4 border border-mulled-wine-500;
   }
 
   /* Títulos y Textos */
   .heading-1 {
-    @apply text-2xl font-bold text-platinum mb-4;
+    @apply text-2xl font-bold text-mulled-wine-50 mb-4;
   }
 
   .heading-2 {
-    @apply text-lg font-semibold text-platinum mb-3;
+    @apply text-lg font-semibold text-mulled-wine-50 mb-3;
   }
 
   .text-label {
-    @apply text-[10px] font-medium text-silver;
+    @apply text-[10px] font-medium text-mulled-wine-300;
   }
 
   /* Botones Reutilizables */
   .btn-primary {
-    @apply bg-slate text-platinum px-4 py-2 rounded-lg font-semibold hover:bg-steel transition-all active:scale-95 flex items-center justify-center gap-2;
+    @apply bg-mulled-wine-500 text-mulled-wine-50 px-4 py-2 rounded-lg font-semibold hover:bg-mulled-wine-400 transition-all active:scale-95 flex items-center justify-center gap-2;
   }
 
   .btn-secondary {
-    @apply bg-transparent border-2 border-steel text-platinum px-4 py-2 rounded-lg font-semibold hover:bg-steel/20 transition-all active:scale-95;
+    @apply bg-transparent border-2 border-mulled-wine-500 text-mulled-wine-50 px-4 py-2 rounded-lg font-semibold hover:bg-mulled-wine-500/20 transition-all active:scale-95;
   }
 
   .btn-accent {
@@ -40,21 +40,21 @@
 
   /* Elementos de Lista y Rutinas */
   .routine-card {
-    @apply flex items-center p-3 bg-slate rounded-lg mb-2 border border-steel active:bg-steel;
+    @apply flex items-center p-3 bg-mulled-wine-600 rounded-lg mb-2 border border-mulled-wine-500 active:bg-mulled-wine-500;
   }
 
   .muscle-tag {
-    @apply text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded bg-steel/30 text-platinum;
+    @apply text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded bg-mulled-wine-500/30 text-mulled-wine-100;
   }
 
   /* Inputs */
   .input-field {
-    @apply w-full p-2 border border-steel bg-slate rounded-lg text-platinum placeholder-silver focus:ring-2 focus:ring-steel focus:border-transparent outline-none;
+    @apply w-full p-2 border border-mulled-wine-500 bg-mulled-wine-600 rounded-lg text-mulled-wine-50 placeholder-mulled-wine-400 focus:ring-2 focus:ring-mulled-wine-400 focus:border-transparent outline-none;
   }
 
   /* Heatmap (GitHub style) */
   .heatmap-cell {
-    @apply w-3 h-3 rounded-[2px] bg-slate;
+    @apply w-3 h-3 rounded-[2px] bg-mulled-wine-600;
   }
   .heatmap-cell-active {
     @apply bg-notify-success;
@@ -63,15 +63,20 @@
 
 /* Variables CSS personalizadas (para uso en JavaScript si es necesario) */
 :root {
-  --color-platinum: hsl(210, 13%, 94%);
-  --color-silver: hsl(210, 3%, 77%);
-  --color-steel: hsl(210, 5%, 62%);
-  --color-slate: hsl(210, 11%, 47%);
-  --color-gunmetal: hsl(210, 7%, 22%);
+  --color-mulled-wine-50: hsl(0, 0%, 100%);
+  --color-mulled-wine-100: hsl(252, 83%, 98%);
+  --color-mulled-wine-200: hsl(246, 33%, 83%);
+  --color-mulled-wine-300: hsl(246, 34%, 79%);
+  --color-mulled-wine-400: hsl(246, 21%, 61%);
+  --color-mulled-wine-500: hsl(247, 15%, 52%);
+  --color-mulled-wine-600: hsl(246, 14%, 28%);
+  --color-mulled-wine-700: hsl(244, 17%, 16%);
+  --color-mulled-wine-800: hsl(244, 20%, 12%);
+  --color-mulled-wine-900: hsl(244, 25%, 8%);
 }
 
 /* Global Styles */
 body {
-  @apply text-platinum antialiased bg-gunmetal;
+  @apply text-mulled-wine-50 antialiased bg-mulled-wine-700;
   font-family: 'Inter', sans-serif;
 }

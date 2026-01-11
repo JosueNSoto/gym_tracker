@@ -8,7 +8,7 @@
       <div class="flex flex-col min-w-max">
         
         <!-- Month Labels (Positioned Absolute-ish) -->
-        <div class="flex relative h-4 mb-1 ml-8 text-[10px] text-app-text-muted">
+        <div class="flex relative h-4 mb-1 ml-8 text-[10px] text-mulled-wine-300">
           <div 
             v-for="(label, i) in monthLabels" 
             :key="label.name + i" 
@@ -21,7 +21,7 @@
 
         <div class="flex gap-1">
           <!-- Day Labels -->
-          <div class="flex flex-col gap-1 text-[10px] text-app-text-muted pr-2 pt-[2px]">
+          <div class="flex flex-col gap-1 text-[10px] text-mulled-wine-300 pr-2 pt-[2px]">
             <span class="h-3"></span> <!-- Sun -->
             <span class="h-3 leading-3">Lun</span>
             <span class="h-3"></span> <!-- Tue -->
@@ -41,11 +41,11 @@
                 :class="{ 
                   'heatmap-cell-active': day.active, 
                   'bg-transparent': !day.isValid, 
-                  'bg-app-surface': day.isValid && !day.active
+                  'bg-mulled-wine-600': day.isValid && !day.active
                 }"
               >
                 <!-- Tooltip -->
-                <div v-if="day.isValid" class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 hidden group-hover:block bg-gunmetal border border-app-border text-platinum text-[10px] p-1 rounded whitespace-nowrap z-50 pointer-events-none">
+                <div v-if="day.isValid" class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 hidden group-hover:block bg-mulled-wine-700 border border-mulled-wine-500 text-mulled-wine-50 text-[10px] p-1 rounded whitespace-nowrap z-50 pointer-events-none">
                   {{ formatDateMX(day.dateObj) }}
                 </div>
               </div>
@@ -58,13 +58,13 @@
     <!-- Actividad Reciente -->
     <section class="mb-6">
       <h2 class="heading-2">Actividad Reciente</h2>
-      <div v-if="recentActivity.length === 0" class="text-sm text-app-text-muted">No hay actividad reciente.</div>
+      <div v-if="recentActivity.length === 0" class="text-sm text-mulled-wine-300">No hay actividad reciente.</div>
       <div class="flex gap-3 overflow-x-auto pb-2">
-        <div v-for="(act, i) in recentActivity" :key="i" class="min-w-[80px] h-20 bg-app-surface rounded-xl border border-app-border flex flex-col items-center justify-center shadow-sm">
-          <div class="w-10 h-10 bg-steel/20 rounded-full flex items-center justify-center mb-1 font-bold text-platinum p-1">
+        <div v-for="(act, i) in recentActivity" :key="i" class="min-w-[80px] h-20 bg-mulled-wine-600 rounded-xl border border-mulled-wine-500 flex flex-col items-center justify-center shadow-sm">
+          <div class="w-10 h-10 bg-mulled-wine-500/20 rounded-full flex items-center justify-center mb-1 font-bold text-mulled-wine-50 p-1">
             <MuscleIcon :muscle="act.muscle" />
           </div>
-          <span class="text-[10px] font-bold text-app-text-muted uppercase truncate max-w-full px-1">{{ act.muscle }}</span>
+          <span class="text-[10px] font-bold text-mulled-wine-300 uppercase truncate max-w-full px-1">{{ act.muscle }}</span>
         </div>
       </div>
     </section>
@@ -72,7 +72,7 @@
     <!-- Récords (Carrusel) -->
     <section class="mb-6">
       <h2 class="heading-2">Tus récords (Max carga)</h2>
-      <div v-if="records.length === 0" class="text-sm text-app-text-muted">Registra entrenamientos para ver tus récords.</div>
+      <div v-if="records.length === 0" class="text-sm text-mulled-wine-300">Registra entrenamientos para ver tus récords.</div>
       <div class="flex justify-between gap-4 overflow-x-auto pb-4 snap-x">
         <div v-for="record in records" :key="record.name" class="w-full max-w-[150px] snap-center !mb-0">
           <RecordCard 
@@ -99,10 +99,10 @@
     <section>
       <div class="flex justify-between items-center mb-3">
         <h2 class="heading-2 !mb-0">Tus rutinas</h2>
-        <router-link to="/routines" class="text-steel hover:text-platinum text-sm font-bold transition-colors">Ver todas</router-link>
+        <router-link to="/routines" class="text-mulled-wine-400 hover:text-mulled-wine-50 text-sm font-bold transition-colors">Ver todas</router-link>
       </div>
       
-      <div v-if="routines.length === 0" class="card-container p-8 text-center text-app-text-muted border-dashed border-2">
+      <div v-if="routines.length === 0" class="card-container p-8 text-center text-mulled-wine-300 border-dashed border-2">
         <p class="text-sm">Aún no tienes rutinas creadas.</p>
       </div>
 
@@ -111,9 +111,9 @@
           v-for="routine in routines" 
           :key="routine.id" 
           @click="$router.push(`/routines/${routine.id}`)"
-          class="card-container !p-3 flex flex-col gap-2 active:scale-95 transition-transform cursor-pointer hover:bg-slate"
+          class="card-container !p-3 flex flex-col gap-2 active:scale-95 transition-transform cursor-pointer hover:bg-mulled-wine-500"
         >
-          <div class="w-8 h-8 bg-steel text-platinum rounded-lg flex items-center justify-center font-bold p-1 text-xl">
+          <div class="w-8 h-8 bg-mulled-wine-500 text-mulled-wine-50 rounded-lg flex items-center justify-center font-bold p-1 text-xl">
              <span v-if="routine.custom_icon">{{ routine.custom_icon }}</span>
              <MuscleIcon v-else :muscle="routine.muscle_focus?.[0]" />
           </div>

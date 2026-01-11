@@ -4,7 +4,7 @@
       <div
         v-for="notification in notifications"
         :key="notification.id"
-        class="bg-app-surface border border-app-border rounded-2xl shadow-2xl overflow-hidden pointer-events-auto animate-slide-in"
+        class="bg-mulled-wine-600 border border-mulled-wine-500 rounded-2xl shadow-2xl overflow-hidden pointer-events-auto animate-slide-in"
         :class="getNotificationClass(notification.type)"
       >
         <!-- Contenido -->
@@ -19,10 +19,10 @@
 
           <!-- Texto -->
           <div class="flex-1 min-w-0">
-            <h4 class="font-bold text-sm text-platinum mb-0.5">
+            <h4 class="font-bold text-sm text-mulled-wine-50 mb-0.5">
               {{ notification.title }}
             </h4>
-            <p class="text-xs text-silver leading-relaxed">
+            <p class="text-xs text-mulled-wine-300 leading-relaxed">
               {{ notification.message }}
             </p>
           </div>
@@ -30,9 +30,9 @@
           <!-- Botón cerrar -->
           <button
             @click="removeNotification(notification.id)"
-            class="flex-shrink-0 w-6 h-6 rounded-full hover:bg-gunmetal transition-colors flex items-center justify-center active:scale-95"
+            class="flex-shrink-0 w-6 h-6 rounded-full hover:bg-mulled-wine-700 transition-colors flex items-center justify-center active:scale-95"
           >
-            <span class="text-silver text-sm">✕</span>
+            <span class="text-mulled-wine-300 text-sm">✕</span>
           </button>
         </div>
 
@@ -58,7 +58,7 @@ const getNotificationClass = (type) => {
     success: 'border-l-4 border-notify-success',
     error: 'border-l-4 border-notify-error',
     warning: 'border-l-4 border-notify-warning',
-    info: 'border-l-4 border-steel'
+    info: 'border-l-4 border-mulled-wine-400'
   }
   return classes[type] || classes.info
 }
@@ -68,7 +68,7 @@ const getIconBgClass = (type) => {
     success: 'bg-notify-success/20',
     error: 'bg-notify-error/20',
     warning: 'bg-notify-warning/20',
-    info: 'bg-steel/20'
+    info: 'bg-mulled-wine-500/20'
   }
   return classes[type] || classes.info
 }
@@ -78,7 +78,7 @@ const getProgressBarClass = (type) => {
     success: 'from-notify-success to-notify-success/80',
     error: 'from-notify-error to-notify-error/80',
     warning: 'from-notify-warning to-notify-warning/80',
-    info: 'from-steel to-slate'
+    info: 'from-mulled-wine-500 to-mulled-wine-400'
   }
   return classes[type] || classes.info
 }

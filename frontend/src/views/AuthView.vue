@@ -1,33 +1,33 @@
 <template>
-  <div class="min-h-screen bg-gunmetal flex items-center justify-center p-4">
+  <div class="min-h-screen bg-mulled-wine-700 flex items-center justify-center p-4">
     <div class="w-full max-w-md">
       <!-- Logo -->
       <div class="text-center mb-8">
-        <div class="inline-flex items-center justify-center w-16 h-16 bg-slate rounded-2xl mb-4 shadow-xl">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-mulled-wine-500 rounded-2xl mb-4 shadow-xl">
           <span class="text-4xl">💪</span>
         </div>
-        <h1 class="text-4xl font-black text-platinum mb-2 tracking-tight">
+        <h1 class="text-4xl font-black text-mulled-wine-50 mb-2 tracking-tight">
           Gym Tracker
         </h1>
-        <p class="text-silver text-sm">
+        <p class="text-mulled-wine-300 text-sm">
           El límite lo pones tú
         </p>
       </div>
 
       <!-- Card de login -->
-      <div class="bg-app-surface border border-app-border rounded-2xl p-8 shadow-xl">
+      <div class="bg-mulled-wine-600 border border-mulled-wine-500 rounded-2xl p-8 shadow-xl">
         <!-- Tabs -->
-        <div class="flex gap-2 mb-6 p-1 bg-gunmetal rounded-xl">
+        <div class="flex gap-2 mb-6 p-1 bg-mulled-wine-700 rounded-xl">
           <button 
             @click="isLogin = true"
-            :class="isLogin ? 'bg-slate text-platinum shadow-md' : 'text-silver hover:text-platinum'"
+            :class="isLogin ? 'bg-mulled-wine-500 text-mulled-wine-50 shadow-md' : 'text-mulled-wine-300 hover:text-mulled-wine-50'"
             class="flex-1 py-3 px-4 rounded-lg font-bold text-sm transition-all duration-300"
           >
             Iniciar Sesión
           </button>
           <button 
             @click="isLogin = false"
-            :class="!isLogin ? 'bg-slate text-platinum shadow-md' : 'text-silver hover:text-platinum'"
+            :class="!isLogin ? 'bg-mulled-wine-500 text-mulled-wine-50 shadow-md' : 'text-mulled-wine-300 hover:text-mulled-wine-50'"
             class="flex-1 py-3 px-4 rounded-lg font-bold text-sm transition-all duration-300"
           >
             Registrarse
@@ -38,7 +38,7 @@
         <form @submit.prevent="handleAuth" class="space-y-5">
           <!-- Email -->
           <div>
-            <label for="email" class="block text-sm font-semibold text-platinum mb-2">
+            <label for="email" class="block text-sm font-semibold text-mulled-wine-50 mb-2">
               Email
             </label>
             <input 
@@ -54,7 +54,7 @@
 
           <!-- Contraseña -->
           <div>
-            <label for="password" class="block text-sm font-semibold text-platinum mb-2">
+            <label for="password" class="block text-sm font-semibold text-mulled-wine-50 mb-2">
               Contraseña
             </label>
             <input 
@@ -72,7 +72,7 @@
           <button 
             type="submit" 
             :disabled="loading"
-            class="w-full mt-2 py-3.5 bg-steel text-platinum rounded-xl font-bold text-base shadow-lg hover:bg-slate hover:shadow-xl active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+            class="w-full mt-2 py-3.5 bg-mulled-wine-500 text-mulled-wine-50 rounded-xl font-bold text-base shadow-lg hover:bg-mulled-wine-400 hover:shadow-xl active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
           >
             <span v-if="!loading">{{ isLogin ? 'Entrar' : 'Crear cuenta' }}</span>
             <span v-else class="flex items-center justify-center gap-2">
@@ -86,11 +86,11 @@
         </form>
 
         <!-- Toggle entre Login/Registro -->
-        <p class="mt-6 text-center text-sm text-silver">
+        <p class="mt-6 text-center text-sm text-mulled-wine-300">
           {{ isLogin ? '¿Primera vez aquí?' : '¿Ya tienes cuenta?' }}
           <button 
             @click="isLogin = !isLogin" 
-            class="font-bold text-platinum hover:text-steel ml-1 transition-colors"
+            class="font-bold text-mulled-wine-50 hover:text-mulled-wine-200 ml-1 transition-colors"
           >
             {{ isLogin ? 'Regístrate gratis' : 'Inicia sesión' }}
           </button>

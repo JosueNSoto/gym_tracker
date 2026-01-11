@@ -2,11 +2,11 @@
   <div class="view-container">
     <h1 class="heading-1">🏆 Mis Logros</h1>
     
-    <div v-if="loading" class="text-center text-app-text-muted py-10">
+    <div v-if="loading" class="text-center text-mulled-wine-300 py-10">
       Cargando récords...
     </div>
 
-    <div v-else-if="groupedRecords.length === 0" class="card-container flex flex-col items-center justify-center py-10 text-app-text-muted text-center gap-2">
+    <div v-else-if="groupedRecords.length === 0" class="card-container flex flex-col items-center justify-center py-10 text-mulled-wine-300 text-center gap-2">
       <span class="text-4xl">🏆</span>
       <p>Aún no tienes logros.</p>
       <p class="text-sm">¡Entrena duro para ver tus récords aquí!</p>
@@ -16,9 +16,9 @@
       <!-- Grupo por Año/Mes -->
       <div v-for="group in groupedRecords" :key="group.key" class="space-y-3">
         <!-- Cabecera de Año -->
-        <div class="sticky top-0 bg-app-bg pt-2 pb-2 z-10">
-          <h2 class="text-xl font-black text-platinum">{{ group.year }}</h2>
-          <p class="text-sm font-bold text-steel uppercase">{{ group.month }}</p>
+        <div class="sticky top-0 bg-mulled-wine-700 pt-2 pb-2 z-10">
+          <h2 class="text-xl font-black text-mulled-wine-50">{{ group.year }}</h2>
+          <p class="text-sm font-bold text-mulled-wine-400 uppercase">{{ group.month }}</p>
         </div>
         
         <!-- Grid de Medallitas -->

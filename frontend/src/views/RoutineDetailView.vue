@@ -2,7 +2,7 @@
   <div class="pb-32"> <!-- Padding extra para el botón flotante inferior -->
     <!-- Header Navegación -->
     <div class="flex items-center gap-4 mb-6">
-      <button @click="router.back()" class="p-2 -ml-2 text-silver hover:text-platinum transition-colors">
+      <button @click="router.back()" class="p-2 -ml-2 text-mulled-wine-300 hover:text-mulled-wine-50 transition-colors">
         ← Volver
       </button>
       <h1 class="text-xl font-bold">{{ isNew ? 'Nueva Rutina' : 'Editar Rutina' }}</h1>
@@ -16,7 +16,7 @@
           <!-- Icon Trigger -->
           <button 
             @click="showEmojiPicker = true"
-            class="w-14 h-14 flex-shrink-0 bg-steel text-platinum rounded-xl flex items-center justify-center text-2xl font-bold shadow-sm active:scale-95 transition-transform"
+            class="w-14 h-14 flex-shrink-0 bg-mulled-wine-500 text-mulled-wine-50 rounded-xl flex items-center justify-center text-2xl font-bold shadow-sm active:scale-95 transition-transform"
           >
              <!-- Si hay custom_icon lo mostramos, si no, mostramos la inicial o el icono smart (aquí usaremos inicial como placeholder hasta guardar) -->
              <span v-if="routine.custom_icon">{{ routine.custom_icon }}</span>
@@ -34,7 +34,7 @@
     <section>
       <div class="flex justify-between items-end mb-3">
         <h2 class="heading-2 !mb-0">Ejercicios</h2>
-        <button @click="showExerciseSelector = true" class="text-sm font-bold text-steel hover:text-platinum flex items-center gap-1 transition-colors">
+        <button @click="showExerciseSelector = true" class="text-sm font-bold text-mulled-wine-400 hover:text-mulled-wine-50 flex items-center gap-1 transition-colors">
           + Agregar
         </button>
       </div>
@@ -42,15 +42,15 @@
       <div class="space-y-3">
         <div v-for="(exercise, index) in routine.exercises" :key="index" class="card-container relative group">
           <!-- Botón Eliminar (Visible o slide) -->
-          <button @click="removeExercise(index)" class="absolute top-2 right-2 text-gray-300 hover:text-red-500 p-1">
+          <button @click="removeExercise(index)" class="absolute top-2 right-2 text-mulled-wine-400 hover:text-notify-error p-1">
             ×
           </button>
 
-          <h3 class="font-bold text-platinum mb-2">{{ exercise.name }}</h3>
+          <h3 class="font-bold text-mulled-wine-50 mb-2">{{ exercise.name }}</h3>
 
           <div class="grid grid-cols-3 gap-3">
             <div>
-              <label class="text-[10px] text-app-text-muted uppercase font-bold">Series</label>
+              <label class="text-[10px] text-mulled-wine-300 uppercase font-bold">Series</label>
               <input 
                 v-model="exercise.target_sets" 
                 @input="validateInput($event, 2)"
@@ -59,7 +59,7 @@
               >
             </div>
             <div>
-              <label class="text-[10px] text-app-text-muted uppercase font-bold">Reps Obj.</label>
+              <label class="text-[10px] text-mulled-wine-300 uppercase font-bold">Reps Obj.</label>
               <input 
                 v-model="exercise.target_reps" 
                 @input="validateRepsStr($event)"
@@ -69,7 +69,7 @@
               >
             </div>
             <div>
-              <label class="text-[10px] text-app-text-muted uppercase font-bold">Peso (kg)</label>
+              <label class="text-[10px] text-mulled-wine-300 uppercase font-bold">Peso (kg)</label>
               <input 
                 v-model="exercise.target_weight" 
                 @input="validateInput($event, 3)"
@@ -83,8 +83,8 @@
       </div>
       
       <!-- Empty State -->
-      <div v-if="routine.exercises.length === 0" class="text-center p-8 border-2 border-dashed border-app-border rounded-xl bg-gunmetal/50">
-        <p class="text-app-text-muted text-sm">Añade ejercicios a esta rutina</p>
+      <div v-if="routine.exercises.length === 0" class="text-center p-8 border-2 border-dashed border-mulled-wine-500 rounded-xl bg-mulled-wine-700/50">
+        <p class="text-mulled-wine-300 text-sm">Añade ejercicios a esta rutina</p>
       </div>
     </section>
 
@@ -132,6 +132,7 @@ const { success, error, warning } = useNotifications()
 
 const isNew = computed(() => route.params.id === 'new')
 const showExerciseSelector = ref(false)
+const showEmojiPicker = ref(false)
 const loading = ref(false)
 
 const muscleGroups = ['Pecho', 'Espalda', 'Piernas', 'Hombros', 'Brazos', 'Abs', 'Full Body']
@@ -224,6 +225,11 @@ const addExercise = (exercise) => {
 
 const removeExercise = (index) => {
   routine.value.exercises.splice(index, 1)
+}
+
+const selectEmoji = (emoji) => {
+  routine.value.custom_icon = emoji
+  showEmojiPicker.value = false
 }
 
 const validateInput = (e, maxDigits) => {

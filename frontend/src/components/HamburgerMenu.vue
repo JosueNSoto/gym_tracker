@@ -3,7 +3,7 @@
     <!-- Icono Hamburguesa -->
     <button 
       @click="toggleMenu"
-      class="fixed top-4 right-4 z-[60] w-10 h-10 bg-app-surface rounded-full shadow-lg flex items-center justify-center text-platinum hover:bg-slate transition-colors active:scale-95"
+      class="fixed top-4 right-4 z-[60] w-10 h-10 bg-mulled-wine-600 rounded-full shadow-lg flex items-center justify-center text-mulled-wine-50 hover:bg-mulled-wine-500 transition-colors active:scale-95"
       aria-label="Menú"
     >
       <svg 
@@ -40,13 +40,13 @@
     <Transition name="slide">
       <div 
         v-if="menuOpen"
-        class="fixed top-0 right-0 h-screen w-64 bg-gunmetal shadow-2xl z-[60] flex flex-col border-l border-app-border"
+        class="fixed top-0 right-0 h-screen w-64 bg-mulled-wine-700 shadow-2xl z-[60] flex flex-col border-l border-mulled-wine-500"
         @click.stop
       >
         <!-- Header del menú -->
-        <div class="p-6 border-b border-app-border">
-          <h3 class="font-bold text-lg text-platinum mb-1">Mi Cuenta</h3>
-          <p class="text-sm text-silver truncate" v-if="auth.user">
+        <div class="p-6 border-b border-mulled-wine-500">
+          <h3 class="font-bold text-lg text-mulled-wine-50 mb-1">Mi Cuenta</h3>
+          <p class="text-sm text-mulled-wine-300 truncate" v-if="auth.user">
             {{ auth.user.email }}
           </p>
         </div>
@@ -57,7 +57,7 @@
             <!-- Perfil (preparado para futuro) -->
             <li>
               <button 
-                class="w-full text-left px-4 py-3 rounded-lg hover:bg-app-surface transition-colors flex items-center gap-3 text-silver"
+                class="w-full text-left px-4 py-3 rounded-lg hover:bg-mulled-wine-600 transition-colors flex items-center gap-3 text-mulled-wine-300"
                 disabled
                 title="Próximamente"
               >
@@ -71,7 +71,7 @@
             <!-- Configuración (preparado para futuro) -->
             <li>
               <button 
-                class="w-full text-left px-4 py-3 rounded-lg hover:bg-app-surface transition-colors flex items-center gap-3 text-silver"
+                class="w-full text-left px-4 py-3 rounded-lg hover:bg-mulled-wine-600 transition-colors flex items-center gap-3 text-mulled-wine-300"
                 disabled
                 title="Próximamente"
               >
@@ -86,7 +86,7 @@
         </nav>
 
         <!-- Separador y Logout -->
-        <div class="p-4 border-t border-app-border">
+        <div class="p-4 border-t border-mulled-wine-500">
           <button 
             @click="handleLogout"
             class="w-full px-4 py-3 rounded-lg bg-notify-error/10 hover:bg-notify-error transition-colors flex items-center gap-3 text-notify-error hover:text-white font-medium"
@@ -131,20 +131,16 @@ const closeMenu = () => {
 }
 
 const handleLogout = () => {
-  console.log('🔴 HamburgerMenu: handleLogout - Mostrando diálogo de confirmación')
   showConfirmDialog.value = true
 }
 
 const confirmLogout = async () => {
-  console.log('🔴 HamburgerMenu: confirmLogout - Usuario confirmó logout')
   showConfirmDialog.value = false
   closeMenu()
-  console.log('🔴 HamburgerMenu: Llamando a auth.signOut()...')
   try {
     await auth.signOut()
-    console.log('✅ HamburgerMenu: auth.signOut() completado')
   } catch (error) {
-    console.error('❌ HamburgerMenu: Error en signOut:', error)
+    console.error('Error en signOut:', error)
   }
 }
 

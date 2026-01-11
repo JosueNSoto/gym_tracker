@@ -1,17 +1,17 @@
 <template>
   <div v-if="isOpen" class="fixed inset-0 bg-black/60 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4 backdrop-blur-sm transition-all">
-    <div class="bg-app-surface border border-app-border w-full max-w-md h-[85vh] sm:h-[600px] rounded-t-2xl sm:rounded-2xl flex flex-col shadow-2xl animate-slide-up">
+    <div class="bg-mulled-wine-600 border border-mulled-wine-500 w-full max-w-md h-[85vh] sm:h-[600px] rounded-t-2xl sm:rounded-2xl flex flex-col shadow-2xl animate-slide-up">
       
       <!-- Header -->
-      <div class="p-4 border-b border-app-border flex justify-between items-center bg-app-surface rounded-t-2xl z-10">
-        <h3 class="font-bold text-lg text-platinum">Seleccionar Ejercicio</h3>
-        <button @click="$emit('close')" class="w-8 h-8 flex items-center justify-center rounded-full bg-gunmetal text-silver hover:bg-slate transition-colors">
+      <div class="p-4 border-b border-mulled-wine-500 flex justify-between items-center bg-mulled-wine-600 rounded-t-2xl z-10">
+        <h3 class="font-bold text-lg text-mulled-wine-50">Seleccionar Ejercicio</h3>
+        <button @click="$emit('close')" class="w-8 h-8 flex items-center justify-center rounded-full bg-mulled-wine-700 text-mulled-wine-300 hover:bg-mulled-wine-500 transition-colors">
           ×
         </button>
       </div>
 
       <!-- Controls (Search + Filter) -->
-      <div class="p-4 space-y-3 bg-gunmetal/50 border-b border-app-border">
+      <div class="p-4 space-y-3 bg-mulled-wine-700/50 border-b border-mulled-wine-500">
         <!-- Buscador -->
         <div class="relative">
           <input 
@@ -21,7 +21,7 @@
             class="input-field pl-9"
             autofocus
           >
-          <span class="absolute left-3 top-1/2 -translate-y-1/2 text-silver">🔍</span>
+          <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mulled-wine-300">🔍</span>
         </div>
 
         <!-- Filtros de Músculo (Scroll Horizontal) -->
@@ -29,7 +29,7 @@
           <button 
             @click="activeFilter = ''"
             class="px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap transition-colors border"
-            :class="activeFilter === '' ? 'bg-steel text-platinum border-steel' : 'bg-gunmetal text-silver border-app-border'"
+            :class="activeFilter === '' ? 'bg-mulled-wine-500 text-mulled-wine-50 border-mulled-wine-500' : 'bg-mulled-wine-700 text-mulled-wine-300 border-mulled-wine-500'"
           >
             Todos
           </button>
@@ -38,7 +38,7 @@
             :key="muscle"
             @click="activeFilter = activeFilter === muscle ? '' : muscle"
             class="px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap transition-colors border"
-            :class="activeFilter === muscle ? 'bg-steel text-platinum border-steel' : 'bg-gunmetal text-silver border-app-border'"
+            :class="activeFilter === muscle ? 'bg-mulled-wine-500 text-mulled-wine-50 border-mulled-wine-500' : 'bg-mulled-wine-700 text-mulled-wine-300 border-mulled-wine-500'"
           >
             {{ muscle }}
           </button>
@@ -47,7 +47,7 @@
 
       <!-- Lista de Resultados -->
       <div class="flex-1 overflow-y-auto p-2">
-        <div v-if="filteredExercises.length === 0" class="flex flex-col items-center justify-center h-40 text-app-text-muted">
+        <div v-if="filteredExercises.length === 0" class="flex flex-col items-center justify-center h-40 text-mulled-wine-300">
           <span class="text-2xl mb-2">😕</span>
           <p class="text-sm">No se encontraron ejercicios.</p>
         </div>
@@ -57,19 +57,19 @@
             v-for="ex in filteredExercises" 
             :key="ex.id"
             @click="$emit('select', ex)"
-            class="p-3 rounded-lg hover:bg-slate active:bg-steel cursor-pointer flex justify-between items-center group transition-colors border border-transparent hover:border-app-border"
+            class="p-3 rounded-lg hover:bg-mulled-wine-500 active:bg-mulled-wine-400 cursor-pointer flex justify-between items-center group transition-colors border border-transparent hover:border-mulled-wine-400"
           >
             <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-lg bg-gunmetal flex items-center justify-center text-lg font-bold text-silver group-hover:bg-app-surface group-hover:shadow-sm group-hover:text-platinum transition-all">
+              <div class="w-10 h-10 rounded-lg bg-mulled-wine-700 flex items-center justify-center text-lg font-bold text-mulled-wine-300 group-hover:bg-mulled-wine-600 group-hover:shadow-sm group-hover:text-mulled-wine-50 transition-all">
                 {{ ex.name[0] }}
               </div>
               <div>
-                <p class="font-bold text-platinum text-sm">{{ ex.name }}</p>
-                <p class="text-[10px] text-app-text-muted uppercase font-bold tracking-wider">{{ ex.muscle_group }}</p>
+                <p class="font-bold text-mulled-wine-50 text-sm">{{ ex.name }}</p>
+                <p class="text-[10px] text-mulled-wine-300 uppercase font-bold tracking-wider">{{ ex.muscle_group }}</p>
               </div>
             </div>
             
-            <button class="text-steel opacity-0 group-hover:opacity-100 transition-opacity font-bold text-sm">
+            <button class="text-mulled-wine-400 opacity-0 group-hover:opacity-100 transition-opacity font-bold text-sm">
               + Agregar
             </button>
           </div>

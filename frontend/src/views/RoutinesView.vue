@@ -15,7 +15,7 @@
 
     <!-- Lista de Rutinas -->
     <section>
-      <div v-if="routines.length === 0" class="text-center py-10 text-app-text-muted">
+      <div v-if="routines.length === 0" class="text-center py-10 text-mulled-wine-300">
         <p>No tienes rutinas creadas.</p>
         <p class="text-sm mt-2">¡Crea la primera abajo!</p>
       </div>
@@ -26,105 +26,107 @@
           v-for="routine in routines" 
           :key="routine.id" 
           @click="openRoutine(routine.id)"
-          class="card-container !p-4 flex flex-col gap-3 active:scale-95 transition-transform cursor-pointer hover:bg-slate"
+          class="card-container !p-4 flex flex-col gap-3 active:scale-95 transition-transform cursor-pointer hover:bg-mulled-wine-500"
         >
           <!-- Icono basado en el músculo -->
-          <div class="w-8 h-8 bg-steel text-platinum rounded-lg flex items-center justify-center font-bold p-1 text-xl">
+          <div class="w-8 h-8 bg-mulled-wine-500 text-mulled-wine-50 rounded-lg flex items-center justify-center font-bold p-1 text-xl">
             <span v-if="routine.custom_icon">{{ routine.custom_icon }}</span>
             <MuscleIcon v-else :muscle="routine.muscle_focus?.[0]" />
           </div>
           
           <div class="flex items-start justify-between gap-1">
             <div class="flex-1 min-w-0">
-              <h3 class="font-bold text-platinum leading-tight truncate">{{ routine.name }}</h3>
-              <p class="text-xs text-silver mt-1 truncate">{{ routine.muscle_focus?.join(', ') }}</p>
+              <h3 class="font-bold text-mulled-wine-50 leading-tight truncate">{{ routine.name }}</h3>
+              <p class="text-xs text-mulled-wine-300 mt-1 truncate">{{ routine.muscle_focus?.join(', ') }}</p>
             </div>
 
             <!-- Botón de Opciones (3 puntitos) -->
             <button 
               @click.stop="openOptions(routine)"
-              class="w-8 h-8 flex items-center justify-center rounded-full text-silver hover:bg-gunmetal hover:text-platinum transition-colors -mr-2 flex-shrink-0"
+              class="w-8 h-8 flex items-center justify-center rounded-full text-mulled-wine-300 hover:bg-mulled-wine-700 hover:text-mulled-wine-50 transition-colors -mr-2 flex-shrink-0"
             >
               ⋮
             </button>
           </div>
         </div>
           
-                          <!-- Botón Crear Nueva Rutina -->
-                          <button 
-                            @click="routines.length < 10 ? createNewRoutine() : null"
-                            class="card-container !p-4 flex flex-col gap-3 items-center justify-center bg-gunmetal border-dashed border-2 border-app-border active:bg-slate min-h-[100px]"
-                            :class="{ 'opacity-50 cursor-not-allowed grayscale': routines.length >= 10 }"
-                          >
-                            <div class="w-10 h-10 bg-app-surface rounded-full flex items-center justify-center text-silver">
-                              <span class="text-2xl font-bold">{{ routines.length >= 10 ? '🔒' : '+' }}</span>
-                            </div>
-                            <span class="text-sm font-bold text-gray-500">
-                              {{ routines.length >= 10 ? 'Límite (10) alcanzado' : 'Nueva Rutina' }}
-                            </span>
-                          </button>                </div>
-              </section>
-          
-              <!-- Action Sheet (Menú de Opciones) -->
-              <div v-if="showActionSheet" class="fixed inset-0 z-50 flex items-end justify-center bg-black/50 backdrop-blur-sm" @click="closeOptions">
-                <div class="bg-white w-full max-w-md rounded-t-2xl p-4 animate-slide-up flex flex-col gap-2" @click.stop>
-                          <div class="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-4"></div>
-                          <h3 class="text-center font-bold text-gray-900 mb-2">Opciones: {{ selectedRoutine?.name }}</h3>
-                          
-                          <button @click="startChangeIcon" class="w-full py-3 bg-gunmetal rounded-xl font-semibold text-platinum hover:bg-slate active:bg-steel transition-colors">
-                            🎨 Cambiar Icono
-                          </button>
+        <!-- Botón Crear Nueva Rutina -->
+        <button 
+          @click="routines.length < 10 ? createNewRoutine() : null"
+          class="card-container !p-4 flex flex-col gap-3 items-center justify-center bg-mulled-wine-700 border-dashed border-2 border-mulled-wine-500 active:bg-mulled-wine-500 min-h-[100px]"
+          :class="{ 'opacity-50 cursor-not-allowed grayscale': routines.length >= 10 }"
+        >
+          <div class="w-10 h-10 bg-mulled-wine-600 rounded-full flex items-center justify-center text-mulled-wine-300">
+            <span class="text-2xl font-bold">{{ routines.length >= 10 ? '🔒' : '+' }}</span>
+          </div>
+          <span class="text-sm font-bold text-mulled-wine-400">
+            {{ routines.length >= 10 ? 'Límite (10) alcanzado' : 'Nueva Rutina' }}
+          </span>
+        </button>
+      </div>
+    </section>
 
-                          <button @click="startRename" class="w-full py-3 bg-gunmetal rounded-xl font-semibold text-platinum hover:bg-slate active:bg-steel transition-colors">
-                            ✏️ Renombrar
-                          </button>
-                          
-                          <button @click="deleteRoutine" class="w-full py-3 bg-red-50 text-red-600 rounded-xl font-semibold active:bg-red-100">
-                            🗑️ Eliminar Rutina
-                          </button>
-                          
-                          <button @click="closeOptions" class="w-full py-3 mt-2 text-gray-500 font-bold">
-                            Cancelar
-                          </button>
-                        </div>
-                      </div>
-                  
-                      <!-- Modal Renombrar -->
-                      <div v-if="showRenameModal" class="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 p-4" @click="showRenameModal = false">
-                        <div class="bg-white w-full max-w-sm rounded-2xl p-6 shadow-2xl" @click.stop>
-                          <h3 class="font-bold text-lg mb-4">Renombrar Rutina</h3>
-                          <input 
-                            v-model="newName" 
-                            type="text" 
-                            class="input-field mb-4 font-bold" 
-                            placeholder="Nuevo nombre..."
-                            @keyup.enter="confirmRename"
-                          >
-                          <div class="flex gap-2">
-                            <button @click="showRenameModal = false" class="flex-1 py-2 text-gray-500 font-bold">Cancelar</button>
-                            <button @click="confirmRename" class="flex-1 btn-primary py-2 justify-center">Guardar</button>
-                          </div>
-                        </div>
-                      </div>
-                  
-                      <!-- Emoji Picker (Global para esta vista) -->
-                      <EmojiPicker 
-                        :is-open="showEmojiPicker"
-                        @close="showEmojiPicker = false"
-                        @select="saveNewIcon"
-                      />
-                  
-                    </div>
-                  </template>          
-          <style scoped>
-          .animate-slide-up {
-            animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-          }
-          @keyframes slideUp {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
-          }
-          </style>
+    <!-- Action Sheet (Menú de Opciones) -->
+    <div v-if="showActionSheet" class="fixed inset-0 z-50 flex items-end justify-center bg-black/50 backdrop-blur-sm" @click="closeOptions">
+      <div class="bg-mulled-wine-600 w-full max-w-md rounded-t-2xl p-4 animate-slide-up flex flex-col gap-2" @click.stop>
+        <div class="w-12 h-1 bg-mulled-wine-500 rounded-full mx-auto mb-4"></div>
+        <h3 class="text-center font-bold text-mulled-wine-50 mb-2">Opciones: {{ selectedRoutine?.name }}</h3>
+        
+        <button @click="startChangeIcon" class="w-full py-3 bg-mulled-wine-700 rounded-xl font-semibold text-mulled-wine-50 hover:bg-mulled-wine-500 active:bg-mulled-wine-400 transition-colors">
+          🎨 Cambiar Icono
+        </button>
+
+        <button @click="startRename" class="w-full py-3 bg-mulled-wine-700 rounded-xl font-semibold text-mulled-wine-50 hover:bg-mulled-wine-500 active:bg-mulled-wine-400 transition-colors">
+          ✏️ Renombrar
+        </button>
+        
+        <button @click="deleteRoutine" class="w-full py-3 bg-notify-error/10 text-notify-error rounded-xl font-semibold active:bg-notify-error/20">
+          🗑️ Eliminar Rutina
+        </button>
+        
+        <button @click="closeOptions" class="w-full py-3 mt-2 text-mulled-wine-400 font-bold">
+          Cancelar
+        </button>
+      </div>
+    </div>
+
+    <!-- Modal Renombrar -->
+    <div v-if="showRenameModal" class="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 p-4" @click="showRenameModal = false">
+      <div class="bg-mulled-wine-600 w-full max-w-sm rounded-2xl p-6 shadow-2xl" @click.stop>
+        <h3 class="font-bold text-lg text-mulled-wine-50 mb-4">Renombrar Rutina</h3>
+        <input 
+          v-model="newName" 
+          type="text" 
+          class="input-field mb-4 font-bold" 
+          placeholder="Nuevo nombre..."
+          @keyup.enter="confirmRename"
+        >
+        <div class="flex gap-2">
+          <button @click="showRenameModal = false" class="flex-1 py-2 text-mulled-wine-400 font-bold">Cancelar</button>
+          <button @click="confirmRename" class="flex-1 btn-primary py-2 justify-center">Guardar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Emoji Picker (Global para esta vista) -->
+    <EmojiPicker 
+      :is-open="showEmojiPicker"
+      @close="showEmojiPicker = false"
+      @select="saveNewIcon"
+    />
+
+  </div>
+</template>          
+
+<style scoped>
+.animate-slide-up {
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+</style>
 
 <script setup>
 import { ref, onMounted } from 'vue'
@@ -180,7 +182,6 @@ const saveNewIcon = async (emoji) => {
 
 const closeOptions = () => {
   showActionSheet.value = false
-  // No limpiar selectedRoutine aquí todavía para animaciones si las hubiera, pero ok
 }
 
 const startRename = () => {
@@ -253,7 +254,6 @@ onMounted(() => {
 })
 
 const getMuscleIcon = (muscle) => {
-// ... rest of the code remains same
   const map = {
     'Pecho': 'P', 'Espalda': 'E', 'Piernas': 'L', 'Brazos': 'B', 'Hombros': 'H'
   }
@@ -261,7 +261,6 @@ const getMuscleIcon = (muscle) => {
 }
 
 const getMuscleColor = (muscle) => {
-  // Retorna clases de Tailwind dinámicas
   const map = {
     'Pecho': 'bg-red-100 text-red-600',
     'Espalda': 'bg-blue-100 text-blue-600',
@@ -276,7 +275,6 @@ const openRoutine = (id) => {
 }
 
 const createNewRoutine = () => {
-  // Lógica para crear nueva (podría ir directo al detalle con ID 'new')
   router.push('/routines/new')
 }
 </script>

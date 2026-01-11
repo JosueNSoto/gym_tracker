@@ -4,22 +4,22 @@
     :class="{ 'min-h-[100px] max-h-[100px]': !showMedal }"
   >
     <!-- Icono/Medallita (opcional para vista de logros) - más pequeña -->
-    <div v-if="showMedal" class="w-8 h-8 bg-gradient-to-br from-notify-warning to-steel rounded-full flex items-center justify-center text-lg shadow-md">
+    <div v-if="showMedal" class="w-8 h-8 bg-gradient-to-br from-notify-warning to-mulled-wine-500 rounded-full flex items-center justify-center text-lg shadow-md">
       🏅
     </div>
     
     <!-- Nombre del ejercicio -->
-    <p class="text-label leading-tight line-clamp-2" :class="{ 'mb-2': !showMedal, 'font-bold text-[11px] text-platinum': showMedal }">
+    <p class="text-label leading-tight line-clamp-2" :class="{ 'mb-2': !showMedal, 'font-bold text-[11px] text-mulled-wine-50': showMedal }">
       {{ name }}
     </p>
     
     <!-- Peso y fecha -->
     <div class="flex items-end justify-between">
       <div>
-        <p class="text-xl font-black text-platinum leading-none" :class="{ 'text-2xl': !showMedal }">{{ weight }}</p>
-        <p class="text-[10px] text-app-text-muted font-bold uppercase">kg · 1RM</p>
+        <p class="text-xl font-black text-mulled-wine-50 leading-none" :class="{ 'text-2xl': !showMedal }">{{ weight }}</p>
+        <p class="text-[10px] text-mulled-wine-300 font-bold uppercase">kg · 1RM</p>
       </div>
-      <p class="text-[10px] text-app-text-muted">{{ date }}</p>
+      <p class="text-[10px] text-mulled-wine-300">{{ date }}</p>
     </div>
   </div>
 </template>
