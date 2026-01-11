@@ -22,8 +22,13 @@
     <div class="px-4">
       <h1 class="heading-1 mt-4">{{ workoutTitle }}</h1>
 
+      <!-- Loading State (solo para rutinas, no para free) -->
+      <div v-if="loading && route.params.id !== 'free'" class="space-y-6">
+        <SkeletonExerciseCard v-for="i in 4" :key="i" />
+      </div>
+
       <!-- Lista de Ejercicios Activos -->
-      <div class="space-y-6">
+      <div v-else class="space-y-6">
         <div v-for="(exercise, exIndex) in activeExercises" :key="exercise.id" class="card-container !p-0 overflow-hidden">
           
           <!-- Encabezado del Ejercicio -->
@@ -106,8 +111,8 @@
         </div>
       </div>
 
-      <!-- Botón Agregar Ejercicio -->
-      <button @click="showExerciseSelector = true" class="btn-secondary w-full py-3 mt-4 border-dashed">
+      <!-- Botón Agregar Ejercicio (solo mostrar si no está cargando) -->
+      <button v-if="!loading" @click="showExerciseSelector = true" class="btn-secondary w-full py-3 mt-4 border-dashed">
         + Agregar Ejercicio
       </button>
 
@@ -159,6 +164,7 @@ import { useNotifications } from '../stores/notifications'
 import BackButton from '../components/BackButton.vue'
 import ExerciseSelector from '../components/ExerciseSelector.vue'
 import ConfirmDialog from '../components/ConfirmDialog.vue'
+import SkeletonExerciseCard from '../components/SkeletonExerciseCard.vue'
 
 const route = useRoute()
 const router = useRouter()

@@ -15,15 +15,22 @@
 
     <!-- Lista de Rutinas -->
     <section>
+      <!-- Loading State -->
+      <div v-if="loading" class="grid grid-cols-2 gap-3">
+        <SkeletonRoutineCard v-for="i in 6" :key="i" />
+      </div>
+      
+      <!-- Empty State -->
       <EmptyState
-        v-if="routines.length === 0"
+        v-else-if="routines.length === 0"
         icon="😕"
         title="No tienes rutinas creadas."
         description="¡Crea la primera abajo!"
         container-class="py-8"
       />
 
-      <div class="grid grid-cols-2 gap-3">
+      <!-- Data -->
+      <div v-else class="grid grid-cols-2 gap-3">
         <!-- Tarjeta de Rutina -->
         <div 
           v-for="routine in routines" 
@@ -145,6 +152,7 @@ import MuscleIcon from '../components/MuscleIcon.vue'
 import EmojiPicker from '../components/EmojiPicker.vue'
 import ConfirmDialog from '../components/ConfirmDialog.vue'
 import EmptyState from '../components/EmptyState.vue'
+import SkeletonRoutineCard from '../components/SkeletonRoutineCard.vue'
 
 const router = useRouter()
 const auth = useAuthStore()

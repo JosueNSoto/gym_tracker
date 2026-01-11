@@ -37,7 +37,21 @@
         </button>
       </div>
 
-      <div class="space-y-3">
+      <!-- Loading State -->
+      <div v-if="loading" class="space-y-3">
+        <SkeletonExerciseCard v-for="i in 4" :key="i" />
+      </div>
+
+      <!-- Empty State -->
+      <EmptyState
+        v-else-if="routine.exercises.length === 0"
+        icon="💪"
+        description="Añade ejercicios a esta rutina"
+        container-class="py-6 border-2 border-dashed"
+      />
+
+      <!-- Data -->
+      <div v-else class="space-y-3">
         <div v-for="(exercise, index) in routine.exercises" :key="index" class="card-container relative group">
           <!-- Botón Eliminar (Visible o slide) -->
           <button @click="removeExercise(index)" class="absolute top-2 right-2 w-6 h-6 rounded-full bg-notify-error/10 text-notify-error hover:bg-notify-error hover:text-white transition-colors flex items-center justify-center active:scale-95">
@@ -81,14 +95,6 @@
           </div>
         </div>
       </div>
-      
-      <!-- Empty State -->
-      <EmptyState
-        v-if="routine.exercises.length === 0"
-        icon="💪"
-        description="Añade ejercicios a esta rutina"
-        container-class="py-6 border-2 border-dashed"
-      />
     </section>
 
     <!-- Floating Save/Start Buttons -->
@@ -129,6 +135,7 @@ import ExerciseSelector from '../components/ExerciseSelector.vue'
 import EmojiPicker from '../components/EmojiPicker.vue'
 import MuscleIcon from '../components/MuscleIcon.vue'
 import EmptyState from '../components/EmptyState.vue'
+import SkeletonExerciseCard from '../components/SkeletonExerciseCard.vue'
 
 const route = useRoute()
 const router = useRouter()

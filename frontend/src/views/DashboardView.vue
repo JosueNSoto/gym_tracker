@@ -65,13 +65,20 @@
     <section class="mb-6">
       <h2 class="heading-2">Actividad Reciente</h2>
       
+      <!-- Loading State -->
+      <div v-if="loading" class="flex gap-3 overflow-x-auto pb-2">
+        <SkeletonActivityButton v-for="i in 5" :key="i" />
+      </div>
+      
+      <!-- Empty State -->
       <EmptyState 
-        v-if="recentActivity.length === 0"
+        v-else-if="recentActivity.length === 0"
         icon="💤"
         description="No hay actividad reciente."
         container-class="py-6"
       />
       
+      <!-- Data -->
       <div v-else class="flex gap-3 overflow-x-auto pb-2">
         <button 
           v-for="(act, i) in recentActivity" 
@@ -93,8 +100,19 @@
         <h2 class="heading-2 !mb-0">Tus récords (Max carga)</h2>
         <router-link to="/records" class="text-link">Ver todos</router-link>
       </div>
-      <div v-if="records.length === 0" class="text-sm text-mulled-wine-300">Registra entrenamientos para ver tus récords.</div>
-      <div class="flex justify-between gap-4 overflow-x-auto snap-x">
+      
+      <!-- Loading State -->
+      <div v-if="loading" class="flex justify-between gap-4 overflow-x-auto snap-x">
+        <div v-for="i in 5" :key="i" class="snap-center flex-shrink-0 w-[100px] sm:w-[110px] md:w-[120px]">
+          <SkeletonRecordCard />
+        </div>
+      </div>
+      
+      <!-- Empty State -->
+      <div v-else-if="records.length === 0" class="text-sm text-mulled-wine-300">Registra entrenamientos para ver tus récords.</div>
+      
+      <!-- Data -->
+      <div v-else class="flex justify-between gap-4 overflow-x-auto snap-x">
         <div v-for="record in records" :key="record.name" class="snap-center flex-shrink-0 w-[100px] sm:w-[110px] md:w-[120px]">
           <RecordCard 
             :name="record.name"
@@ -112,15 +130,22 @@
         <router-link to="/routines" class="text-link">Ver todas</router-link>
       </div>
       
+      <!-- Loading State -->
+      <div v-if="loading" class="grid grid-cols-2 gap-3">
+        <SkeletonRoutineCard v-for="i in 4" :key="i" />
+      </div>
+      
+      <!-- Empty State -->
       <EmptyState 
-        v-if="routines.length === 0"
+        v-else-if="routines.length === 0"
         icon="📋"
         title="Aún no tienes rutinas creadas."
         description="¡Crea la primera abajo!"
         container-class="py-8 border-dashed border-2"
       />
 
-      <div class="grid grid-cols-2 gap-3">
+      <!-- Data -->
+      <div v-else class="grid grid-cols-2 gap-3">
         <div 
           v-for="routine in routines" 
           :key="routine.id" 
@@ -148,6 +173,9 @@ import { useAuthStore } from '../stores/auth'
 import MuscleIcon from '../components/MuscleIcon.vue'
 import RecordCard from '../components/RecordCard.vue'
 import EmptyState from '../components/EmptyState.vue'
+import SkeletonActivityButton from '../components/SkeletonActivityButton.vue'
+import SkeletonRecordCard from '../components/SkeletonRecordCard.vue'
+import SkeletonRoutineCard from '../components/SkeletonRoutineCard.vue'
 
 const auth = useAuthStore()
 const loading = ref(true)

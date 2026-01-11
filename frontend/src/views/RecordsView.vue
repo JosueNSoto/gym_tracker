@@ -2,10 +2,23 @@
   <div class="view-container">
     <h1 class="heading-1">🏆 Mis Logros</h1>
     
-    <div v-if="loading" class="text-center text-mulled-wine-300 py-10">
-      Cargando récords...
+    <!-- Loading State -->
+    <div v-if="loading" class="space-y-6">
+      <div v-for="i in 3" :key="i" class="space-y-3">
+        <!-- Skeleton Header -->
+        <div class="sticky top-0 bg-mulled-wine-700 pt-2 pb-2 z-10">
+          <div class="skeleton-shimmer h-7 w-20 rounded mb-1"></div>
+          <div class="skeleton-shimmer h-4 w-24 rounded"></div>
+        </div>
+        
+        <!-- Skeleton Grid -->
+        <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3">
+          <SkeletonRecordCard v-for="j in 6" :key="j" />
+        </div>
+      </div>
     </div>
 
+    <!-- Empty State -->
     <EmptyState
       v-else-if="groupedRecords.length === 0"
       icon="🏆"
@@ -13,6 +26,7 @@
       description="¡Entrena duro para ver tus récords aquí!"
     />
 
+    <!-- Data -->
     <div v-else class="space-y-6">
       <!-- Grupo por Año/Mes -->
       <div v-for="group in groupedRecords" :key="group.key" class="space-y-3">
@@ -44,6 +58,7 @@ import { supabase } from '../supabase'
 import { useAuthStore } from '../stores/auth'
 import RecordCard from '../components/RecordCard.vue'
 import EmptyState from '../components/EmptyState.vue'
+import SkeletonRecordCard from '../components/SkeletonRecordCard.vue'
 
 const auth = useAuthStore()
 const loading = ref(true)

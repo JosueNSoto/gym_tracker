@@ -7,8 +7,52 @@
     </div>
 
     <!-- Loading State -->
-    <div v-if="loading" class="flex justify-center items-center py-20">
-      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-mulled-wine-400"></div>
+    <div v-if="loading">
+      <!-- Skeleton Info Card -->
+      <section class="card-container mb-6">
+        <div class="flex items-start justify-between mb-4">
+          <div class="flex-1">
+            <div class="skeleton-shimmer h-6 w-48 rounded mb-2"></div>
+            <div class="skeleton-shimmer h-4 w-32 rounded"></div>
+          </div>
+          <div class="w-12 h-12 skeleton-shimmer rounded-xl"></div>
+        </div>
+
+        <!-- Stats Grid Skeleton -->
+        <div class="grid grid-cols-3 gap-3">
+          <div class="bg-mulled-wine-700 rounded-lg p-3">
+            <div class="skeleton-shimmer h-8 w-16 rounded mx-auto mb-2"></div>
+            <div class="skeleton-shimmer h-3 w-12 rounded mx-auto"></div>
+          </div>
+          <div class="bg-mulled-wine-700 rounded-lg p-3">
+            <div class="skeleton-shimmer h-8 w-16 rounded mx-auto mb-2"></div>
+            <div class="skeleton-shimmer h-3 w-12 rounded mx-auto"></div>
+          </div>
+          <div class="bg-mulled-wine-700 rounded-lg p-3">
+            <div class="skeleton-shimmer h-8 w-16 rounded mx-auto mb-2"></div>
+            <div class="skeleton-shimmer h-3 w-16 rounded mx-auto"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Skeleton Exercises List -->
+      <section class="card-container">
+        <div class="skeleton-shimmer h-5 w-40 rounded mb-4"></div>
+        <div class="space-y-4">
+          <div v-for="i in 3" :key="i" class="bg-mulled-wine-700 rounded-xl p-4 border border-mulled-wine-500">
+            <div class="flex items-start justify-between mb-3">
+              <div class="flex-1">
+                <div class="skeleton-shimmer h-5 w-32 rounded mb-2"></div>
+                <div class="skeleton-shimmer h-4 w-20 rounded"></div>
+              </div>
+              <div class="skeleton-shimmer h-4 w-16 rounded"></div>
+            </div>
+            <div class="space-y-2">
+              <div v-for="j in 3" :key="j" class="skeleton-shimmer h-10 rounded-lg"></div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
 
     <!-- Error State -->
