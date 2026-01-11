@@ -273,7 +273,7 @@ body::-webkit-scrollbar-button,
 }
 
 .btn-cancel {
-  @apply text-mulled-wine-300 px-4 py-3 font-bold hover:text-mulled-wine-50 transition-colors;
+  @apply bg-notify-error/10 text-notify-error px-4 py-3 rounded-lg font-semibold hover:bg-notify-error hover:text-white transition-colors active:scale-95;
 }
 
 .btn-close {
