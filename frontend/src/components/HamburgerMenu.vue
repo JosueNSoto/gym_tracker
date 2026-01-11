@@ -102,9 +102,11 @@
 
     <!-- Dialog de Confirmación -->
     <ConfirmDialog 
-      v-if="showConfirmDialog"
+      :isOpen="showConfirmDialog"
       title="¿Cerrar sesión?"
       message="¿Estás seguro de que quieres cerrar sesión?"
+      icon="🚪"
+      danger
       @confirm="confirmLogout"
       @cancel="showConfirmDialog = false"
     />
