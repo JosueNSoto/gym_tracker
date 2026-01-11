@@ -1,5 +1,8 @@
 <template>
   <div class="view-container">
+    <!-- Menú Hamburguesa -->
+    <HamburgerMenu v-if="!isAuthRoute" />
+    
     <router-view />
     
     <!-- Navigation Bar (Mobile First) -->
@@ -30,6 +33,7 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import NotificationToast from './components/NotificationToast.vue'
+import HamburgerMenu from './components/HamburgerMenu.vue'
 
 const route = useRoute()
 const isAuthRoute = computed(() => route.path === '/auth')
