@@ -5,8 +5,10 @@
       <!-- Header -->
       <div class="p-4 border-b border-mulled-wine-500 flex justify-between items-center bg-mulled-wine-600 rounded-t-2xl z-10">
         <h3 class="font-bold text-lg text-mulled-wine-50">Seleccionar Ejercicio</h3>
-        <button @click="$emit('close')" class="w-8 h-8 flex items-center justify-center rounded-full bg-mulled-wine-700 text-mulled-wine-300 hover:bg-mulled-wine-500 transition-colors">
-          ×
+        <button @click="$emit('close')" class="btn-close">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
         </button>
       </div>
 

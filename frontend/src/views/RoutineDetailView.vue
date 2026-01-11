@@ -40,8 +40,10 @@
       <div class="space-y-3">
         <div v-for="(exercise, index) in routine.exercises" :key="index" class="card-container relative group">
           <!-- Botón Eliminar (Visible o slide) -->
-          <button @click="removeExercise(index)" class="absolute top-2 right-2 text-mulled-wine-400 hover:text-notify-error p-1 text-hover">
-            ×
+          <button @click="removeExercise(index)" class="absolute top-2 right-2 w-6 h-6 rounded-full bg-notify-error/10 text-notify-error hover:bg-notify-error hover:text-white transition-colors flex items-center justify-center active:scale-95">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </button>
 
           <h3 class="font-bold text-mulled-wine-50 mb-2">{{ exercise.name }}</h3>

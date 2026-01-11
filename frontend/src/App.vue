@@ -102,7 +102,7 @@
         <!-- Header -->
         <div class="px-4 pb-3 flex justify-between items-center">
           <h3 class="font-bold text-lg text-mulled-wine-50">Seleccionar Rutina</h3>
-          <button @click="closeRoutineSelector" class="w-8 h-8 flex items-center justify-center rounded-full bg-mulled-wine-700 text-mulled-wine-300 hover:bg-mulled-wine-500 hover:text-mulled-wine-50 transition-colors active:scale-95">
+          <button @click="closeRoutineSelector" class="btn-close">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>

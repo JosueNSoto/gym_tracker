@@ -30,9 +30,11 @@
           <!-- Botón cerrar -->
           <button
             @click="removeNotification(notification.id)"
-            class="flex-shrink-0 w-6 h-6 rounded-full hover:bg-mulled-wine-700 transition-colors flex items-center justify-center active:scale-95"
+            class="flex-shrink-0 w-6 h-6 rounded-full bg-notify-error/10 text-notify-error hover:bg-notify-error hover:text-white transition-colors flex items-center justify-center active:scale-95"
           >
-            <span class="text-mulled-wine-300 text-sm">✕</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </button>
         </div>
 
