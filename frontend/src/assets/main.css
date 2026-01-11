@@ -5,24 +5,24 @@
 @layer components {
   /* Contenedores Principales */
   .view-container {
-    @apply min-h-screen bg-app-bg p-4 pb-24;
+    @apply min-h-screen bg-gunmetal p-4 pb-24;
   }
 
   .card-container {
-    @apply bg-app-surface rounded-xl shadow-lg p-4 mb-4 border border-app-border;
+    @apply bg-slate rounded-xl shadow-lg p-4 mb-4 border border-steel;
   }
 
   /* Títulos y Textos */
   .heading-1 {
-    @apply text-2xl font-bold text-app-text mb-4;
+    @apply text-2xl font-bold text-platinum mb-4;
   }
 
   .heading-2 {
-    @apply text-lg font-semibold text-app-text mb-3;
+    @apply text-lg font-semibold text-platinum mb-3;
   }
 
   .text-label {
-    @apply text-[10px] font-medium text-app-text-muted;
+    @apply text-[10px] font-medium text-silver;
   }
 
   /* Botones Reutilizables */
@@ -40,7 +40,7 @@
 
   /* Elementos de Lista y Rutinas */
   .routine-card {
-    @apply flex items-center p-3 bg-app-surface rounded-lg mb-2 border border-app-border active:bg-slate;
+    @apply flex items-center p-3 bg-slate rounded-lg mb-2 border border-steel active:bg-steel;
   }
 
   .muscle-tag {
@@ -49,12 +49,12 @@
 
   /* Inputs */
   .input-field {
-    @apply w-full p-2 border border-app-border bg-app-surface rounded-lg text-app-text placeholder-app-text-muted focus:ring-2 focus:ring-steel focus:border-transparent outline-none;
+    @apply w-full p-2 border border-steel bg-slate rounded-lg text-platinum placeholder-silver focus:ring-2 focus:ring-steel focus:border-transparent outline-none;
   }
 
   /* Heatmap (GitHub style) */
   .heatmap-cell {
-    @apply w-3 h-3 rounded-[2px] bg-app-surface;
+    @apply w-3 h-3 rounded-[2px] bg-slate;
   }
   .heatmap-cell-active {
     @apply bg-notify-success;
@@ -72,6 +72,6 @@
 
 /* Global Styles */
 body {
-  @apply text-app-text antialiased bg-app-bg;
+  @apply text-platinum antialiased bg-gunmetal;
   font-family: 'Inter', sans-serif;
 }
