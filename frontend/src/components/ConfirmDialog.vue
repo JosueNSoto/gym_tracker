@@ -15,14 +15,14 @@
       <div class="p-4 pt-2 flex gap-3">
         <button 
           @click="handleCancel" 
-          class="flex-1 py-3 px-4 rounded-xl font-bold text-mulled-wine-300 bg-mulled-wine-700 hover:bg-mulled-wine-500/50 transition-colors active:scale-95"
+          class="flex-1 py-3 px-4 rounded-xl bg-mulled-wine-700 hover:bg-mulled-wine-500/50 transition-colors active:scale-95 font-bold text-mulled-wine-300 hover:text-mulled-wine-50"
         >
           {{ cancelText }}
         </button>
         <button 
           @click="handleConfirm" 
-          class="flex-1 py-3 px-4 rounded-xl font-bold text-white transition-colors active:scale-95"
-          :class="danger ? 'bg-notify-error hover:bg-notify-error/80' : 'bg-mulled-wine-500 hover:bg-mulled-wine-400'"
+          class="flex-1 py-3 px-4 rounded-xl font-bold transition-colors active:scale-95"
+          :class="danger ? 'bg-notify-error/10 text-notify-error hover:bg-notify-error hover:text-white' : 'bg-mulled-wine-500 text-white hover:bg-mulled-wine-400'"
         >
           {{ confirmText }}
         </button>

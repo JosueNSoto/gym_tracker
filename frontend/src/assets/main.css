@@ -59,6 +59,17 @@
   .heatmap-cell-active {
     @apply bg-notify-success;
   }
+
+  /* Liquid Glass Blob Navigation */
+  .nav-blob {
+    @apply absolute top-0 left-0
+           bg-gradient-to-br from-mulled-wine-400/40 to-mulled-wine-500/60 
+           backdrop-blur-md rounded-2xl 
+           transition-all duration-500 ease-in-out
+           pointer-events-none
+           shadow-lg shadow-mulled-wine-500/30;
+    will-change: transform, opacity, width, height;
+  }
 }
 
 /* Variables CSS personalizadas (para uso en JavaScript si es necesario) */
@@ -193,4 +204,20 @@ body::-webkit-scrollbar-button,
 .overflow-y-auto::-webkit-scrollbar-thumb:hover,
 .overflow-auto::-webkit-scrollbar-thumb:hover {
   background: var(--color-mulled-wine-400) !important;
+}
+
+/* ============================================
+   Botones de Acción - Fuera del @layer
+   ============================================ */
+
+.btn-danger {
+  @apply bg-notify-error/10 text-notify-error px-4 py-3 rounded-lg font-semibold hover:bg-notify-error hover:text-white transition-colors active:scale-95;
+}
+
+.btn-cancel {
+  @apply text-mulled-wine-300 px-4 py-3 font-bold hover:text-mulled-wine-50 transition-colors;
+}
+
+.btn-close {
+  @apply w-8 h-8 flex items-center justify-center rounded-full bg-mulled-wine-700 text-mulled-wine-300 hover:bg-mulled-wine-500 hover:text-mulled-wine-50 transition-colors active:scale-95;
 }

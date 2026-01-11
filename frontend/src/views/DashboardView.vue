@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="heading-1">Hola, el límite lo pones tú. 🤠</h1>
+    <h1 class="heading-1">El límite lo pones tú. 🤠</h1>
 
     <!-- GitHub Style Heatmap -->
     <section class="card-container overflow-x-auto custom-scrollbar">

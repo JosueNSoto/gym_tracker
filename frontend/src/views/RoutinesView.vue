@@ -80,11 +80,11 @@
           ✏️ Renombrar
         </button>
         
-        <button @click="deleteRoutine" class="w-full py-3 bg-notify-error/10 text-notify-error rounded-xl font-semibold active:bg-notify-error/20">
+        <button @click="deleteRoutine" class="w-full btn-danger rounded-xl">
           🗑️ Eliminar Rutina
         </button>
         
-        <button @click="closeOptions" class="w-full py-3 mt-2 text-mulled-wine-400 font-bold">
+        <button @click="closeOptions" class="w-full btn-cancel mt-2">
           Cancelar
         </button>
       </div>
@@ -102,7 +102,7 @@
           @keyup.enter="confirmRename"
         >
         <div class="flex gap-2">
-          <button @click="showRenameModal = false" class="flex-1 py-2 text-mulled-wine-400 font-bold">Cancelar</button>
+          <button @click="showRenameModal = false" class="flex-1 btn-cancel text-center">Cancelar</button>
           <button @click="confirmRename" class="flex-1 btn-primary py-2 justify-center">Guardar</button>
         </div>
       </div>
