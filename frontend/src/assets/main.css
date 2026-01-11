@@ -80,3 +80,117 @@ body {
   @apply text-mulled-wine-50 antialiased bg-mulled-wine-700;
   font-family: 'Inter', sans-serif;
 }
+
+/* Custom Scrollbar - Mulled Wine Theme (Global) */
+/* Oculto por defecto, aparece al hacer scroll o hover */
+html, body, * {
+  scrollbar-width: none; /* Firefox - oculto por defecto */
+  scrollbar-color: transparent transparent;
+}
+
+/* Al hacer hover, mostrar scrollbar en Firefox */
+html:hover, body:hover, *:hover {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-mulled-wine-500) transparent;
+}
+
+/* Webkit browsers (Chrome, Safari, Edge) - Global */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track,
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Scrollbar thumb OCULTO por defecto */
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb,
+*::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 100px;
+  transition: background 0.3s ease;
+}
+
+/* Mostrar scrollbar al hacer hover sobre el elemento */
+html:hover::-webkit-scrollbar-thumb,
+body:hover::-webkit-scrollbar-thumb,
+*:hover::-webkit-scrollbar-thumb {
+  background: var(--color-mulled-wine-500);
+}
+
+/* Hover sobre el propio scrollbar */
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover,
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--color-mulled-wine-400) !important;
+}
+
+/* Ocultar TODAS las flechitas/botones del scrollbar - Global */
+html::-webkit-scrollbar-button,
+body::-webkit-scrollbar-button,
+*::-webkit-scrollbar-button {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+/* Variantes específicas para cubrir todos los casos de botones */
+::-webkit-scrollbar-button:start:decrement,
+::-webkit-scrollbar-button:end:increment,
+::-webkit-scrollbar-button:vertical:start:increment,
+::-webkit-scrollbar-button:vertical:end:decrement,
+::-webkit-scrollbar-button:horizontal:start:increment,
+::-webkit-scrollbar-button:horizontal:end:decrement {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Esquinas del scrollbar */
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Scrollbar específico para contenedores con overflow */
+.overflow-x-auto::-webkit-scrollbar,
+.overflow-y-auto::-webkit-scrollbar,
+.overflow-auto::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-track,
+.overflow-y-auto::-webkit-scrollbar-track,
+.overflow-auto::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Oculto por defecto */
+.overflow-x-auto::-webkit-scrollbar-thumb,
+.overflow-y-auto::-webkit-scrollbar-thumb,
+.overflow-auto::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 100px;
+  transition: background 0.3s ease;
+}
+
+/* Visible al hacer hover */
+.overflow-x-auto:hover::-webkit-scrollbar-thumb,
+.overflow-y-auto:hover::-webkit-scrollbar-thumb,
+.overflow-auto:hover::-webkit-scrollbar-thumb {
+  background: var(--color-mulled-wine-500);
+}
+
+/* Hover directo sobre scrollbar */
+.overflow-x-auto::-webkit-scrollbar-thumb:hover,
+.overflow-y-auto::-webkit-scrollbar-thumb:hover,
+.overflow-auto::-webkit-scrollbar-thumb:hover {
+  background: var(--color-mulled-wine-400) !important;
+}
