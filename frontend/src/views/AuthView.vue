@@ -33,8 +33,6 @@
             {{ loading ? 'Cargando...' : (isLogin ? 'Entrar' : 'Registrarse') }}
           </button>
         </div>
-        
-        <p v-if="errorMsg" class="text-red-400 text-center text-sm">{{ errorMsg }}</p>
       </form>
     </div>
   </div>
@@ -43,17 +41,17 @@
 <script setup>
 import { ref } from 'vue'
 import { useAuthStore } from '../stores/auth'
+import { useNotifications } from '../stores/notifications'
 
 const auth = useAuthStore()
+const { error: showError } = useNotifications()
 const isLogin = ref(true)
 const email = ref('')
 const password = ref('')
 const loading = ref(false)
-const errorMsg = ref('')
 
 const handleAuth = async () => {
   loading.value = true
-  errorMsg.value = ''
   try {
     if (isLogin.value) {
       await auth.signIn(email.value, password.value)
@@ -61,7 +59,11 @@ const handleAuth = async () => {
       await auth.signUp(email.value, password.value)
     }
   } catch (e) {
-    errorMsg.value = e.message
+    // Mostrar error como notificación
+    const errorMessage = e.message === 'Invalid login credentials' 
+      ? 'Credenciales inválidas. Verifica tu email y contraseña.'
+      : e.message
+    showError(errorMessage, 'Error de autenticación')
   } finally {
     loading.value = false
   }
