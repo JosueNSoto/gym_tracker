@@ -9,29 +9,29 @@
     </div>
     
     <!-- Header: Nombre del ejercicio con altura fija -->
-    <div class="h-[32px] mb-1">
-      <p class="text-label leading-tight line-clamp-2" :class="{ 'font-bold text-[11px] text-mulled-wine-50': showMedal }">
+    <div class="h-[32px] sm:h-[36px] md:h-[40px]">
+      <p class="text-label sm:text-xs md:text-sm leading-tight line-clamp-2" :class="{ 'font-bold text-[11px] sm:text-xs md:text-sm text-mulled-wine-50': showMedal }">
         {{ name }}
       </p>
     </div>
     
-    <!-- Peso + kg (misma línea) -->
-    <div class="flex items-baseline gap-1">
-      <p class="text-xl font-black text-mulled-wine-50 leading-none" :class="{ 'text-2xl': !showMedal }">
-        {{ weight }}
-      </p>
-      <p class="text-[10px] text-mulled-wine-300 font-bold uppercase">
-        kg
+    <!-- Peso KG - 1RM (misma línea en md+, vertical en mobile) -->
+    <div class="flex flex-col md:flex-row md:items-baseline md:justify-between gap-0 md:gap-2 mb-1">
+      <div class="flex items-baseline gap-1">
+        <p class="text-xl sm:text-2xl md:text-3xl font-black text-mulled-wine-50 leading-none" :class="{ 'sm:text-3xl md:text-4xl': !showMedal }">
+          {{ weight }}
+        </p>
+        <p class="text-[10px] sm:text-xs md:text-sm text-mulled-wine-300 font-bold uppercase">
+          kg
+        </p>
+      </div>
+      <p class="text-[10px] sm:text-xs md:text-sm text-mulled-wine-300 font-bold uppercase">
+        1RM
       </p>
     </div>
     
-    <!-- 1RM (otra línea) -->
-    <p class="text-[10px] text-mulled-wine-300 font-bold uppercase">
-      1RM
-    </p>
-    
     <!-- Fecha -->
-    <p class="text-[10px] text-mulled-wine-300 mt-0">
+    <p class="text-[10px] sm:text-xs text-mulled-wine-300 mt-0">
       {{ date }}
     </p>
   </div>

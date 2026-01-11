@@ -67,7 +67,7 @@
       
       <!-- Loading State -->
       <div v-if="loading" class="flex justify-start sm:justify-between gap-4 overflow-x-auto">
-        <SkeletonActivityButton v-for="i in 5" :key="i" />
+        <SkeletonActivityButton v-for="i in 5" :key="i" class="flex-grow" />
       </div>
       
       <!-- Empty State -->
@@ -86,11 +86,12 @@
           @click="$router.push(`/workout-detail/${act.id}`)"
           class="card-container !p-2 !mb-0 flex flex-col items-center justify-center gap-1 min-w-[100px] flex-shrink-0 flex-grow sm:min-w-[110px] md:min-w-[120px] min-h-[120px] max-h-[120px] shadow-sm card-hover"
         >
-          <div class="w-10 h-10 bg-mulled-wine-500/20 rounded-full flex items-center justify-center font-bold text-mulled-wine-50 p-1">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-mulled-wine-500/20 rounded-full flex items-center justify-center font-bold text-mulled-wine-50 p-1">
             <MuscleIcon :muscle="act.muscle" />
           </div>
-          <span class="text-[10px] font-bold text-mulled-wine-300 uppercase truncate max-w-full px-1 text-center">{{ act.muscle }}</span>
-          <p class="text-[10px] text-mulled-wine-400 mt-0">{{ act.date }}</p>
+          <span class="text-[10px] sm:text-xs md:text-sm font-bold text-mulled-wine-300 uppercase truncate max-w-full px-1 text-center">{{ act.muscle }}</span>
+          <p class="text-[10px] sm:text-xs text-mulled-wine-400 mt-0">{{ act.date }}</p>
+          <p v-if="act.duration" class="hidden md:block text-[10px] md:text-xs text-mulled-wine-500 mt-0 font-medium">{{ act.duration }}</p>
         </button>
       </div>
     </section>
@@ -214,7 +215,7 @@ onMounted(async () => {
     // 2. Fetch Actividad Reciente
     const { data: recentWorkouts } = await supabase
       .from('workouts')
-      .select(`id, started_at, workout_sets ( exercises ( muscle_group ) )`)
+      .select(`id, started_at, ended_at, workout_sets ( exercises ( muscle_group ) )`)
       .eq('user_id', auth.user.id)
       .order('started_at', { ascending: false })
       .limit(10) // Traemos un poco más para filtrar locales
@@ -235,10 +236,28 @@ onMounted(async () => {
         const year = String(date.getFullYear()).slice(-2)
         const formattedDate = `${day}/${month}/${year}`
         
+        // Calcular duración si ended_at existe
+        let duration = null
+        if (w.ended_at) {
+          const start = new Date(w.started_at)
+          const end = new Date(w.ended_at)
+          const diffMs = end - start
+          const diffMins = Math.round(diffMs / 60000)
+          
+          if (diffMins >= 60) {
+            const hours = Math.floor(diffMins / 60)
+            const mins = diffMins % 60
+            duration = mins > 0 ? `${hours}h ${mins}m` : `${hours}h`
+          } else {
+            duration = `${diffMins}m`
+          }
+        }
+        
         return { 
           id: w.id, 
           muscle: mode || 'General',
-          date: formattedDate
+          date: formattedDate,
+          duration: duration
         }
       }) || []
 
