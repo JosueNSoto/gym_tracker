@@ -3,50 +3,56 @@
     <h1 class="heading-1">El límite lo pones tú. 🤠</h1>
 
     <!-- GitHub Style Heatmap -->
-    <section class="card-container overflow-x-auto custom-scrollbar">
+    <section class="card-container !p-3 sm:!p-4">
       <h2 class="heading-2">Consistencia</h2>
-      <div class="flex flex-col min-w-max">
-        
-        <!-- Month Labels (Positioned Absolute-ish) -->
-        <div class="flex relative h-4 mb-1 ml-8 text-[10px] text-mulled-wine-300">
-          <div 
-            v-for="(label, i) in monthLabels" 
-            :key="label.name + i" 
-            class="absolute top-0"
-            :style="{ left: `${label.index * 16}px` }"
-          >
-            {{ label.name }}
-          </div>
-        </div>
-
-        <div class="flex gap-1">
-          <!-- Day Labels -->
-          <div class="flex flex-col gap-1 text-[10px] text-mulled-wine-300 pr-2 pt-[2px]">
-            <span class="h-3"></span> <!-- Sun -->
-            <span class="h-3 leading-3">Lun</span>
-            <span class="h-3"></span> <!-- Tue -->
-            <span class="h-3 leading-3">Mie</span>
-            <span class="h-3"></span> <!-- Thu -->
-            <span class="h-3 leading-3">Vie</span>
-            <span class="h-3"></span> <!-- Sat -->
-          </div>
+      
+      <!-- Contenedor con scroll horizontal SOLO en móvil -->
+      <div class="overflow-x-auto sm:overflow-visible -mx-3 px-3 sm:mx-0 sm:px-0">
+        <div class="min-w-max sm:min-w-0 sm:w-full">
           
-          <!-- Calendar Grid -->
-          <div class="flex gap-1">
-            <div v-for="(week, wIndex) in heatmapData" :key="wIndex" class="flex flex-col gap-1 w-3">
-              <div 
-                v-for="(day, dIndex) in week" 
-                :key="dIndex" 
-                class="heatmap-cell relative group"
-                :class="{ 
-                  'heatmap-cell-active': day.active, 
-                  'bg-transparent': !day.isValid, 
-                  'bg-mulled-wine-500/40': day.isValid && !day.active
-                }"
-              >
-                <!-- Tooltip -->
-                <div v-if="day.isValid" class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 hidden group-hover:block bg-mulled-wine-700 border border-mulled-wine-500 text-mulled-wine-50 text-[10px] p-1 rounded whitespace-nowrap z-50 pointer-events-none">
-                  {{ formatDateMX(day.dateObj) }}
+          <!-- Month Labels -->
+          <div class="flex relative h-4 mb-1 ml-8 text-[10px] text-mulled-wine-300">
+            <div 
+              v-for="(label, i) in monthLabels" 
+              :key="label.name + i" 
+              class="absolute top-0"
+              :style="{ 
+                left: isDesktop ? `${label.leftPercent}%` : `${label.leftPx}px`
+              }"
+            >
+              {{ label.name }}
+            </div>
+          </div>
+
+          <div class="flex gap-1 sm:gap-2">
+            <!-- Day Labels -->
+            <div class="flex flex-col gap-1 text-[10px] text-mulled-wine-300 pt-[2px] flex-shrink-0">
+              <span class="h-3"></span> <!-- Sun -->
+              <span class="h-3 leading-3">Lun</span>
+              <span class="h-3"></span> <!-- Tue -->
+              <span class="h-3 leading-3">Mie</span>
+              <span class="h-3"></span> <!-- Thu -->
+              <span class="h-3 leading-3">Vie</span>
+              <span class="h-3"></span> <!-- Sat -->
+            </div>
+            
+            <!-- Calendar Grid - Flex en móvil, Grid en desktop -->
+            <div class="flex sm:grid gap-1 sm:gap-2 flex-1" :style="isDesktop ? `grid-template-columns: repeat(${heatmapData.length}, minmax(0, 1fr));` : ''">
+              <div v-for="(week, wIndex) in heatmapData" :key="wIndex" class="heatmap-week">
+                <div 
+                  v-for="(day, dIndex) in week" 
+                  :key="dIndex" 
+                  class="heatmap-cell relative group"
+                  :class="{ 
+                    'heatmap-cell-active': day.active, 
+                    'bg-transparent': !day.isValid, 
+                    'heatmap-cell-inactive': day.isValid && !day.active
+                  }"
+                >
+                  <!-- Tooltip -->
+                  <div v-if="day.isValid" class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 hidden group-hover:block bg-mulled-wine-700 border border-mulled-wine-500 text-mulled-wine-50 text-[10px] px-2 py-1 rounded whitespace-nowrap z-50 pointer-events-none shadow-lg">
+                    {{ formatDateMX(day.dateObj) }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -73,7 +79,7 @@
     <section class="mb-6">
       <div class="flex justify-between items-center mb-3">
         <h2 class="heading-2 !mb-0">Tus récords (Max carga)</h2>
-        <router-link to="/records" class="text-mulled-wine-400 hover:text-mulled-wine-50 text-sm font-bold transition-colors">Ver todos</router-link>
+        <router-link to="/records" class="text-link">Ver todos</router-link>
       </div>
       <div v-if="records.length === 0" class="text-sm text-mulled-wine-300">Registra entrenamientos para ver tus récords.</div>
       <div class="flex justify-between gap-4 overflow-x-auto snap-x">
@@ -91,19 +97,23 @@
     <section>
       <div class="flex justify-between items-center mb-3">
         <h2 class="heading-2 !mb-0">Tus rutinas</h2>
-        <router-link to="/routines" class="text-mulled-wine-400 hover:text-mulled-wine-50 text-sm font-bold transition-colors">Ver todas</router-link>
+        <router-link to="/routines" class="text-link">Ver todas</router-link>
       </div>
       
-      <div v-if="routines.length === 0" class="card-container p-8 text-center text-mulled-wine-300 border-dashed border-2">
-        <p class="text-sm">Aún no tienes rutinas creadas.</p>
-      </div>
+      <EmptyState 
+        v-if="routines.length === 0"
+        icon="📋"
+        title="Aún no tienes rutinas creadas."
+        description="¡Crea la primera abajo!"
+        container-class="py-8 border-dashed border-2"
+      />
 
       <div class="grid grid-cols-2 gap-3">
         <div 
           v-for="routine in routines" 
           :key="routine.id" 
           @click="$router.push(`/routines/${routine.id}`)"
-          class="card-container !p-3 !mb-0 flex flex-col gap-2 active:scale-95 transition-transform cursor-pointer hover:bg-mulled-wine-500"
+          class="card-container !p-3 !mb-0 flex flex-col gap-2 card-hover"
         >
           <div class="w-8 h-8 bg-mulled-wine-500 text-mulled-wine-50 rounded-lg flex items-center justify-center font-bold p-1 text-xl">
              <span v-if="routine.custom_icon">{{ routine.custom_icon }}</span>
@@ -125,9 +135,16 @@ import { supabase } from '../supabase'
 import { useAuthStore } from '../stores/auth'
 import MuscleIcon from '../components/MuscleIcon.vue'
 import RecordCard from '../components/RecordCard.vue'
+import EmptyState from '../components/EmptyState.vue'
 
 const auth = useAuthStore()
 const loading = ref(true)
+
+// Detectar si es desktop (para las etiquetas de meses)
+const isDesktop = ref(window.innerWidth >= 640)
+window.addEventListener('resize', () => {
+  isDesktop.value = window.innerWidth >= 640
+})
 
 // State
 const workoutDates = ref(new Set())
@@ -302,7 +319,11 @@ const monthLabels = computed(() => {
       if (day.isValid && day.dateObj.getDate() === 1) {
         labels.push({
           name: monthNames[day.dateObj.getMonth()],
-          index: index
+          index: index,
+          // Calcular posición en porcentaje para desktop
+          leftPercent: (index / heatmapData.value.length) * 100,
+          // Calcular posición en px para móvil
+          leftPx: index * 14
         })
         break 
       }
