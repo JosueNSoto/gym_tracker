@@ -3,7 +3,7 @@
     <!-- Icono Hamburguesa -->
     <button 
       @click="toggleMenu"
-      class="fixed top-4 right-4 z-[60] w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center text-gym-dark hover:bg-gray-50 transition-colors active:scale-95"
+      class="fixed top-4 right-4 z-[60] w-10 h-10 bg-app-surface rounded-full shadow-lg flex items-center justify-center text-platinum hover:bg-slate transition-colors active:scale-95"
       aria-label="Menú"
     >
       <svg 
@@ -40,13 +40,13 @@
     <Transition name="slide">
       <div 
         v-if="menuOpen"
-        class="fixed top-0 right-0 h-screen w-64 bg-white shadow-2xl z-[60] flex flex-col"
+        class="fixed top-0 right-0 h-screen w-64 bg-gunmetal shadow-2xl z-[60] flex flex-col border-l border-app-border"
         @click.stop
       >
         <!-- Header del menú -->
-        <div class="p-6 border-b border-gray-200">
-          <h3 class="font-bold text-lg text-gym-dark mb-1">Mi Cuenta</h3>
-          <p class="text-sm text-gym-muted truncate" v-if="auth.user">
+        <div class="p-6 border-b border-app-border">
+          <h3 class="font-bold text-lg text-platinum mb-1">Mi Cuenta</h3>
+          <p class="text-sm text-silver truncate" v-if="auth.user">
             {{ auth.user.email }}
           </p>
         </div>
@@ -57,7 +57,7 @@
             <!-- Perfil (preparado para futuro) -->
             <li>
               <button 
-                class="w-full text-left px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-3 text-gym-dark"
+                class="w-full text-left px-4 py-3 rounded-lg hover:bg-app-surface transition-colors flex items-center gap-3 text-silver"
                 disabled
                 title="Próximamente"
               >
@@ -71,7 +71,7 @@
             <!-- Configuración (preparado para futuro) -->
             <li>
               <button 
-                class="w-full text-left px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-3 text-gym-dark"
+                class="w-full text-left px-4 py-3 rounded-lg hover:bg-app-surface transition-colors flex items-center gap-3 text-silver"
                 disabled
                 title="Próximamente"
               >
@@ -86,10 +86,10 @@
         </nav>
 
         <!-- Separador y Logout -->
-        <div class="p-4 border-t border-gray-200">
+        <div class="p-4 border-t border-app-border">
           <button 
             @click="handleLogout"
-            class="w-full px-4 py-3 rounded-lg bg-red-50 hover:bg-red-500 transition-colors flex items-center gap-3 text-red-600 hover:text-white font-medium group"
+            class="w-full px-4 py-3 rounded-lg bg-notify-error/10 hover:bg-notify-error transition-colors flex items-center gap-3 text-notify-error hover:text-white font-medium"
           >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />

@@ -5,64 +5,73 @@
 @layer components {
   /* Contenedores Principales */
   .view-container {
-    @apply min-h-screen bg-gym-bg p-4 pb-24;
+    @apply min-h-screen bg-app-bg p-4 pb-24;
   }
 
   .card-container {
-    @apply bg-gym-card rounded-xl shadow-sm p-4 mb-4 border border-gray-100;
+    @apply bg-app-surface rounded-xl shadow-lg p-4 mb-4 border border-app-border;
   }
 
   /* Títulos y Textos */
   .heading-1 {
-    @apply text-2xl font-bold text-gym-dark mb-4;
+    @apply text-2xl font-bold text-app-text mb-4;
   }
 
   .heading-2 {
-    @apply text-lg font-semibold text-gym-dark mb-3;
+    @apply text-lg font-semibold text-app-text mb-3;
   }
 
   .text-label {
-    @apply text-[10px] font-medium text-gym-muted;
+    @apply text-[10px] font-medium text-app-text-muted;
   }
 
   /* Botones Reutilizables */
   .btn-primary {
-    @apply bg-gym-primary text-white px-4 py-2 rounded-lg font-semibold transition-all active:scale-95 flex items-center justify-center gap-2;
+    @apply bg-slate text-platinum px-4 py-2 rounded-lg font-semibold hover:bg-steel transition-all active:scale-95 flex items-center justify-center gap-2;
   }
 
   .btn-secondary {
-    @apply bg-white border-2 border-gym-primary text-gym-primary px-4 py-2 rounded-lg font-semibold transition-all active:scale-95;
+    @apply bg-transparent border-2 border-steel text-platinum px-4 py-2 rounded-lg font-semibold hover:bg-steel/20 transition-all active:scale-95;
   }
 
   .btn-accent {
-    @apply bg-gym-accent text-white px-4 py-2 rounded-lg font-semibold transition-all;
+    @apply bg-notify-warning text-white px-4 py-2 rounded-lg font-semibold hover:bg-notify-warning/80 transition-all;
   }
 
   /* Elementos de Lista y Rutinas */
   .routine-card {
-    @apply flex items-center p-3 bg-gray-50 rounded-lg mb-2 border border-gray-200 active:bg-gray-100;
+    @apply flex items-center p-3 bg-app-surface rounded-lg mb-2 border border-app-border active:bg-slate;
   }
 
   .muscle-tag {
-    @apply text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded bg-gym-primary/10 text-gym-primary;
+    @apply text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded bg-steel/30 text-platinum;
   }
 
   /* Inputs */
   .input-field {
-    @apply w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gym-primary focus:border-transparent outline-none;
+    @apply w-full p-2 border border-app-border bg-app-surface rounded-lg text-app-text placeholder-app-text-muted focus:ring-2 focus:ring-steel focus:border-transparent outline-none;
   }
 
   /* Heatmap (GitHub style) */
   .heatmap-cell {
-    @apply w-3 h-3 rounded-[2px] bg-gray-200;
+    @apply w-3 h-3 rounded-[2px] bg-app-surface;
   }
   .heatmap-cell-active {
-    @apply bg-gym-secondary;
+    @apply bg-notify-success;
   }
+}
+
+/* Variables CSS personalizadas (para uso en JavaScript si es necesario) */
+:root {
+  --color-platinum: hsl(210, 13%, 94%);
+  --color-silver: hsl(210, 3%, 77%);
+  --color-steel: hsl(210, 5%, 62%);
+  --color-slate: hsl(210, 11%, 47%);
+  --color-gunmetal: hsl(210, 7%, 22%);
 }
 
 /* Global Styles */
 body {
-  @apply text-gym-text antialiased;
+  @apply text-app-text antialiased bg-app-bg;
   font-family: 'Inter', sans-serif;
 }

@@ -15,7 +15,7 @@
 
     <!-- Lista de Rutinas -->
     <section>
-      <div v-if="routines.length === 0" class="text-center py-10 text-gym-muted">
+      <div v-if="routines.length === 0" class="text-center py-10 text-app-text-muted">
         <p>No tienes rutinas creadas.</p>
         <p class="text-sm mt-2">¡Crea la primera abajo!</p>
       </div>
@@ -26,24 +26,24 @@
           v-for="routine in routines" 
           :key="routine.id" 
           @click="openRoutine(routine.id)"
-          class="card-container !p-4 flex flex-col gap-3 active:scale-95 transition-transform cursor-pointer hover:border-gym-primary"
+          class="card-container !p-4 flex flex-col gap-3 active:scale-95 transition-transform cursor-pointer hover:bg-slate"
         >
           <!-- Icono basado en el músculo -->
-          <div class="w-8 h-8 bg-gym-primary text-white rounded-lg flex items-center justify-center font-bold p-1 text-xl">
+          <div class="w-8 h-8 bg-steel text-platinum rounded-lg flex items-center justify-center font-bold p-1 text-xl">
             <span v-if="routine.custom_icon">{{ routine.custom_icon }}</span>
             <MuscleIcon v-else :muscle="routine.muscle_focus?.[0]" />
           </div>
           
           <div class="flex items-start justify-between gap-1">
             <div class="flex-1 min-w-0">
-              <h3 class="font-bold text-gym-dark leading-tight truncate">{{ routine.name }}</h3>
-              <p class="text-xs text-gym-muted mt-1 truncate">{{ routine.muscle_focus?.join(', ') }}</p>
+              <h3 class="font-bold text-platinum leading-tight truncate">{{ routine.name }}</h3>
+              <p class="text-xs text-silver mt-1 truncate">{{ routine.muscle_focus?.join(', ') }}</p>
             </div>
 
             <!-- Botón de Opciones (3 puntitos) -->
             <button 
               @click.stop="openOptions(routine)"
-              class="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:bg-gray-100 hover:text-gym-dark transition-colors -mr-2 flex-shrink-0"
+              class="w-8 h-8 flex items-center justify-center rounded-full text-silver hover:bg-gunmetal hover:text-platinum transition-colors -mr-2 flex-shrink-0"
             >
               ⋮
             </button>
@@ -53,10 +53,10 @@
                           <!-- Botón Crear Nueva Rutina -->
                           <button 
                             @click="routines.length < 10 ? createNewRoutine() : null"
-                            class="card-container !p-4 flex flex-col gap-3 items-center justify-center bg-gray-50 border-dashed border-2 border-gray-300 active:bg-gray-100 min-h-[100px]"
+                            class="card-container !p-4 flex flex-col gap-3 items-center justify-center bg-gunmetal border-dashed border-2 border-app-border active:bg-slate min-h-[100px]"
                             :class="{ 'opacity-50 cursor-not-allowed grayscale': routines.length >= 10 }"
                           >
-                            <div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-gray-500">
+                            <div class="w-10 h-10 bg-app-surface rounded-full flex items-center justify-center text-silver">
                               <span class="text-2xl font-bold">{{ routines.length >= 10 ? '🔒' : '+' }}</span>
                             </div>
                             <span class="text-sm font-bold text-gray-500">
@@ -71,11 +71,11 @@
                           <div class="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-4"></div>
                           <h3 class="text-center font-bold text-gray-900 mb-2">Opciones: {{ selectedRoutine?.name }}</h3>
                           
-                          <button @click="startChangeIcon" class="w-full py-3 bg-gray-50 rounded-xl font-semibold text-gym-dark active:bg-gray-200">
+                          <button @click="startChangeIcon" class="w-full py-3 bg-gunmetal rounded-xl font-semibold text-platinum hover:bg-slate active:bg-steel transition-colors">
                             🎨 Cambiar Icono
                           </button>
-                  
-                          <button @click="startRename" class="w-full py-3 bg-gray-50 rounded-xl font-semibold text-gym-dark active:bg-gray-200">
+
+                          <button @click="startRename" class="w-full py-3 bg-gunmetal rounded-xl font-semibold text-platinum hover:bg-slate active:bg-steel transition-colors">
                             ✏️ Renombrar
                           </button>
                           

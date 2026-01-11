@@ -1,15 +1,15 @@
 <template>
   <div v-if="isOpen" class="fixed inset-0 bg-black/60 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4 backdrop-blur-sm transition-all" @click="$emit('close')">
-    <div class="bg-white w-full max-w-sm h-[60vh] sm:h-auto rounded-t-2xl sm:rounded-2xl flex flex-col shadow-2xl animate-slide-up" @click.stop>
+    <div class="bg-app-surface border border-app-border w-full max-w-sm h-[60vh] sm:h-auto rounded-t-2xl sm:rounded-2xl flex flex-col shadow-2xl animate-slide-up" @click.stop>
       
-      <div class="p-4 border-b flex justify-between items-center">
-        <h3 class="font-bold text-lg">Elige un Icono</h3>
-        <button @click="$emit('close')" class="text-gray-500 text-2xl">×</button>
+      <div class="p-4 border-b border-app-border flex justify-between items-center">
+        <h3 class="font-bold text-lg text-platinum">Elige un Icono</h3>
+        <button @click="$emit('close')" class="text-silver hover:text-platinum text-2xl transition-colors">×</button>
       </div>
 
       <div class="p-4 overflow-y-auto grid grid-cols-5 gap-4 text-2xl">
         <!-- Opción para quitar icono (volver al default) -->
-        <button @click="$emit('select', null)" class="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200" title="Restaurar por defecto">
+        <button @click="$emit('select', null)" class="flex items-center justify-center w-10 h-10 rounded-full bg-gunmetal hover:bg-steel transition-colors" title="Restaurar por defecto">
           🔄
         </button>
 

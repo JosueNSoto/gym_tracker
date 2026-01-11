@@ -2,7 +2,7 @@
   <div class="pb-32"> <!-- Padding extra para el botón flotante inferior -->
     <!-- Header Navegación -->
     <div class="flex items-center gap-4 mb-6">
-      <button @click="router.back()" class="p-2 -ml-2 text-gym-muted hover:text-gym-dark">
+      <button @click="router.back()" class="p-2 -ml-2 text-silver hover:text-platinum transition-colors">
         ← Volver
       </button>
       <h1 class="text-xl font-bold">{{ isNew ? 'Nueva Rutina' : 'Editar Rutina' }}</h1>
@@ -16,7 +16,7 @@
           <!-- Icon Trigger -->
           <button 
             @click="showEmojiPicker = true"
-            class="w-14 h-14 flex-shrink-0 bg-gym-primary text-white rounded-xl flex items-center justify-center text-2xl font-bold shadow-sm active:scale-95 transition-transform"
+            class="w-14 h-14 flex-shrink-0 bg-steel text-platinum rounded-xl flex items-center justify-center text-2xl font-bold shadow-sm active:scale-95 transition-transform"
           >
              <!-- Si hay custom_icon lo mostramos, si no, mostramos la inicial o el icono smart (aquí usaremos inicial como placeholder hasta guardar) -->
              <span v-if="routine.custom_icon">{{ routine.custom_icon }}</span>
@@ -34,7 +34,7 @@
     <section>
       <div class="flex justify-between items-end mb-3">
         <h2 class="heading-2 !mb-0">Ejercicios</h2>
-        <button @click="showExerciseSelector = true" class="text-sm font-bold text-gym-primary flex items-center gap-1">
+        <button @click="showExerciseSelector = true" class="text-sm font-bold text-steel hover:text-platinum flex items-center gap-1 transition-colors">
           + Agregar
         </button>
       </div>
@@ -46,11 +46,11 @@
             ×
           </button>
 
-          <h3 class="font-bold text-gym-dark mb-2">{{ exercise.name }}</h3>
-          
+          <h3 class="font-bold text-platinum mb-2">{{ exercise.name }}</h3>
+
           <div class="grid grid-cols-3 gap-3">
             <div>
-              <label class="text-[10px] text-gym-muted uppercase font-bold">Series</label>
+              <label class="text-[10px] text-app-text-muted uppercase font-bold">Series</label>
               <input 
                 v-model="exercise.target_sets" 
                 @input="validateInput($event, 2)"
@@ -59,7 +59,7 @@
               >
             </div>
             <div>
-              <label class="text-[10px] text-gym-muted uppercase font-bold">Reps Obj.</label>
+              <label class="text-[10px] text-app-text-muted uppercase font-bold">Reps Obj.</label>
               <input 
                 v-model="exercise.target_reps" 
                 @input="validateRepsStr($event)"
@@ -69,7 +69,7 @@
               >
             </div>
             <div>
-              <label class="text-[10px] text-gym-muted uppercase font-bold">Peso (kg)</label>
+              <label class="text-[10px] text-app-text-muted uppercase font-bold">Peso (kg)</label>
               <input 
                 v-model="exercise.target_weight" 
                 @input="validateInput($event, 3)"
@@ -83,14 +83,14 @@
       </div>
       
       <!-- Empty State -->
-      <div v-if="routine.exercises.length === 0" class="text-center p-8 border-2 border-dashed border-gray-200 rounded-xl bg-gray-50/50">
-        <p class="text-gym-muted text-sm">Añade ejercicios a esta rutina</p>
+      <div v-if="routine.exercises.length === 0" class="text-center p-8 border-2 border-dashed border-app-border rounded-xl bg-gunmetal/50">
+        <p class="text-app-text-muted text-sm">Añade ejercicios a esta rutina</p>
       </div>
     </section>
 
     <!-- Floating Save/Start Buttons -->
     <div class="fixed bottom-24 left-4 right-4 z-40 flex flex-col gap-2">
-      <button v-if="!isNew" @click="router.push(`/workout/${route.params.id}`)" class="btn-primary w-full py-4 shadow-xl text-lg bg-gym-secondary border-none">
+      <button v-if="!isNew" @click="router.push(`/workout/${route.params.id}`)" class="btn-primary w-full py-4 shadow-xl text-lg bg-notify-success border-none hover:bg-notify-success/80">
         ▶ Iniciar Entrenamiento
       </button>
       <button @click="saveRoutine" class="btn-primary w-full py-4 shadow-xl text-lg">

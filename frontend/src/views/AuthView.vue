@@ -1,39 +1,101 @@
 <template>
-  <div class="min-h-screen bg-gym-dark flex flex-col justify-center px-6 py-12 lg:px-8">
-    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-      <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-white">
-        {{ isLogin ? 'Inicia Sesión' : 'Crea tu cuenta' }}
-      </h2>
-      <p class="mt-2 text-center text-sm text-gray-400">
-        {{ isLogin ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?' }}
-        <button @click="isLogin = !isLogin" class="font-semibold text-gym-primary hover:text-blue-400 ml-1">
-          {{ isLogin ? 'Regístrate aquí' : 'Inicia sesión' }}
-        </button>
-      </p>
-    </div>
-
-    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-      <form class="space-y-6" @submit.prevent="handleAuth">
-        <div>
-          <label for="email" class="block text-sm font-medium leading-6 text-white">Email</label>
-          <div class="mt-2">
-            <input v-model="email" id="email" name="email" type="email" autocomplete="email" required class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-gym-primary sm:text-sm sm:leading-6 pl-3">
-          </div>
+  <div class="min-h-screen bg-gunmetal flex items-center justify-center p-4">
+    <div class="w-full max-w-md">
+      <!-- Logo -->
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-slate rounded-2xl mb-4 shadow-xl">
+          <span class="text-4xl">💪</span>
         </div>
+        <h1 class="text-4xl font-black text-platinum mb-2 tracking-tight">
+          Gym Tracker
+        </h1>
+        <p class="text-silver text-sm">
+          El límite lo pones tú
+        </p>
+      </div>
 
-        <div>
-          <label for="password" class="block text-sm font-medium leading-6 text-white">Contraseña</label>
-          <div class="mt-2">
-            <input v-model="password" id="password" name="password" type="password" autocomplete="current-password" required class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-gym-primary sm:text-sm sm:leading-6 pl-3">
-          </div>
-        </div>
-
-        <div>
-          <button type="submit" :disabled="loading" class="flex w-full justify-center rounded-md bg-gym-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gym-primary disabled:opacity-50">
-            {{ loading ? 'Cargando...' : (isLogin ? 'Entrar' : 'Registrarse') }}
+      <!-- Card de login -->
+      <div class="bg-app-surface border border-app-border rounded-2xl p-8 shadow-xl">
+        <!-- Tabs -->
+        <div class="flex gap-2 mb-6 p-1 bg-gunmetal rounded-xl">
+          <button 
+            @click="isLogin = true"
+            :class="isLogin ? 'bg-slate text-platinum shadow-md' : 'text-silver hover:text-platinum'"
+            class="flex-1 py-3 px-4 rounded-lg font-bold text-sm transition-all duration-300"
+          >
+            Iniciar Sesión
+          </button>
+          <button 
+            @click="isLogin = false"
+            :class="!isLogin ? 'bg-slate text-platinum shadow-md' : 'text-silver hover:text-platinum'"
+            class="flex-1 py-3 px-4 rounded-lg font-bold text-sm transition-all duration-300"
+          >
+            Registrarse
           </button>
         </div>
-      </form>
+
+        <!-- Formulario -->
+        <form @submit.prevent="handleAuth" class="space-y-5">
+          <!-- Email -->
+          <div>
+            <label for="email" class="block text-sm font-semibold text-platinum mb-2">
+              Email
+            </label>
+            <input 
+              v-model="email" 
+              id="email" 
+              type="email" 
+              required
+              autocomplete="email"
+              placeholder="tu@email.com"
+              class="input-field"
+            />
+          </div>
+
+          <!-- Contraseña -->
+          <div>
+            <label for="password" class="block text-sm font-semibold text-platinum mb-2">
+              Contraseña
+            </label>
+            <input 
+              v-model="password" 
+              id="password" 
+              type="password" 
+              required
+              autocomplete="current-password"
+              placeholder="••••••••"
+              class="input-field"
+            />
+          </div>
+
+          <!-- Botón Submit -->
+          <button 
+            type="submit" 
+            :disabled="loading"
+            class="w-full mt-2 py-3.5 bg-steel text-platinum rounded-xl font-bold text-base shadow-lg hover:bg-slate hover:shadow-xl active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+          >
+            <span v-if="!loading">{{ isLogin ? 'Entrar' : 'Crear cuenta' }}</span>
+            <span v-else class="flex items-center justify-center gap-2">
+              <svg class="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Cargando...
+            </span>
+          </button>
+        </form>
+
+        <!-- Toggle entre Login/Registro -->
+        <p class="mt-6 text-center text-sm text-silver">
+          {{ isLogin ? '¿Primera vez aquí?' : '¿Ya tienes cuenta?' }}
+          <button 
+            @click="isLogin = !isLogin" 
+            class="font-bold text-platinum hover:text-steel ml-1 transition-colors"
+          >
+            {{ isLogin ? 'Regístrate gratis' : 'Inicia sesión' }}
+          </button>
+        </p>
+      </div>
     </div>
   </div>
 </template>

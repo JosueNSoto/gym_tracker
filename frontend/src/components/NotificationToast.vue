@@ -4,7 +4,7 @@
       <div
         v-for="notification in notifications"
         :key="notification.id"
-        class="bg-white rounded-2xl shadow-2xl overflow-hidden pointer-events-auto animate-slide-in"
+        class="bg-app-surface border border-app-border rounded-2xl shadow-2xl overflow-hidden pointer-events-auto animate-slide-in"
         :class="getNotificationClass(notification.type)"
       >
         <!-- Contenido -->
@@ -19,10 +19,10 @@
 
           <!-- Texto -->
           <div class="flex-1 min-w-0">
-            <h4 class="font-bold text-sm text-gym-dark mb-0.5">
+            <h4 class="font-bold text-sm text-platinum mb-0.5">
               {{ notification.title }}
             </h4>
-            <p class="text-xs text-gym-muted leading-relaxed">
+            <p class="text-xs text-silver leading-relaxed">
               {{ notification.message }}
             </p>
           </div>
@@ -30,9 +30,9 @@
           <!-- Botón cerrar -->
           <button
             @click="removeNotification(notification.id)"
-            class="flex-shrink-0 w-6 h-6 rounded-full hover:bg-gray-100 transition-colors flex items-center justify-center active:scale-95"
+            class="flex-shrink-0 w-6 h-6 rounded-full hover:bg-gunmetal transition-colors flex items-center justify-center active:scale-95"
           >
-            <span class="text-gray-400 text-sm">✕</span>
+            <span class="text-silver text-sm">✕</span>
           </button>
         </div>
 
@@ -55,30 +55,30 @@ const { notifications, removeNotification } = useNotifications()
 
 const getNotificationClass = (type) => {
   const classes = {
-    success: 'border-l-4 border-green-500',
-    error: 'border-l-4 border-red-500',
-    warning: 'border-l-4 border-yellow-500',
-    info: 'border-l-4 border-blue-500'
+    success: 'border-l-4 border-notify-success',
+    error: 'border-l-4 border-notify-error',
+    warning: 'border-l-4 border-notify-warning',
+    info: 'border-l-4 border-steel'
   }
   return classes[type] || classes.info
 }
 
 const getIconBgClass = (type) => {
   const classes = {
-    success: 'bg-green-100',
-    error: 'bg-red-100',
-    warning: 'bg-yellow-100',
-    info: 'bg-blue-100'
+    success: 'bg-notify-success/20',
+    error: 'bg-notify-error/20',
+    warning: 'bg-notify-warning/20',
+    info: 'bg-steel/20'
   }
   return classes[type] || classes.info
 }
 
 const getProgressBarClass = (type) => {
   const classes = {
-    success: 'from-green-500 to-green-600',
-    error: 'from-red-500 to-red-600',
-    warning: 'from-yellow-500 to-yellow-600',
-    info: 'from-blue-500 to-blue-600'
+    success: 'from-notify-success to-notify-success/80',
+    error: 'from-notify-error to-notify-error/80',
+    warning: 'from-notify-warning to-notify-warning/80',
+    info: 'from-steel to-slate'
   }
   return classes[type] || classes.info
 }

@@ -4,18 +4,18 @@
     <header class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 p-4 z-40 flex justify-between items-center shadow-sm">
       <div class="flex items-center gap-4">
         <!-- Botón Regresar -->
-        <button @click="goBack" class="text-gym-primary hover:text-gym-secondary transition-colors active:scale-95">
+        <button @click="goBack" class="text-steel hover:text-platinum transition-colors active:scale-95">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
           </svg>
         </button>
         <!-- Cronómetro -->
         <div class="flex flex-col">
-          <span class="text-xs text-gym-muted font-bold uppercase">Tiempo</span>
-          <span class="font-mono text-xl font-bold text-gym-dark">{{ formattedTime }}</span>
+          <span class="text-xs text-app-text-muted font-bold uppercase">Tiempo</span>
+          <span class="font-mono text-xl font-bold text-platinum">{{ formattedTime }}</span>
         </div>
       </div>
-      <button @click="finishWorkout" class="btn-success bg-gym-secondary text-white px-6 py-2 rounded-lg font-bold shadow-md active:scale-95">
+      <button @click="finishWorkout" class="btn-success bg-notify-success text-white px-6 py-2 rounded-lg font-bold shadow-md active:scale-95 transition-colors">
         Finalizar
       </button>
     </header>
@@ -31,14 +31,14 @@
         <div v-for="(exercise, exIndex) in activeExercises" :key="exercise.id" class="card-container !p-0 overflow-hidden">
           
           <!-- Encabezado del Ejercicio -->
-          <div class="bg-gray-50 p-3 border-b border-gray-100 flex justify-between items-center">
-            <h3 class="font-bold text-gym-dark">{{ exercise.name }}</h3>
-            <button class="text-gym-primary text-sm font-bold">Opciones</button>
+          <div class="bg-gunmetal p-3 border-b border-app-border flex justify-between items-center">
+            <h3 class="font-bold text-platinum">{{ exercise.name }}</h3>
+            <button class="text-steel text-sm font-bold hover:text-platinum transition-colors">Opciones</button>
           </div>
 
           <!-- Tabla de Sets -->
           <div class="p-3">
-            <div class="grid grid-cols-10 gap-2 mb-2 text-[10px] text-gym-muted font-bold text-center uppercase tracking-wider">
+            <div class="grid grid-cols-10 gap-2 mb-2 text-[10px] text-app-text-muted font-bold text-center uppercase tracking-wider">
               <div class="col-span-1">Set</div>
               <div class="col-span-3">Previo</div>
               <div class="col-span-2">Kg</div>
@@ -58,8 +58,8 @@
               </div>
 
               <!-- Historial (Read Only) -->
-              <div class="col-span-3 text-center flex flex-col justify-center bg-gray-50 rounded py-1 border border-gray-100">
-                <span v-if="set.prevWeight" class="text-xs font-semibold text-gym-muted">
+              <div class="col-span-3 text-center flex flex-col justify-center bg-gunmetal rounded py-1 border border-app-border">
+                <span v-if="set.prevWeight" class="text-xs font-semibold text-silver">
                   {{ set.prevWeight }} <span class="text-[9px]">kg</span>
                 </span>
                 <span v-if="set.prevReps" class="text-[10px] text-gray-400">
@@ -74,7 +74,7 @@
                   type="number" 
                   v-model="set.weight" 
                   @input="validateInput($event, 3)"
-                  class="input-field text-center py-1 px-0 font-bold text-gym-dark" 
+                  class="input-field text-center py-1 px-0 font-bold text-platinum" 
                   placeholder="-"
                 >
               </div>
@@ -85,7 +85,7 @@
                   type="number" 
                   v-model="set.reps" 
                   @input="validateInput($event, 2)"
-                  class="input-field text-center py-1 px-0 font-bold text-gym-dark" 
+                  class="input-field text-center py-1 px-0 font-bold text-platinum" 
                   placeholder="-"
                 >
               </div>
@@ -95,7 +95,7 @@
                 <button 
                   @click="toggleSet(exercise.id, setIndex)"
                   class="w-8 h-8 rounded-lg flex items-center justify-center transition-all border-2"
-                  :class="set.completed ? 'bg-gym-secondary border-gym-secondary text-white' : 'bg-white border-gray-200 text-transparent'"
+                  :class="set.completed ? 'bg-notify-success border-notify-success text-white' : 'bg-gunmetal border-app-border text-transparent'"
                 >
                   ✓
                 </button>
@@ -103,7 +103,7 @@
             </div>
 
             <!-- Botón Agregar Set -->
-            <button @click="addSet(exIndex)" class="w-full py-2 bg-gray-50 text-gym-muted text-xs font-bold uppercase rounded hover:bg-gray-100 mt-2">
+            <button @click="addSet(exIndex)" class="w-full py-2 bg-gunmetal text-silver text-xs font-bold uppercase rounded hover:bg-slate mt-2 transition-colors">
               + Agregar Serie
             </button>
           </div>
