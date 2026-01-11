@@ -1,7 +1,7 @@
 <template>
   <div class="view-container">
     <!-- Menú Hamburguesa -->
-    <HamburgerMenu v-if="!isAuthRoute" />
+    <HamburgerMenu v-if="!isAuthRoute && !isWorkoutRoute" />
     
     <router-view />
     
@@ -37,6 +37,7 @@ import HamburgerMenu from './components/HamburgerMenu.vue'
 
 const route = useRoute()
 const isAuthRoute = computed(() => route.path === '/auth')
+const isWorkoutRoute = computed(() => route.path.startsWith('/workout'))
 </script>
 
 <style>
