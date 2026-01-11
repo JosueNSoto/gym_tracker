@@ -64,14 +64,26 @@
     <!-- Actividad Reciente -->
     <section class="mb-6">
       <h2 class="heading-2">Actividad Reciente</h2>
-      <div v-if="recentActivity.length === 0" class="text-sm text-mulled-wine-300">No hay actividad reciente.</div>
-      <div class="flex gap-3 overflow-x-auto">
-        <div v-for="(act, i) in recentActivity" :key="i" class="min-w-[80px] h-20 bg-mulled-wine-600 rounded-xl border border-mulled-wine-500 flex flex-col items-center justify-center shadow-sm">
+      
+      <EmptyState 
+        v-if="recentActivity.length === 0"
+        icon="💤"
+        description="No hay actividad reciente."
+        container-class="py-6"
+      />
+      
+      <div v-else class="flex gap-3 overflow-x-auto pb-2">
+        <button 
+          v-for="(act, i) in recentActivity" 
+          :key="i" 
+          @click="$router.push(`/workout-detail/${act.id}`)"
+          class="min-w-[80px] h-20 bg-mulled-wine-600 rounded-xl border border-mulled-wine-500 flex flex-col items-center justify-center shadow-sm card-hover"
+        >
           <div class="w-10 h-10 bg-mulled-wine-500/20 rounded-full flex items-center justify-center mb-1 font-bold text-mulled-wine-50 p-1">
             <MuscleIcon :muscle="act.muscle" />
           </div>
           <span class="text-[10px] font-bold text-mulled-wine-300 uppercase truncate max-w-full px-1">{{ act.muscle }}</span>
-        </div>
+        </button>
       </div>
     </section>
 
