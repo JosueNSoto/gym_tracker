@@ -6,10 +6,10 @@
     <section class="mb-6">
       <button 
         @click="router.push('/workout/free')"
-        class="w-full btn-secondary flex items-center justify-center gap-2 py-4 border-dashed"
+        class="w-full btn-secondary flex items-center justify-center gap-2 py-4 border-dashed border-2"
       >
-        <span class="text-xl">+</span>
-        <span>Entrenamiento Libre (Sin Rutina)</span>
+        <span class="text-xl">⚡</span>
+        <span class="font-bold">Iniciar Entrenamiento Libre</span>
       </button>
     </section>
 
