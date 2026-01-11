@@ -129,13 +129,21 @@ const closeMenu = () => {
 }
 
 const handleLogout = () => {
+  console.log('🔴 HamburgerMenu: handleLogout - Mostrando diálogo de confirmación')
   showConfirmDialog.value = true
 }
 
 const confirmLogout = async () => {
+  console.log('🔴 HamburgerMenu: confirmLogout - Usuario confirmó logout')
   showConfirmDialog.value = false
   closeMenu()
-  await auth.signOut()
+  console.log('🔴 HamburgerMenu: Llamando a auth.signOut()...')
+  try {
+    await auth.signOut()
+    console.log('✅ HamburgerMenu: auth.signOut() completado')
+  } catch (error) {
+    console.error('❌ HamburgerMenu: Error en signOut:', error)
+  }
 }
 
 // Prevenir scroll cuando el menú está abierto

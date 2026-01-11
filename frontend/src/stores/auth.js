@@ -37,8 +37,22 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   const signOut = async () => {
-    await supabase.auth.signOut()
-    router.push('/auth')
+    console.log('🔴 AuthStore: signOut - Iniciando cierre de sesión...')
+    console.log('🔴 AuthStore: Usuario actual:', user.value?.email)
+    try {
+      const { error } = await supabase.auth.signOut()
+      if (error) {
+        console.error('❌ AuthStore: Error en supabase.auth.signOut():', error)
+        throw error
+      }
+      console.log('✅ AuthStore: supabase.auth.signOut() exitoso')
+      console.log('🔴 AuthStore: Redirigiendo a /auth...')
+      router.push('/auth')
+      console.log('✅ AuthStore: Redirección completada')
+    } catch (error) {
+      console.error('❌ AuthStore: Error general en signOut:', error)
+      throw error
+    }
   }
 
   return { user, loading, initialize, signIn, signUp, signOut }
