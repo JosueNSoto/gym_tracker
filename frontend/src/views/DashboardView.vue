@@ -3,7 +3,7 @@
     <h1 class="heading-1">Hola, el límite lo pones tú. 🤠</h1>
 
     <!-- GitHub Style Heatmap -->
-    <section class="card-container overflow-x-auto">
+    <section class="card-container overflow-x-auto custom-scrollbar">
       <h2 class="heading-2">Consistencia</h2>
       <div class="flex flex-col min-w-max">
         
@@ -41,7 +41,7 @@
                 :class="{ 
                   'heatmap-cell-active': day.active, 
                   'bg-transparent': !day.isValid, 
-                  'bg-mulled-wine-600': day.isValid && !day.active
+                  'bg-mulled-wine-500/40': day.isValid && !day.active
                 }"
               >
                 <!-- Tooltip -->
@@ -74,7 +74,7 @@
       <h2 class="heading-2">Tus récords (Max carga)</h2>
       <div v-if="records.length === 0" class="text-sm text-mulled-wine-300">Registra entrenamientos para ver tus récords.</div>
       <div class="flex justify-between gap-4 overflow-x-auto pb-4 snap-x">
-        <div v-for="record in records" :key="record.name" class="w-full max-w-[150px] snap-center !mb-0">
+        <div v-for="record in records" :key="record.name" class="snap-center !mb-0 flex-shrink-0 w-[100px] sm:w-[110px] md:w-[120px]">
           <RecordCard 
             :name="record.name"
             :weight="record.weight"
