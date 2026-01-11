@@ -1,6 +1,6 @@
 <template>
   <div 
-    class="card-container !p-2 !mb-0 border-l-4 border-l-notify-warning flex flex-col gap-1 min-w-[100px] w-full sm:min-w-[110px] md:min-w-[120px]"
+    class="card-container !p-2 !mb-0 border-l-4 border-l-notify-warning flex flex-col gap-1 min-w-[100px] w-full flex-grow sm:min-w-[110px] md:min-w-[120px]"
     :class="{ 'min-h-[120px] max-h-[120px]': !showMedal, 'min-h-[120px]': showMedal }"
   >
     <!-- Icono/Medallita (opcional para vista de logros) - más pequeña -->

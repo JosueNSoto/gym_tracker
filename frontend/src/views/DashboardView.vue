@@ -66,7 +66,7 @@
       <h2 class="heading-2">Actividad Reciente</h2>
       
       <!-- Loading State -->
-      <div v-if="loading" class="flex gap-3 overflow-x-auto pb-2">
+      <div v-if="loading" class="flex justify-start sm:justify-between gap-4 overflow-x-auto">
         <SkeletonActivityButton v-for="i in 5" :key="i" />
       </div>
       
@@ -79,17 +79,18 @@
       />
       
       <!-- Data -->
-      <div v-else class="flex gap-3 overflow-x-auto pb-2">
+      <div v-else class="flex justify-start sm:justify-between gap-4 overflow-x-auto">
         <button 
           v-for="(act, i) in recentActivity" 
           :key="i" 
           @click="$router.push(`/workout-detail/${act.id}`)"
-          class="min-w-[80px] h-20 bg-mulled-wine-600 rounded-xl border border-mulled-wine-500 flex flex-col items-center justify-center shadow-sm card-hover"
+          class="card-container !p-2 !mb-0 flex flex-col items-center justify-center gap-1 min-w-[100px] flex-shrink-0 flex-grow sm:min-w-[110px] md:min-w-[120px] min-h-[120px] max-h-[120px] shadow-sm card-hover"
         >
-          <div class="w-10 h-10 bg-mulled-wine-500/20 rounded-full flex items-center justify-center mb-1 font-bold text-mulled-wine-50 p-1">
+          <div class="w-10 h-10 bg-mulled-wine-500/20 rounded-full flex items-center justify-center font-bold text-mulled-wine-50 p-1">
             <MuscleIcon :muscle="act.muscle" />
           </div>
-          <span class="text-[10px] font-bold text-mulled-wine-300 uppercase truncate max-w-full px-1">{{ act.muscle }}</span>
+          <span class="text-[10px] font-bold text-mulled-wine-300 uppercase truncate max-w-full px-1 text-center">{{ act.muscle }}</span>
+          <p class="text-[10px] text-mulled-wine-400 mt-0">{{ act.date }}</p>
         </button>
       </div>
     </section>
@@ -103,7 +104,7 @@
       
       <!-- Loading State -->
       <div v-if="loading" class="flex justify-between gap-4 overflow-x-auto snap-x">
-        <div v-for="i in 5" :key="i" class="snap-center flex-shrink-0 w-[100px] sm:w-[110px] md:w-[120px]">
+        <div v-for="i in 5" :key="i" class="snap-center flex-shrink-0 flex-grow w-[100px] sm:w-[110px] md:w-[120px]">
           <SkeletonRecordCard />
         </div>
       </div>
@@ -113,7 +114,7 @@
       
       <!-- Data -->
       <div v-else class="flex justify-between gap-4 overflow-x-auto snap-x">
-        <div v-for="record in records" :key="record.name" class="snap-center flex-shrink-0 w-[100px] sm:w-[110px] md:w-[120px]">
+        <div v-for="record in records" :key="record.name" class="snap-center flex-shrink-0 flex-grow w-[100px] sm:w-[110px] md:w-[120px]">
           <RecordCard 
             :name="record.name"
             :weight="record.weight"
@@ -226,7 +227,19 @@ onMounted(async () => {
         const mode = muscles.sort((a,b) =>
           muscles.filter(v => v===a).length - muscles.filter(v => v===b).length
         ).pop()
-        return { id: w.id, muscle: mode || 'General' }
+        
+        // Formatear fecha DD/MM/AA
+        const date = new Date(w.started_at)
+        const day = String(date.getDate()).padStart(2, '0')
+        const month = String(date.getMonth() + 1).padStart(2, '0')
+        const year = String(date.getFullYear()).slice(-2)
+        const formattedDate = `${day}/${month}/${year}`
+        
+        return { 
+          id: w.id, 
+          muscle: mode || 'General',
+          date: formattedDate
+        }
       }) || []
 
     // 3. Fetch Récords (Cálculo 1RM Estimado: Peso * (1 + 0.0333 * reps))

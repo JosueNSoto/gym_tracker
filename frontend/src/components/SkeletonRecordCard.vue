@@ -1,16 +1,19 @@
 <template>
-  <div class="flex flex-col items-center gap-2 p-3 bg-mulled-wine-600 rounded-xl border border-mulled-wine-500">
-    <!-- Medalla circular -->
-    <div class="w-12 h-12 skeleton-shimmer rounded-full"></div>
+  <div class="card-container !p-2 !mb-0 border-l-4 border-l-mulled-wine-500 flex flex-col gap-1 min-w-[100px] w-full flex-grow sm:min-w-[110px] md:min-w-[120px] min-h-[120px] max-h-[120px]">
+    <!-- Header: Nombre del ejercicio -->
+    <div class="h-[32px] mb-1">
+      <div class="skeleton-shimmer h-3 w-full rounded mb-1"></div>
+      <div class="skeleton-shimmer h-3 w-3/4 rounded"></div>
+    </div>
     
-    <!-- Nombre del ejercicio -->
-    <div class="skeleton-shimmer h-3 w-20 rounded"></div>
+    <!-- Peso + kg -->
+    <div class="skeleton-shimmer h-6 w-16 rounded mb-1"></div>
     
-    <!-- Peso -->
-    <div class="skeleton-shimmer h-5 w-16 rounded"></div>
+    <!-- 1RM -->
+    <div class="skeleton-shimmer h-3 w-8 rounded"></div>
     
     <!-- Fecha -->
-    <div class="skeleton-shimmer h-2 w-14 rounded"></div>
+    <div class="skeleton-shimmer h-3 w-14 rounded"></div>
   </div>
 </template>
 
