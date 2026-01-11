@@ -22,7 +22,7 @@
   }
 
   .text-label {
-    @apply text-sm font-medium text-gym-muted;
+    @apply text-[10px] font-medium text-gym-muted;
   }
 
   /* Botones Reutilizables */

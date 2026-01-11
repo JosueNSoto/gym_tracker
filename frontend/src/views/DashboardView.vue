@@ -73,13 +73,13 @@
     <section class="mb-6">
       <h2 class="heading-2">Tus récords (Max carga)</h2>
       <div v-if="records.length === 0" class="text-sm text-gym-muted">Registra entrenamientos para ver tus récords.</div>
-      <div class="flex gap-4 overflow-x-auto pb-4 snap-x">
-        <div v-for="record in records" :key="record.name" class="min-w-[160px] snap-center card-container !mb-0 border-l-4 border-l-gym-accent">
-          <p class="text-label truncate mb-2">{{ record.name }}</p>
-          <div class="flex items-end justify-between">
-            <p class="text-2xl font-black text-gym-dark">{{ record.weight }} <span class="text-xs font-normal">kg</span></p>
-            <p class="text-[10px] text-gym-muted">{{ record.date }}</p>
-          </div>
+      <div class="flex justify-between gap-4 overflow-x-auto pb-4 snap-x">
+        <div v-for="record in records" :key="record.name" class="w-full max-w-[150px] snap-center !mb-0">
+          <RecordCard 
+            :name="record.name"
+            :weight="record.weight"
+            :date="record.date"
+          />
         </div>
       </div>
     </section>
@@ -132,6 +132,7 @@ import { ref, onMounted, computed } from 'vue'
 import { supabase } from '../supabase'
 import { useAuthStore } from '../stores/auth'
 import MuscleIcon from '../components/MuscleIcon.vue'
+import RecordCard from '../components/RecordCard.vue'
 
 const auth = useAuthStore()
 const loading = ref(true)
@@ -189,6 +190,8 @@ onMounted(async () => {
     sets?.forEach(s => {
       if (!s.exercises) return
       const est1RM = Math.round(s.weight * (1 + 0.0333 * s.reps))
+      const createdAt = new Date(s.created_at).getTime()
+      
       if (!best1RM[s.exercises.name] || est1RM > best1RM[s.exercises.name].weight) {
         // Formatear fecha como DD/MM/AA
         const date = new Date(s.created_at)
@@ -199,14 +202,15 @@ onMounted(async () => {
         
         best1RM[s.exercises.name] = {
           weight: est1RM,
-          date: formattedDate
+          date: formattedDate,
+          timestamp: createdAt
         }
       }
     })
     
     records.value = Object.entries(best1RM)
-      .map(([name, data]) => ({ name, weight: data.weight, date: data.date }))
-      .sort((a, b) => b.weight - a.weight)
+      .map(([name, data]) => ({ name, weight: data.weight, date: data.date, timestamp: data.timestamp }))
+      .sort((a, b) => b.timestamp - a.timestamp) // Ordenar por fecha descendente (más nuevo primero)
       .slice(0, 5)
 
     // 4. Fetch Rutinas (Top 4 para el Dashboard)
