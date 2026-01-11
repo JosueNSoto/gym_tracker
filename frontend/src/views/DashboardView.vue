@@ -59,7 +59,7 @@
     <section class="mb-6">
       <h2 class="heading-2">Actividad Reciente</h2>
       <div v-if="recentActivity.length === 0" class="text-sm text-mulled-wine-300">No hay actividad reciente.</div>
-      <div class="flex gap-3 overflow-x-auto pb-2">
+      <div class="flex gap-3 overflow-x-auto">
         <div v-for="(act, i) in recentActivity" :key="i" class="min-w-[80px] h-20 bg-mulled-wine-600 rounded-xl border border-mulled-wine-500 flex flex-col items-center justify-center shadow-sm">
           <div class="w-10 h-10 bg-mulled-wine-500/20 rounded-full flex items-center justify-center mb-1 font-bold text-mulled-wine-50 p-1">
             <MuscleIcon :muscle="act.muscle" />
@@ -71,10 +71,13 @@
 
     <!-- Récords (Carrusel) -->
     <section class="mb-6">
-      <h2 class="heading-2">Tus récords (Max carga)</h2>
+      <div class="flex justify-between items-center mb-3">
+        <h2 class="heading-2 !mb-0">Tus récords (Max carga)</h2>
+        <router-link to="/records" class="text-mulled-wine-400 hover:text-mulled-wine-50 text-sm font-bold transition-colors">Ver todos</router-link>
+      </div>
       <div v-if="records.length === 0" class="text-sm text-mulled-wine-300">Registra entrenamientos para ver tus récords.</div>
-      <div class="flex justify-between gap-4 overflow-x-auto pb-4 snap-x">
-        <div v-for="record in records" :key="record.name" class="snap-center !mb-0 flex-shrink-0 w-[100px] sm:w-[110px] md:w-[120px]">
+      <div class="flex justify-between gap-4 overflow-x-auto snap-x">
+        <div v-for="record in records" :key="record.name" class="snap-center flex-shrink-0 w-[100px] sm:w-[110px] md:w-[120px]">
           <RecordCard 
             :name="record.name"
             :weight="record.weight"
@@ -82,17 +85,6 @@
           />
         </div>
       </div>
-    </section>
-
-    <!-- Botón Ejercicio Libre -->
-    <section class="mb-6">
-      <button 
-        @click="$router.push('/workout/free')"
-        class="w-full btn-secondary flex items-center justify-center gap-2 py-4 border-dashed border-2"
-      >
-        <span class="text-xl">⚡</span>
-        <span class="font-bold">Iniciar Entrenamiento Libre</span>
-      </button>
     </section>
 
     <!-- Rutinas -->
@@ -111,7 +103,7 @@
           v-for="routine in routines" 
           :key="routine.id" 
           @click="$router.push(`/routines/${routine.id}`)"
-          class="card-container !p-3 flex flex-col gap-2 active:scale-95 transition-transform cursor-pointer hover:bg-mulled-wine-500"
+          class="card-container !p-3 !mb-0 flex flex-col gap-2 active:scale-95 transition-transform cursor-pointer hover:bg-mulled-wine-500"
         >
           <div class="w-8 h-8 bg-mulled-wine-500 text-mulled-wine-50 rounded-lg flex items-center justify-center font-bold p-1 text-xl">
              <span v-if="routine.custom_icon">{{ routine.custom_icon }}</span>
