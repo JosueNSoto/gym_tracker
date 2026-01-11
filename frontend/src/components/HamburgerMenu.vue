@@ -3,7 +3,7 @@
     <!-- Icono Hamburguesa -->
     <button 
       @click="toggleMenu"
-      class="fixed top-4 right-4 z-50 w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center text-gym-dark hover:bg-gray-50 transition-colors active:scale-95"
+      class="fixed top-4 right-4 z-[60] w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center text-gym-dark hover:bg-gray-50 transition-colors active:scale-95"
       aria-label="Menú"
     >
       <svg 
@@ -31,7 +31,7 @@
       <div 
         v-if="menuOpen"
         @click="closeMenu"
-        class="fixed inset-0 bg-black/50 z-40"
+        class="fixed inset-0 bg-black/50 z-[55]"
         aria-hidden="true"
       ></div>
     </Transition>
@@ -40,7 +40,7 @@
     <Transition name="slide">
       <div 
         v-if="menuOpen"
-        class="fixed top-0 right-0 h-screen w-64 bg-white shadow-2xl z-40 flex flex-col"
+        class="fixed top-0 right-0 h-screen w-64 bg-white shadow-2xl z-[60] flex flex-col"
         @click.stop
       >
         <!-- Header del menú -->
@@ -89,7 +89,7 @@
         <div class="p-4 border-t border-gray-200">
           <button 
             @click="handleLogout"
-            class="w-full px-4 py-3 rounded-lg bg-red-50 hover:bg-red-100 transition-colors flex items-center gap-3 text-red-600 font-medium"
+            class="w-full px-4 py-3 rounded-lg bg-red-50 hover:bg-red-500 transition-colors flex items-center gap-3 text-red-600 hover:text-white font-medium group"
           >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
