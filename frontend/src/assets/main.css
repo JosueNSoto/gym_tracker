@@ -34,8 +34,12 @@
     @apply bg-transparent border-2 border-mulled-wine-500 text-mulled-wine-50 px-4 py-2 rounded-lg font-semibold hover:bg-mulled-wine-500/20 transition-all active:scale-95;
   }
 
+  .btn-success {
+    @apply bg-notify-success text-white px-6 py-2 rounded-lg font-bold shadow-md hover:bg-notify-success/80 transition-all active:scale-95;
+  }
+
   .btn-accent {
-    @apply bg-notify-warning text-white px-4 py-2 rounded-lg font-semibold hover:bg-notify-warning/80 transition-all;
+    @apply bg-notify-warning text-white px-4 py-2 rounded-lg font-semibold hover:bg-notify-warning/80 transition-all active:scale-95;
   }
 
   /* Elementos de Lista y Rutinas */
@@ -43,8 +47,21 @@
     @apply flex items-center p-3 bg-mulled-wine-600 rounded-lg mb-2 border border-mulled-wine-500 active:bg-mulled-wine-500;
   }
 
+  .card-hover {
+    @apply transition-all hover:bg-mulled-wine-500 active:scale-95 cursor-pointer;
+  }
+
   .muscle-tag {
     @apply text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded bg-mulled-wine-500/30 text-mulled-wine-100;
+  }
+
+  /* Utilidades de Texto con Hover */
+  .text-hover {
+    @apply transition-colors hover:text-mulled-wine-50;
+  }
+
+  .text-link {
+    @apply text-mulled-wine-400 hover:text-mulled-wine-50 text-sm font-bold transition-colors;
   }
 
   /* Inputs */
@@ -52,12 +69,53 @@
     @apply w-full p-2 border border-mulled-wine-500 bg-mulled-wine-600 rounded-lg text-mulled-wine-50 placeholder-mulled-wine-400 focus:ring-2 focus:ring-mulled-wine-400 focus:border-transparent outline-none;
   }
 
-  /* Heatmap (GitHub style) */
-  .heatmap-cell {
-    @apply w-3 h-3 rounded-[2px] bg-mulled-wine-600;
+  /* Heatmap (GitHub style) - Responsive Grid */
+  .heatmap-grid {
+    @apply grid;
+    gap: 4px;
+    grid-template-columns: repeat(auto-fit, minmax(12px, 1fr));
+    max-width: 100%;
   }
+
+  .heatmap-week {
+    @apply flex flex-col;
+    gap: 4px;
+    min-width: 12px;
+    width: 12px;
+  }
+
+  .heatmap-cell {
+    @apply h-3 w-3 rounded-[2px] transition-colors;
+    min-height: 12px;
+    min-width: 12px;
+  }
+
   .heatmap-cell-active {
-    @apply bg-notify-success;
+    @apply bg-gradient-to-br from-emerald-400 to-emerald-600 shadow-sm;
+  }
+
+  .heatmap-cell-inactive {
+    @apply bg-mulled-wine-500/30 hover:bg-mulled-wine-500/50;
+  }
+
+  /* En pantallas grandes, usar Grid responsivo */
+  @media (min-width: 640px) {
+    .heatmap-grid {
+      gap: 8px;
+    }
+    
+    .heatmap-week {
+      width: auto;
+      gap: 8px;
+    }
+    
+    .heatmap-cell {
+      aspect-ratio: 1 / 1;
+      width: auto;
+      height: auto;
+      min-height: 12px;
+      max-height: 16px;
+    }
   }
 
   /* Liquid Glass Blob Navigation */
@@ -220,4 +278,66 @@ body::-webkit-scrollbar-button,
 
 .btn-close {
   @apply w-8 h-8 flex items-center justify-center rounded-full bg-mulled-wine-700 text-mulled-wine-300 hover:bg-mulled-wine-500 hover:text-mulled-wine-50 transition-colors active:scale-95;
+}
+
+/* ============================================
+   Animaciones Globales Reutilizables
+   ============================================ */
+
+/* Slide Up - Para modales y action sheets */
+@keyframes slideUp {
+  from { 
+    transform: translateY(100%); 
+    opacity: 0;
+  }
+  to { 
+    transform: translateY(0); 
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Scale In - Para modales y diálogos */
+@keyframes scaleIn {
+  from { 
+    transform: scale(0.9); 
+    opacity: 0; 
+  }
+  to { 
+    transform: scale(1); 
+    opacity: 1; 
+  }
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Fade - Para overlays */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease;
+}
+
+/* Slide In from Right - Para notificaciones */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }

@@ -15,7 +15,7 @@
           <span class="font-mono text-xl font-bold text-mulled-wine-50">{{ formattedTime }}</span>
         </div>
       </div>
-      <button @click="finishWorkout" class="bg-notify-success text-white px-6 py-2 rounded-lg font-bold shadow-md active:scale-95 transition-colors hover:bg-notify-success/80">
+      <button @click="finishWorkout" class="btn-success">
         Finalizar
       </button>
     </header>
@@ -33,7 +33,7 @@
           <!-- Encabezado del Ejercicio -->
           <div class="bg-mulled-wine-700 p-3 border-b border-mulled-wine-500 flex justify-between items-center">
             <h3 class="font-bold text-mulled-wine-50">{{ exercise.name }}</h3>
-            <button class="text-mulled-wine-400 text-sm font-bold hover:text-mulled-wine-50 transition-colors">Opciones</button>
+            <button class="text-mulled-wine-400 text-sm font-bold text-hover">Opciones</button>
           </div>
 
           <!-- Tabla de Sets -->
@@ -103,7 +103,7 @@
             </div>
 
             <!-- Botón Agregar Set -->
-            <button @click="addSet(exIndex)" class="w-full py-2 bg-mulled-wine-700 text-mulled-wine-300 text-xs font-bold uppercase rounded hover:bg-mulled-wine-500 mt-2 transition-colors">
+            <button @click="addSet(exIndex)" class="w-full py-2 bg-mulled-wine-700 text-mulled-wine-300 text-xs font-bold uppercase rounded text-hover hover:bg-mulled-wine-500 mt-2 transition-colors">
               + Agregar Serie
             </button>
           </div>

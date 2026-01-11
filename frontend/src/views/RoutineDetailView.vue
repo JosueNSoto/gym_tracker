@@ -36,7 +36,7 @@
     <section>
       <div class="flex justify-between items-end mb-3">
         <h2 class="heading-2 !mb-0">Ejercicios</h2>
-        <button @click="showExerciseSelector = true" class="text-sm font-bold text-mulled-wine-400 hover:text-mulled-wine-50 flex items-center gap-1 transition-colors">
+        <button @click="showExerciseSelector = true" class="text-sm font-bold text-mulled-wine-400 text-hover flex items-center gap-1">
           + Agregar
         </button>
       </div>
@@ -44,7 +44,7 @@
       <div class="space-y-3">
         <div v-for="(exercise, index) in routine.exercises" :key="index" class="card-container relative group">
           <!-- Botón Eliminar (Visible o slide) -->
-          <button @click="removeExercise(index)" class="absolute top-2 right-2 text-mulled-wine-400 hover:text-notify-error p-1">
+          <button @click="removeExercise(index)" class="absolute top-2 right-2 text-mulled-wine-400 hover:text-notify-error p-1 text-hover">
             ×
           </button>
 
@@ -85,14 +85,17 @@
       </div>
       
       <!-- Empty State -->
-      <div v-if="routine.exercises.length === 0" class="text-center p-8 border-2 border-dashed border-mulled-wine-500 rounded-xl bg-mulled-wine-700/50">
-        <p class="text-mulled-wine-300 text-sm">Añade ejercicios a esta rutina</p>
-      </div>
+      <EmptyState
+        v-if="routine.exercises.length === 0"
+        icon="💪"
+        description="Añade ejercicios a esta rutina"
+        container-class="py-6 border-2 border-dashed"
+      />
     </section>
 
     <!-- Floating Save/Start Buttons -->
     <div class="fixed bottom-24 left-4 right-4 z-40 flex flex-col gap-2">
-      <button v-if="!isNew" @click="router.push(`/workout/${route.params.id}`)" class="btn-primary w-full py-4 shadow-xl text-lg bg-notify-success border-none hover:bg-notify-success/80">
+      <button v-if="!isNew" @click="router.push(`/workout/${route.params.id}`)" class="btn-success w-full py-4 shadow-xl text-lg border-none">
         ▶ Iniciar Entrenamiento
       </button>
       <button @click="saveRoutine" class="btn-primary w-full py-4 shadow-xl text-lg">
@@ -126,6 +129,7 @@ import { useNotifications } from '../stores/notifications'
 import ExerciseSelector from '../components/ExerciseSelector.vue'
 import EmojiPicker from '../components/EmojiPicker.vue'
 import MuscleIcon from '../components/MuscleIcon.vue'
+import EmptyState from '../components/EmptyState.vue'
 
 const route = useRoute()
 const router = useRouter()

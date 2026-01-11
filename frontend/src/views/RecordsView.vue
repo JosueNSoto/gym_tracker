@@ -6,11 +6,12 @@
       Cargando récords...
     </div>
 
-    <div v-else-if="groupedRecords.length === 0" class="card-container flex flex-col items-center justify-center py-10 text-mulled-wine-300 text-center gap-2">
-      <span class="text-4xl">🏆</span>
-      <p>Aún no tienes logros.</p>
-      <p class="text-sm">¡Entrena duro para ver tus récords aquí!</p>
-    </div>
+    <EmptyState
+      v-else-if="groupedRecords.length === 0"
+      icon="🏆"
+      title="Aún no tienes logros."
+      description="¡Entrena duro para ver tus récords aquí!"
+    />
 
     <div v-else class="space-y-6">
       <!-- Grupo por Año/Mes -->
@@ -42,6 +43,7 @@ import { ref, onMounted, computed } from 'vue'
 import { supabase } from '../supabase'
 import { useAuthStore } from '../stores/auth'
 import RecordCard from '../components/RecordCard.vue'
+import EmptyState from '../components/EmptyState.vue'
 
 const auth = useAuthStore()
 const loading = ref(true)

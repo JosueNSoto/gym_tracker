@@ -15,10 +15,13 @@
 
     <!-- Lista de Rutinas -->
     <section>
-      <div v-if="routines.length === 0" class="text-center py-10 text-mulled-wine-300">
-        <p>No tienes rutinas creadas.</p>
-        <p class="text-sm mt-2">¡Crea la primera abajo!</p>
-      </div>
+      <EmptyState
+        v-if="routines.length === 0"
+        icon="😕"
+        title="No tienes rutinas creadas."
+        description="¡Crea la primera abajo!"
+        container-class="py-8"
+      />
 
       <div class="grid grid-cols-2 gap-3">
         <!-- Tarjeta de Rutina -->
@@ -26,7 +29,7 @@
           v-for="routine in routines" 
           :key="routine.id" 
           @click="openRoutine(routine.id)"
-          class="card-container !p-4 flex flex-col gap-3 active:scale-95 transition-transform cursor-pointer hover:bg-mulled-wine-500"
+          class="card-container !p-4 flex flex-col gap-3 card-hover"
         >
           <!-- Icono basado en el músculo -->
           <div class="w-8 h-8 bg-mulled-wine-500 text-mulled-wine-50 rounded-lg flex items-center justify-center font-bold p-1 text-xl">
@@ -43,7 +46,7 @@
             <!-- Botón de Opciones (3 puntitos) -->
             <button 
               @click.stop="openOptions(routine)"
-              class="w-8 h-8 flex items-center justify-center rounded-full text-mulled-wine-300 hover:bg-mulled-wine-700 hover:text-mulled-wine-50 transition-colors -mr-2 flex-shrink-0"
+              class="w-8 h-8 flex items-center justify-center rounded-full text-mulled-wine-300 text-hover -mr-2 flex-shrink-0 hover:bg-mulled-wine-700"
             >
               ⋮
             </button>
@@ -115,18 +118,22 @@
       @select="saveNewIcon"
     />
 
+    <!-- Dialog de Confirmación para Eliminar -->
+    <ConfirmDialog
+      :is-open="showDeleteConfirm"
+      title="¿Eliminar rutina?"
+      :message="`¿Seguro que quieres borrar &quot;${selectedRoutine?.name}&quot;? Esta acción no se puede deshacer.`"
+      icon="🗑️"
+      confirm-text="Eliminar"
+      cancel-text="Cancelar"
+      :danger="true"
+      @confirm="confirmDelete"
+      @cancel="showDeleteConfirm = false"
+      @close="showDeleteConfirm = false"
+    />
+
   </div>
 </template>          
-
-<style scoped>
-.animate-slide-up {
-  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-@keyframes slideUp {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
-}
-</style>
 
 <script setup>
 import { ref, onMounted } from 'vue'
@@ -136,6 +143,8 @@ import { useAuthStore } from '../stores/auth'
 import { useNotifications } from '../stores/notifications'
 import MuscleIcon from '../components/MuscleIcon.vue'
 import EmojiPicker from '../components/EmojiPicker.vue'
+import ConfirmDialog from '../components/ConfirmDialog.vue'
+import EmptyState from '../components/EmptyState.vue'
 
 const router = useRouter()
 const auth = useAuthStore()
@@ -147,6 +156,7 @@ const loading = ref(true)
 const showActionSheet = ref(false)
 const showRenameModal = ref(false)
 const showEmojiPicker = ref(false)
+const showDeleteConfirm = ref(false)
 const selectedRoutine = ref(null)
 const newName = ref('')
 
@@ -212,9 +222,12 @@ const confirmRename = async () => {
   }
 }
 
-const deleteRoutine = async () => {
-  if (!confirm(`¿Seguro que quieres borrar "${selectedRoutine.value.name}"? Esta acción no se puede deshacer.`)) return
+const deleteRoutine = () => {
+  showActionSheet.value = false
+  showDeleteConfirm.value = true
+}
 
+const confirmDelete = async () => {
   try {
     const { error: err } = await supabase
       .from('routines')
@@ -226,7 +239,7 @@ const deleteRoutine = async () => {
     // Eliminar localmente
     routines.value = routines.value.filter(r => r.id !== selectedRoutine.value.id)
     success('Rutina eliminada correctamente')
-    showActionSheet.value = false
+    showDeleteConfirm.value = false
   } catch (e) {
     error('No se pudo eliminar: ' + e.message)
   }

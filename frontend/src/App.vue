@@ -111,17 +111,19 @@
 
         <!-- Lista de Rutinas -->
         <div class="flex-1 overflow-y-auto px-3 pb-4">
-          <div v-if="routines.length === 0" class="flex flex-col items-center justify-center h-40 text-mulled-wine-300">
-            <span class="text-2xl mb-2">😕</span>
-            <p class="text-sm">No tienes rutinas creadas.</p>
-          </div>
+          <EmptyState
+            v-if="routines.length === 0"
+            icon="😕"
+            description="No tienes rutinas creadas."
+            container-class="py-8 h-40"
+          />
 
-          <div class="space-y-2">
+          <div v-else class="space-y-2">
             <div 
               v-for="routine in routines" 
               :key="routine.id"
               @click="selectRoutine(routine.id)"
-              class="p-3 rounded-xl bg-mulled-wine-700 hover:bg-mulled-wine-500 active:bg-mulled-wine-400 cursor-pointer flex justify-between items-center group transition-all border border-mulled-wine-500 hover:border-mulled-wine-400"
+              class="p-3 rounded-xl bg-mulled-wine-700 card-hover flex justify-between items-center group border border-mulled-wine-500 hover:border-mulled-wine-400"
             >
               <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-lg bg-mulled-wine-600 flex items-center justify-center text-lg font-bold text-mulled-wine-300 group-hover:bg-mulled-wine-500 group-hover:text-mulled-wine-50 transition-all p-1">
@@ -154,6 +156,7 @@ import { useRoute, useRouter } from 'vue-router'
 import NotificationToast from './components/NotificationToast.vue'
 import HamburgerMenu from './components/HamburgerMenu.vue'
 import MuscleIcon from './components/MuscleIcon.vue'
+import EmptyState from './components/EmptyState.vue'
 import { supabase } from './supabase'
 import { useAuthStore } from './stores/auth'
 
@@ -309,18 +312,3 @@ const closeRoutineSelector = () => {
   showRoutineSelector.value = false
 }
 </script>
-
-<style>
-/* No scope as requested - using main.css */
-</style>
-
-<style scoped>
-.animate-slide-up {
-  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes slideUp {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
-}
-</style>

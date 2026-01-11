@@ -85,21 +85,6 @@ const getProgressBarClass = (type) => {
 </script>
 
 <style scoped>
-.animate-slide-in {
-  animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
 @keyframes shrink {
   from {
     width: 100%;

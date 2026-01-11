@@ -73,20 +73,3 @@ const handleCancel = () => {
   emit('close')
 }
 </script>
-
-<style scoped>
-.animate-scale-in {
-  animation: scaleIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes scaleIn {
-  from { 
-    transform: scale(0.9); 
-    opacity: 0; 
-  }
-  to { 
-    transform: scale(1); 
-    opacity: 1; 
-  }
-}
-</style>
