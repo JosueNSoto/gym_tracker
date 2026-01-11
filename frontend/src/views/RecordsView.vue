@@ -22,7 +22,7 @@
         </div>
         
         <!-- Grid de Medallitas -->
-        <div class="grid grid-cols-3 gap-3">
+        <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3">
           <RecordCard
             v-for="record in group.records" 
             :key="record.id"
