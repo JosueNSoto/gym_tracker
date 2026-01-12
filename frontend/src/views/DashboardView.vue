@@ -7,10 +7,10 @@
       <h2 class="heading-2">Consistencia</h2>
       
       <!-- Contenedor con scroll horizontal en móvil y tablet, visible en desktop -->
-      <div class="overflow-x-auto lg:overflow-visible -mx-3 px-3 lg:mx-0 lg:px-0">
-        <div class="min-w-max lg:min-w-0 lg:w-full">
+      <div class="overflow-x-auto min-[820px]:overflow-visible -mx-3 px-3 min-[820px]:mx-0 min-[820px]:px-0">
+        <div class="min-w-max min-[820px]:min-w-0 min-[820px]:w-full">
           
-          <div class="flex gap-1 lg:gap-2">
+          <div class="flex gap-1 min-[820px]:gap-2">
             <!-- Day Labels (con espacio arriba para month labels) -->
             <div class="flex flex-col flex-shrink-0 w-6">
               <!-- Espacio para alinear con month labels -->
@@ -30,7 +30,7 @@
             <!-- Calendar con Month Labels integradas -->
             <div class="flex-1 flex flex-col">
               <!-- Month Labels - DENTRO del mismo contenedor -->
-              <div class="flex h-4 mb-1 text-[10px] text-mulled-wine-300 gap-1 lg:gap-2">
+              <div class="flex h-4 mb-1 text-[10px] text-mulled-wine-300 gap-1 min-[820px]:gap-0.5 lg:gap-2">
                 <div 
                   v-for="(week, wIndex) in heatmapData" 
                   :key="'month-' + wIndex"
@@ -43,7 +43,7 @@
               </div>
               
               <!-- Calendar Grid - Flex en móvil/tablet, Grid en desktop (>=1024px) -->
-              <div class="flex lg:grid gap-1 lg:gap-2" :style="isDesktop ? `grid-template-columns: repeat(${heatmapData.length}, minmax(0, 1fr));` : ''">
+              <div class="flex min-[820px]:grid gap-1 min-[820px]:gap-0.5 lg:gap-2" :style="isDesktop ? `grid-template-columns: repeat(${heatmapData.length}, minmax(0, 1fr));` : ''">
                 <div v-for="(week, wIndex) in heatmapData" :key="wIndex" class="heatmap-week">
                   <div 
                     v-for="(day, dIndex) in week" 
@@ -189,10 +189,10 @@ import SkeletonRoutineCard from '../components/SkeletonRoutineCard.vue'
 const auth = useAuthStore()
 const loading = ref(true)
 
-// Detectar si es desktop (>= 1024px, breakpoint lg de Tailwind)
-const isDesktop = ref(window.innerWidth >= 1024)
+// Detectar si es desktop (>= 820px, iPad Air breakpoint)
+const isDesktop = ref(window.innerWidth >= 820)
 window.addEventListener('resize', () => {
-  isDesktop.value = window.innerWidth >= 1024
+  isDesktop.value = window.innerWidth >= 820
 })
 
 // State

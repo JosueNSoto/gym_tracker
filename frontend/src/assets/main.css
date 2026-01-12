@@ -104,8 +104,8 @@
     @apply bg-mulled-wine-500/30 hover:bg-mulled-wine-500/50;
   }
 
-  /* En pantallas grandes (>= 1024px), usar Grid responsivo */
-  @media (min-width: 1024px) {
+  /* En pantallas grandes (>= 820px), usar Grid responsivo */
+  @media (min-width: 820px) {
     .heatmap-grid {
       gap: 8px;
     }
