@@ -1,13 +1,15 @@
 <template>
   <div v-if="isOpen" class="fixed inset-0 bg-black/60 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4 backdrop-blur-sm transition-all" @click="$emit('close')">
-    <div class="bg-mulled-wine-600 border border-mulled-wine-500 w-full max-w-sm h-[60vh] sm:h-auto rounded-t-2xl sm:rounded-2xl flex flex-col shadow-2xl animate-slide-up" @click.stop>
+    <div class="bg-mulled-wine-600 border border-mulled-wine-500 w-full max-w-sm rounded-t-2xl sm:rounded-2xl flex flex-col shadow-2xl animate-slide-up p-4" @click.stop>
       
-      <div class="p-4 border-b border-mulled-wine-500 flex justify-between items-center">
-        <h3 class="font-bold text-lg text-mulled-wine-50">Elige un Icono</h3>
-        <button @click="$emit('close')" class="text-mulled-wine-300 hover:text-mulled-wine-50 text-2xl transition-colors">×</button>
-      </div>
+      <!-- Handle visual (solo en móvil) -->
+      <div class="w-12 h-1 bg-mulled-wine-500 rounded-full mx-auto mb-4 sm:hidden"></div>
 
-      <div class="p-4 overflow-y-auto grid grid-cols-5 gap-4 text-2xl">
+      <!-- Header -->
+      <h3 class="text-center font-bold text-lg text-mulled-wine-50 mb-3">Elige un Icono</h3>
+
+      <!-- Grid de emojis con scroll -->
+      <div class="max-h-[50vh] overflow-y-auto grid grid-cols-5 gap-4 text-2xl mb-3">
         <!-- Opción para quitar icono (volver al default) -->
         <button @click="$emit('select', null)" class="flex items-center justify-center w-10 h-10 rounded-full bg-mulled-wine-700 hover:bg-mulled-wine-500 transition-colors" title="Restaurar por defecto">
           🔄
@@ -22,6 +24,11 @@
           {{ emoji }}
         </button>
       </div>
+
+      <!-- Botón Cancelar -->
+      <button @click="$emit('close')" class="w-full btn-cancel">
+        Cancelar
+      </button>
     </div>
   </div>
 </template>

@@ -94,23 +94,16 @@
 
     <!-- Modal: Selector de Rutinas -->
     <div v-if="showRoutineSelector" class="fixed inset-0 bg-black/60 z-[60] flex items-end justify-center p-0 backdrop-blur-sm transition-all" @click="closeRoutineSelector">
-      <div class="bg-mulled-wine-600 w-full max-w-md h-[70vh] sm:h-[500px] rounded-t-2xl flex flex-col shadow-2xl animate-slide-up" @click.stop>
+      <div class="bg-mulled-wine-600 w-full max-w-md rounded-t-2xl flex flex-col shadow-2xl animate-slide-up p-4" @click.stop>
         
         <!-- Handle visual -->
-        <div class="w-12 h-1 bg-mulled-wine-500 rounded-full mx-auto mt-4 mb-3"></div>
+        <div class="w-12 h-1 bg-mulled-wine-500 rounded-full mx-auto mb-4"></div>
         
         <!-- Header -->
-        <div class="px-4 pb-3 flex justify-between items-center">
-          <h3 class="font-bold text-lg text-mulled-wine-50">Seleccionar Rutina</h3>
-          <button @click="closeRoutineSelector" class="btn-close">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
+        <h3 class="text-center font-bold text-lg text-mulled-wine-50 mb-3">Seleccionar Rutina</h3>
 
-        <!-- Lista de Rutinas -->
-        <div class="flex-1 overflow-y-auto px-3 pb-4">
+        <!-- Lista de Rutinas (con altura máxima y scroll) -->
+        <div class="max-h-[60vh] overflow-y-auto -mx-1 px-1 mb-2">
           <EmptyState
             v-if="routines.length === 0"
             icon="😕"
@@ -144,6 +137,11 @@
             </div>
           </div>
         </div>
+
+        <!-- Botón Cancelar -->
+        <button @click="closeRoutineSelector" class="w-full btn-cancel mt-2">
+          Cancelar
+        </button>
 
       </div>
     </div>
@@ -285,7 +283,9 @@ onMounted(() => {
 })
 
 // Funciones del menú
-const openWorkoutMenu = () => {
+const openWorkoutMenu = async () => {
+  // Recargar rutinas cada vez que se abre el menú para asegurar sincronización
+  await loadRoutines()
   showWorkoutMenu.value = true
 }
 
