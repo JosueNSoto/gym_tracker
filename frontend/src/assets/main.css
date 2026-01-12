@@ -107,12 +107,12 @@
   /* En pantallas grandes (>= 820px), usar Grid responsivo */
   @media (min-width: 820px) {
     .heatmap-grid {
-      gap: 8px;
+      gap: 4px;
     }
     
     .heatmap-week {
       width: auto;
-      gap: 8px;
+      gap: 4px;
     }
     
     .heatmap-week-label {
@@ -122,11 +122,15 @@
     }
     
     .heatmap-cell {
-      aspect-ratio: 1 / 1;
-      width: auto;
-      height: auto;
-      min-height: 12px;
-      max-height: 16px;
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .heatmap-cell {
+      width: 16px;
+      height: 16px;
     }
   }
 

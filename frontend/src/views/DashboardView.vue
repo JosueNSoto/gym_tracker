@@ -7,7 +7,7 @@
       <h2 class="heading-2">Consistencia</h2>
       
       <!-- Contenedor con scroll horizontal en móvil y tablet, visible en desktop -->
-      <div class="overflow-x-auto min-[820px]:overflow-visible -mx-3 px-3 min-[820px]:mx-0 min-[820px]:px-0">
+      <div class="overflow-x-auto lg:overflow-visible -mx-3 px-3 min-[820px]:mx-0 min-[820px]:px-0">
         <div class="min-w-max min-[820px]:min-w-0 min-[820px]:w-full">
           
           <div class="flex gap-1 min-[820px]:gap-2">
@@ -17,20 +17,20 @@
               <div class="h-4 mb-1"></div>
               <!-- Day labels -->
               <div class="flex flex-col gap-1 text-[10px] text-mulled-wine-300 pt-[2px]">
-                <span class="h-3"></span> <!-- Sun -->
-                <span class="h-3 leading-3">Lun</span>
-                <span class="h-3"></span> <!-- Tue -->
-                <span class="h-3 leading-3">Mie</span>
-                <span class="h-3"></span> <!-- Thu -->
-                <span class="h-3 leading-3">Vie</span>
-                <span class="h-3"></span> <!-- Sat -->
+                <span class="h-3 min-[820px]:h-[14px] lg:h-4"></span> <!-- Sun -->
+                <span class="h-3 min-[820px]:h-[14px] lg:h-4 leading-3 min-[820px]:leading-[14px] lg:leading-4">Lun</span>
+                <span class="h-3 min-[820px]:h-[14px] lg:h-4"></span> <!-- Tue -->
+                <span class="h-3 min-[820px]:h-[14px] lg:h-4 leading-3 min-[820px]:leading-[14px] lg:leading-4">Mie</span>
+                <span class="h-3 min-[820px]:h-[14px] lg:h-4"></span> <!-- Thu -->
+                <span class="h-3 min-[820px]:h-[14px] lg:h-4 leading-3 min-[820px]:leading-[14px] lg:leading-4">Vie</span>
+                <span class="h-3 min-[820px]:h-[14px] lg:h-4"></span> <!-- Sat -->
               </div>
             </div>
             
             <!-- Calendar con Month Labels integradas -->
             <div class="flex-1 flex flex-col">
               <!-- Month Labels - DENTRO del mismo contenedor -->
-              <div class="flex h-4 mb-1 text-[10px] text-mulled-wine-300 gap-1 min-[820px]:gap-0.5 lg:gap-2">
+              <div class="flex h-4 mb-1 text-[10px] text-mulled-wine-300 gap-1">
                 <div 
                   v-for="(week, wIndex) in heatmapData" 
                   :key="'month-' + wIndex"
@@ -43,7 +43,7 @@
               </div>
               
               <!-- Calendar Grid - Flex en móvil/tablet, Grid en desktop (>=1024px) -->
-              <div class="flex min-[820px]:grid gap-1 min-[820px]:gap-0.5 lg:gap-2" :style="isDesktop ? `grid-template-columns: repeat(${heatmapData.length}, minmax(0, 1fr));` : ''">
+              <div class="flex min-[820px]:grid gap-1" :style="isDesktop ? `grid-template-columns: repeat(${heatmapData.length}, minmax(14px, 1fr));` : ''">
                 <div v-for="(week, wIndex) in heatmapData" :key="wIndex" class="heatmap-week">
                   <div 
                     v-for="(day, dIndex) in week" 
