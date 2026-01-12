@@ -3,55 +3,62 @@
     <h1 class="heading-1">El límite lo pones tú. 🤠</h1>
 
     <!-- GitHub Style Heatmap -->
-    <section class="card-container !p-3 sm:!p-4">
+    <section class="card-container !p-3 lg:!p-4">
       <h2 class="heading-2">Consistencia</h2>
       
-      <!-- Contenedor con scroll horizontal SOLO en móvil -->
-      <div class="overflow-x-auto sm:overflow-visible -mx-3 px-3 sm:mx-0 sm:px-0">
-        <div class="min-w-max sm:min-w-0 sm:w-full">
+      <!-- Contenedor con scroll horizontal en móvil y tablet, visible en desktop -->
+      <div class="overflow-x-auto lg:overflow-visible -mx-3 px-3 lg:mx-0 lg:px-0">
+        <div class="min-w-max lg:min-w-0 lg:w-full">
           
-          <!-- Month Labels -->
-          <div class="flex relative h-4 mb-1 ml-8 text-[10px] text-mulled-wine-300">
-            <div 
-              v-for="(label, i) in monthLabels" 
-              :key="label.name + i" 
-              class="absolute top-0"
-              :style="{ 
-                left: isDesktop ? `${label.leftPercent}%` : `${label.leftPx}px`
-              }"
-            >
-              {{ label.name }}
-            </div>
-          </div>
-
-          <div class="flex gap-1 sm:gap-2">
-            <!-- Day Labels -->
-            <div class="flex flex-col gap-1 text-[10px] text-mulled-wine-300 pt-[2px] flex-shrink-0">
-              <span class="h-3"></span> <!-- Sun -->
-              <span class="h-3 leading-3">Lun</span>
-              <span class="h-3"></span> <!-- Tue -->
-              <span class="h-3 leading-3">Mie</span>
-              <span class="h-3"></span> <!-- Thu -->
-              <span class="h-3 leading-3">Vie</span>
-              <span class="h-3"></span> <!-- Sat -->
+          <div class="flex gap-1 lg:gap-2">
+            <!-- Day Labels (con espacio arriba para month labels) -->
+            <div class="flex flex-col flex-shrink-0 w-6">
+              <!-- Espacio para alinear con month labels -->
+              <div class="h-4 mb-1"></div>
+              <!-- Day labels -->
+              <div class="flex flex-col gap-1 text-[10px] text-mulled-wine-300 pt-[2px]">
+                <span class="h-3"></span> <!-- Sun -->
+                <span class="h-3 leading-3">Lun</span>
+                <span class="h-3"></span> <!-- Tue -->
+                <span class="h-3 leading-3">Mie</span>
+                <span class="h-3"></span> <!-- Thu -->
+                <span class="h-3 leading-3">Vie</span>
+                <span class="h-3"></span> <!-- Sat -->
+              </div>
             </div>
             
-            <!-- Calendar Grid - Flex en móvil, Grid en desktop -->
-            <div class="flex sm:grid gap-1 sm:gap-2 flex-1" :style="isDesktop ? `grid-template-columns: repeat(${heatmapData.length}, minmax(0, 1fr));` : ''">
-              <div v-for="(week, wIndex) in heatmapData" :key="wIndex" class="heatmap-week">
+            <!-- Calendar con Month Labels integradas -->
+            <div class="flex-1 flex flex-col">
+              <!-- Month Labels - DENTRO del mismo contenedor -->
+              <div class="flex h-4 mb-1 text-[10px] text-mulled-wine-300 gap-1 lg:gap-2">
                 <div 
-                  v-for="(day, dIndex) in week" 
-                  :key="dIndex" 
-                  class="heatmap-cell relative group"
-                  :class="{ 
-                    'heatmap-cell-active': day.active, 
-                    'bg-transparent': !day.isValid, 
-                    'heatmap-cell-inactive': day.isValid && !day.active
-                  }"
+                  v-for="(week, wIndex) in heatmapData" 
+                  :key="'month-' + wIndex"
+                  class="heatmap-week-label"
                 >
-                  <!-- Tooltip -->
-                  <div v-if="day.isValid" class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 hidden group-hover:block bg-mulled-wine-700 border border-mulled-wine-500 text-mulled-wine-50 text-[10px] px-2 py-1 rounded whitespace-nowrap z-50 pointer-events-none shadow-lg">
-                    {{ formatDateMX(day.dateObj) }}
+                  <span v-if="getMonthLabel(week)" class="whitespace-nowrap">
+                    {{ getMonthLabel(week) }}
+                  </span>
+                </div>
+              </div>
+              
+              <!-- Calendar Grid - Flex en móvil/tablet, Grid en desktop (>=1024px) -->
+              <div class="flex lg:grid gap-1 lg:gap-2" :style="isDesktop ? `grid-template-columns: repeat(${heatmapData.length}, minmax(0, 1fr));` : ''">
+                <div v-for="(week, wIndex) in heatmapData" :key="wIndex" class="heatmap-week">
+                  <div 
+                    v-for="(day, dIndex) in week" 
+                    :key="dIndex" 
+                    class="heatmap-cell relative group"
+                    :class="{ 
+                      'heatmap-cell-active': day.active, 
+                      'bg-transparent': !day.isValid, 
+                      'heatmap-cell-inactive': day.isValid && !day.active
+                    }"
+                  >
+                    <!-- Tooltip -->
+                    <div v-if="day.isValid" class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 hidden group-hover:block bg-mulled-wine-700 border border-mulled-wine-500 text-mulled-wine-50 text-[10px] px-2 py-1 rounded whitespace-nowrap z-50 pointer-events-none shadow-lg">
+                      {{ formatDateMX(day.dateObj) }}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -182,10 +189,10 @@ import SkeletonRoutineCard from '../components/SkeletonRoutineCard.vue'
 const auth = useAuthStore()
 const loading = ref(true)
 
-// Detectar si es desktop (para las etiquetas de meses)
-const isDesktop = ref(window.innerWidth >= 640)
+// Detectar si es desktop (>= 1024px, breakpoint lg de Tailwind)
+const isDesktop = ref(window.innerWidth >= 1024)
 window.addEventListener('resize', () => {
-  isDesktop.value = window.innerWidth >= 640
+  isDesktop.value = window.innerWidth >= 1024
 })
 
 // State
@@ -381,26 +388,15 @@ const heatmapData = computed(() => {
   return weeks
 })
 
-const monthLabels = computed(() => {
-  const labels = []
+// Helper para obtener la etiqueta del mes si la semana contiene el día 1
+const getMonthLabel = (week) => {
   const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
   
-  heatmapData.value.forEach((week, index) => {
-    // Buscamos si el día 1 de algún mes está en esta semana
-    for (const day of week) {
-      if (day.isValid && day.dateObj.getDate() === 1) {
-        labels.push({
-          name: monthNames[day.dateObj.getMonth()],
-          index: index,
-          // Calcular posición en porcentaje para desktop
-          leftPercent: (index / heatmapData.value.length) * 100,
-          // Calcular posición en px para móvil
-          leftPx: index * 14
-        })
-        break 
-      }
+  for (const day of week) {
+    if (day.isValid && day.dateObj.getDate() === 1) {
+      return monthNames[day.dateObj.getMonth()]
     }
-  })
-  return labels
-})
+  }
+  return null
+}
 </script>

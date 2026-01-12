@@ -84,6 +84,12 @@
     width: 12px;
   }
 
+  .heatmap-week-label {
+    min-width: 12px;
+    width: 12px;
+    flex-shrink: 0;
+  }
+
   .heatmap-cell {
     @apply h-3 w-3 rounded-[2px] transition-colors;
     min-height: 12px;
@@ -98,8 +104,8 @@
     @apply bg-mulled-wine-500/30 hover:bg-mulled-wine-500/50;
   }
 
-  /* En pantallas grandes, usar Grid responsivo */
-  @media (min-width: 640px) {
+  /* En pantallas grandes (>= 1024px), usar Grid responsivo */
+  @media (min-width: 1024px) {
     .heatmap-grid {
       gap: 8px;
     }
@@ -107,6 +113,12 @@
     .heatmap-week {
       width: auto;
       gap: 8px;
+    }
+    
+    .heatmap-week-label {
+      width: auto;
+      flex: 1;
+      min-width: 0;
     }
     
     .heatmap-cell {
